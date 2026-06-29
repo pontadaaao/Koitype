@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>恋みくじ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="/" class="back-link">← TOPにもどる</a>
+
+  <div id="sakura" class="sakura"></div>
+
+  <div id="flip" class="flip">
+    <div class="flip-inner">
+      <div class="flip-face flip-front"><span class="txt">恋みくじ</span></div>
+      <div class="flip-face flip-back">♡</div>
+    </div>
+  </div>
+
+  <main class="stage">
+    <div class="title">
+      <svg class="torii-icon" viewBox="0 0 64 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 21 Q32 10 62 21" stroke="#FE6C9E" stroke-width="5" stroke-linecap="round"/>
+        <line x1="0" y1="21" x2="7" y2="21" stroke="#FE6C9E" stroke-width="5" stroke-linecap="round"/>
+        <line x1="57" y1="21" x2="64" y2="21" stroke="#FE6C9E" stroke-width="5" stroke-linecap="round"/>
+        <line x1="12" y1="30" x2="52" y2="30" stroke="#FE6C9E" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="18" y1="25" x2="18" y2="56" stroke="#FE6C9E" stroke-width="5" stroke-linecap="round"/>
+        <line x1="46" y1="25" x2="46" y2="56" stroke="#FE6C9E" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <h1>恋みくじ</h1>
+    </div>
+
+    <div id="loading" class="loading">…みくじ箱あけてるよ…</div>
+
+    <div id="fudaArea" class="fuda-wrap hidden">
+      <p class="fuda-lead">恋みくじを選んでください<span class="mk">♡</span></p>
+      <div id="fudaFan" class="fuda-grid"></div>
+      <button id="shuffleBtn" class="fuda-shuffle" type="button">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 2v6h-6"/><path d="M3 12A9 9 0 0 1 15 4.5L21 8"/>
+          <path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-12 7.5L3 16"/>
+        </svg>
+        恋みくじを入替える
+      </button>
+    </div>
+
+    <section id="result" class="result" aria-live="polite">
+      <div id="ribbon" class="ribbon">今日のあなたの恋愛運は…♡</div>
+      <div id="icon" class="icon"></div>
+      <div id="rank" class="rank"></div>
+      <div id="catch" class="catch"></div>
+      <p id="body" class="body-txt"></p>
+      <div class="sep"><span>♡ 運勢ステータス ♡</span></div>
+      <div id="stats" class="stats"></div>
+      <div class="sep"><span>✦ 今日のあなた ✦</span></div>
+      <div id="chips" class="chips"></div>
+      <div id="honne" class="honne"></div>
+      <div id="lucky" class="lucky"></div>
+      <div id="hitokoto" class="hitokoto"></div>
+      <div class="again">今日のぶんはおしまい！またね<span class="mk">♡</span>
+        <span id="nextDate" class="date"></span>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js" defer></script>
+
+  <footer class="ft">
+    <div class="ft__inner">
+      <div class="ft__brand">
+        <img src="/logo.png" alt="Koitype Logo" class="ft__logo">
+      </div>
+      <nav aria-label="footer navigation">
+        <ul class="ft__nav">
+          <li><a href="/">TOP</a></li>
+          <li><a href="/contact">お問い合わせ</a></li>
+          <li><a href="/privacy-policy">プライバシーポリシー</a></li>
+        </ul>
+      </nav>
+      <div class="ft__copyright">
+        © <span id="ftYear"></span> Koitype. All rights reserved.
+      </div>
+    </div>
+  </footer>
+  <script>document.getElementById("ftYear").textContent=new Date().getFullYear();</script>
+</body>
+</html>

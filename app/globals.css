@@ -1,0 +1,230 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-base font-body text-text-main antialiased;
+  }
+
+  ::selection {
+    @apply bg-pink-light text-text-main;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-pink-light bg-base shadow-sm;
+  }
+
+  .btn-primary {
+    @apply block w-full rounded-xl bg-accent px-6 py-4 text-center font-medium text-white shadow-sm transition-all hover:opacity-90 active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply block w-full rounded-xl border border-accent bg-base px-6 py-3 text-center font-medium text-accent transition-colors hover:bg-pink-pale active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply block w-full rounded-xl border border-pink-light bg-base px-6 py-3 text-center font-medium text-text-sub transition-colors hover:bg-pink-pale active:scale-[0.98];
+  }
+
+  .section-title {
+    @apply font-heading flex w-full items-center gap-2 text-lg font-bold text-text-main;
+  }
+
+  .detail-hero {
+    @apply animate-fade-up;
+  }
+
+  .detail-section {
+    @apply rounded-2xl border border-pink-light bg-base p-5 shadow-sm;
+  }
+
+  .detail-bubble {
+    @apply rounded-2xl border-2 border-dashed border-pink-light bg-gradient-to-br from-pink-pale via-base to-sub-bg p-5 shadow-sm;
+  }
+
+  .faction-badge {
+    @apply flex justify-center;
+  }
+
+  .faction-badge-image {
+    mix-blend-mode: screen;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 8px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 0.45s ease-out both;
+  }
+}
+
+/* プライバシーポリシー・フッター */
+.pp {
+  --text: #1a1a1a;
+  --muted: #666666;
+  --border: #e5e5e5;
+  --accent: #F067A6;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+  color: var(--text);
+  line-height: 1.8;
+}
+
+.pp__title {
+  font-family: var(--font-noto-sans), sans-serif;
+  font-size: 1.9rem;
+  letter-spacing: 0.02em;
+  margin: 0 0 8px;
+}
+
+.pp__updated {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin: 0 0 48px;
+}
+
+.pp__h2 {
+  font-family: var(--font-noto-sans), sans-serif;
+  font-size: 1.15rem;
+  margin: 48px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border);
+}
+
+.pp p,
+.pp li {
+  font-size: 0.97rem;
+}
+
+.pp ul {
+  padding-left: 1.4em;
+}
+
+.pp li {
+  margin-bottom: 6px;
+}
+
+.pp a {
+  color: var(--accent);
+}
+
+.pp__note {
+  background: #FDF5FA;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin-top: 16px;
+}
+
+.ft {
+  --footer-bg: #ffffff;
+  --footer-text: #2a1a22;
+  --footer-link: #2a1a22;
+  --footer-muted: #7a5568;
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  padding: 20px 24px;
+}
+
+.ft__inner {
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.ft__brand {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--footer-link);
+}
+
+.ft__nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ft__nav a {
+  color: var(--footer-text);
+  text-decoration: none;
+  font-size: 0.68rem;
+  transition: color 0.15s ease;
+}
+
+.ft__nav a:hover,
+.ft__nav a:focus-visible {
+  color: #F067A6;
+  text-decoration: underline;
+}
+
+.ft__copyright {
+  color: var(--footer-muted);
+  font-size: 0.68rem;
+  width: 100%;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .pp {
+    padding: 32px 20px 48px;
+  }
+
+  .ft__inner {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ft__nav a {
+    transition: none;
+  }
+}

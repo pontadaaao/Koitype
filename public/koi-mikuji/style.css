@@ -1,0 +1,158 @@
+:root{
+  --font:"Zen Kaku Gothic New","Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --pink:#ff2e93;--pink-soft:#ffd0e6;--plum:#6e3a59;--cream:#fffafd;--accent:#ff2e93;--accent-soft:#ffd0e6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);color:var(--plum);min-height:100vh;
+  background:#fffaf8;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:36px 16px 0;
+  overflow-x:hidden;position:relative}
+
+/* 桜レイヤー */
+.sakura{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:2;opacity:0;transition:opacity 1.2s}
+.sakura.on{opacity:1}
+.petal{position:absolute;top:-24px;border-radius:100% 0 100% 0;opacity:.9;
+  box-shadow:inset -1px -1px 2px rgba(255,120,170,.4);animation-name:fall;animation-timing-function:linear;animation-iteration-count:infinite}
+@keyframes fall{
+  0%{transform:translate(0,-8vh) rotate(0deg)}
+  50%{transform:translate(var(--sway),52vh) rotate(200deg)}
+  100%{transform:translate(0,112vh) rotate(400deg)}}
+
+.stage{width:100%;max-width:520px;position:relative;z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:48px}
+
+/* タイトル */
+.title{text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.torii-icon{width:52px;height:44px}
+.title h1{font-weight:700;font-size:1.9rem;line-height:1.1;color:var(--plum);letter-spacing:.06em}
+
+.loading{color:var(--plum);letter-spacing:.12em;font-size:1rem;opacity:.65}
+
+/* お札（一覧） */
+.fuda-wrap{display:flex;flex-direction:column;align-items:center;gap:18px;width:100%}
+.fuda-lead{text-align:center;font-size:1rem;font-weight:700;color:var(--plum);line-height:1.5}
+.fuda-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px 10px;width:100%;padding-top:12px}
+
+/* お札カード */
+.fuda{position:relative;width:100%;height:128px;border:none;cursor:pointer;padding:0;
+  border-radius:8px 8px 10px 10px;
+  background:#fff;
+  outline:1.5px solid #ffafd5;
+  box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 5px #ffdaea,0 4px 14px rgba(214,30,120,.1);
+  transition:transform .25s cubic-bezier(.34,1.4,.64,1),box-shadow .25s,outline-color .25s,opacity .5s;
+  display:flex;align-items:center;justify-content:center}
+
+/* リボン – 蝶結びの羽（clip-path bowtie） */
+.fuda::before{
+  content:"";position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+  width:30px;height:16px;background:#ffbad4;
+  clip-path:polygon(0% 8%,43% 44%,50% 50%,57% 44%,100% 8%,100% 92%,57% 56%,50% 50%,43% 56%,0% 92%)}
+
+/* リボン – 中心ノット */
+.fuda::after{
+  content:"";position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+  width:9px;height:9px;background:var(--pink);border-radius:50%;
+  border:1.5px solid #fff;box-shadow:0 1px 4px rgba(255,46,147,.45);z-index:1}
+
+.fuda .txt{writing-mode:vertical-rl;text-orientation:upright;font-weight:700;
+  font-size:1rem;color:var(--pink);letter-spacing:.12em}
+.fuda:hover{transform:translateY(-8px) scale(1.06);
+  outline-color:var(--pink);
+  box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 5px var(--pink-soft),0 14px 24px rgba(214,30,120,.26);
+  z-index:40}
+.fuda.scatter{opacity:0;transform:translateY(40px) scale(.8);pointer-events:none}
+
+/* シャッフルボタン */
+.fuda-shuffle{
+  display:flex;align-items:center;gap:8px;
+  background:#fff;border:1.5px solid #ffafd5;color:var(--pink);
+  border-radius:999px;padding:11px 28px;
+  font-family:var(--font);font-size:.9rem;font-weight:700;letter-spacing:.05em;
+  cursor:pointer;transition:background .2s,transform .15s,box-shadow .2s;
+  box-shadow:0 2px 10px rgba(255,46,147,.1)}
+.fuda-shuffle:hover{background:#fff0f6;transform:scale(1.03);box-shadow:0 4px 14px rgba(255,46,147,.18)}
+.fuda-shuffle svg{transition:transform .55s ease}
+.fuda-shuffle.spin svg{transform:rotate(360deg)}
+
+/* めくれる中央カード */
+.flip{position:fixed;top:50%;left:50%;width:96px;height:218px;margin:-109px 0 0 -48px;
+  perspective:1100px;z-index:60;opacity:0;pointer-events:none;transition:opacity .4s}
+.flip.on{opacity:1}
+.flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d}
+.flip.spin .flip-inner{animation:fcSpin 1.15s cubic-bezier(.5,0,.4,1) forwards}
+@keyframes fcSpin{0%{transform:rotateY(0)}100%{transform:rotateY(900deg)}}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:13px;
+  display:flex;align-items:flex-start;justify-content:center;box-shadow:0 16px 30px rgba(214,30,120,.4)}
+.flip-front{background:linear-gradient(165deg,#fff,#fff0f7);border:5px solid var(--pink-soft)}
+.flip-front .txt{writing-mode:vertical-rl;text-orientation:upright;font-weight:700;font-size:1.5rem;color:var(--pink);letter-spacing:.12em;margin-top:26px}
+.flip-back{transform:rotateY(180deg);background:linear-gradient(165deg,var(--accent),color-mix(in srgb,var(--accent) 70%,#fff));
+  border:5px solid #fff;color:#fff;font-size:2.6rem;align-items:center}
+
+/* 結果カード */
+.result{width:100%;background:var(--cream);border-radius:30px;padding:34px 22px 24px;position:relative;
+  box-shadow:0 18px 42px rgba(170,100,150,.32),0 0 0 5px #fff,0 0 0 8px var(--accent-soft);
+  opacity:0;transform:translateY(20px) scale(.95);height:0;overflow:hidden;pointer-events:none;
+  transition:opacity .5s,transform .5s}
+.result.show{opacity:1;transform:none;height:auto;overflow:visible;pointer-events:auto;animation:pop .55s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{0%{transform:scale(.7) rotate(-3deg)}100%{transform:scale(1)}}
+.result.rare{box-shadow:0 18px 50px rgba(170,100,150,.4),0 0 0 5px #fff;
+  background:linear-gradient(var(--cream),var(--cream)) padding-box,linear-gradient(120deg,#ff5e8a,#ffb340,#5ec5e8,#b97bf0,#ff5e8a) border-box;border:9px solid transparent}
+
+.ribbon{position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:var(--accent);
+  color:#fff;font-weight:700;font-size:.72rem;letter-spacing:.14em;padding:7px 20px;border-radius:20px;white-space:nowrap;box-shadow:0 5px 12px rgba(255,46,147,.4);z-index:3}
+.icon{width:88px;height:88px;color:var(--accent);margin:14px auto 4px;display:block;filter:drop-shadow(0 4px 8px rgba(255,46,147,.3))}
+.rank{font-weight:700;font-size:clamp(2.6rem,15vw,3.6rem);line-height:1;text-align:center;
+  color:var(--accent);text-shadow:0 3px 0 rgba(255,255,255,.95),0 6px 12px rgba(0,0,0,.07);letter-spacing:.05em}
+.catch{font-weight:700;font-size:1.3rem;text-align:center;color:var(--plum);margin:36px 6px 4px;line-height:1.5}
+.body-txt{font-size:.98rem;line-height:1.95;text-align:center;color:#8a6078;margin:8px 6px 4px}
+
+.sep{display:flex;align-items:center;gap:8px;margin:18px 4px;color:var(--accent-soft)}
+.sep::before,.sep::after{content:"";flex:1;border-top:2.5px dashed var(--accent-soft)}
+.sep span{color:var(--accent);font-size:.85rem;letter-spacing:.1em}
+
+.stats{display:flex;flex-direction:column;gap:9px;margin:0 4px}
+.stat{display:flex;align-items:center;justify-content:space-between;background:#fff;border:2.5px solid var(--accent-soft);border-radius:16px;padding:9px 16px}
+.stat .lab{font-weight:700;font-size:.92rem;color:var(--plum)}
+.stat .stars{font-size:1.05rem;letter-spacing:.06em}
+.stat .stars .f{color:var(--accent)}.stat .stars .e{color:#e7d9e2}
+
+.chips{display:flex;flex-direction:column;gap:11px;margin:0 4px}
+.chip{display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:11px 14px;border:2.5px solid var(--accent-soft)}
+.chip .tag{flex-shrink:0;font-size:.74rem;color:#fff;background:var(--accent);padding:4px 11px;border-radius:12px}
+.chip .val{font-weight:700;font-size:1rem;color:var(--plum)}
+
+.honne{margin:16px 4px 0;position:relative;background:var(--accent-soft);border-radius:18px;padding:14px 16px;text-align:center}
+.honne::before{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%);border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:10px solid var(--accent-soft)}
+.honne .tag{display:block;font-size:.72rem;color:var(--accent);margin-bottom:4px}
+.honne .val{font-weight:700;font-size:1.08rem;color:var(--plum)}
+
+.lucky{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:16px 4px 0}
+.lucky .item{background:#fff;border:2.5px solid var(--accent-soft);border-radius:16px;padding:12px 8px;text-align:center}
+.lucky .item .k{font-size:.72rem;color:var(--accent);margin-bottom:5px}
+.lucky .item .v{font-weight:700;font-size:.98rem;color:var(--plum)}
+.lucky-color{display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.lucky-color__swatch{width:18px;height:18px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--accent-soft)}
+
+.hitokoto{text-align:center;font-size:1.02rem;color:var(--plum);margin:20px 6px 4px;line-height:1.6}
+.hitokoto .mk{color:var(--accent)}
+.again{margin-top:16px;text-align:center;font-size:.92rem;color:var(--accent)}
+.again .date{display:block;margin-top:3px;font-size:.76rem;color:#c2adba}
+.mk{color:var(--pink)}
+.hidden{display:none!important}
+
+/* TOPにもどるリンク */
+.back-link{position:fixed;top:14px;left:14px;z-index:50;
+  color:#fff;text-decoration:none;font-weight:700;font-size:.85rem;
+  background:rgba(255,46,147,.85);padding:7px 14px;border-radius:999px;
+  box-shadow:0 4px 10px rgba(214,30,120,.35);backdrop-filter:blur(2px)}
+.back-link:hover{background:#ff2e93}
+
+/* フッター */
+.ft{width:100%;background:#fff;color:#2a1a22;padding:40px 24px;border-top:1px solid #ffd6e7;margin-top:56px}
+.ft__inner{max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px 48px;align-items:center;justify-content:space-between}
+.ft__logo{height:36px;width:auto;object-fit:contain;object-position:left}
+.ft__nav{display:flex;flex-wrap:wrap;gap:20px;list-style:none;margin:0;padding:0}
+.ft__nav a{color:#2a1a22;text-decoration:none;font-size:.9rem;transition:color .15s}
+.ft__nav a:hover{color:#F067A6;text-decoration:underline}
+.ft__copyright{flex-basis:100%;color:#7a5568;font-size:.8rem;border-top:1px solid #ffd6e7;padding-top:20px}
+@media(max-width:600px){.ft__inner{flex-direction:column;align-items:flex-start}}
