@@ -6,6 +6,7 @@ interface HomeSectionHeadingProps {
   description?: string;
   subtext?: string;
   icon?: IconKey;
+  titleClassName?: string;
 }
 
 export default function HomeSectionHeading({
@@ -13,10 +14,11 @@ export default function HomeSectionHeading({
   description,
   subtext,
   icon,
+  titleClassName,
 }: HomeSectionHeadingProps) {
   return (
     <div className="mb-4 text-center">
-      <h2 className="flex items-center justify-center gap-2 font-heading text-2xl font-black text-accent sm:text-3xl">
+      <h2 className={`flex items-center justify-center gap-2 font-heading text-2xl font-black sm:text-3xl ${titleClassName ?? "text-accent"}`}>
         {icon && <AppIcon name={icon} size={24} className="text-accent" stroke={2.5} />}
         {title}
       </h2>

@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_DEFAULT_URL } from "@/lib/site";
 import { diagnoses } from "@/lib/diagnoses";
 import { loveTests } from "@/lib/love-tests";
+import { supabase } from "@/lib/supabase";
 
 const base = SITE_DEFAULT_URL.replace(/\/$/, "");
 
@@ -13,6 +14,7 @@ const staticRoutes: { path: string; priority: number; changeFrequency: SitemapEn
   { path: "/tests", priority: 0.9, changeFrequency: "weekly" },
   { path: "/compatibility", priority: 0.9, changeFrequency: "weekly" },
   { path: "/koi-mikuji", priority: 0.8, changeFrequency: "daily" },
+  { path: "/columns", priority: 0.8, changeFrequency: "daily" },
   { path: "/log", priority: 0.7, changeFrequency: "daily" },
   { path: "/contact", priority: 0.5, changeFrequency: "monthly" },
   { path: "/about", priority: 0.4, changeFrequency: "monthly" },
@@ -21,11 +23,12 @@ const staticRoutes: { path: string; priority: number; changeFrequency: SitemapEn
   { path: "/sitemap", priority: 0.3, changeFrequency: "monthly" },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticEntries: MetadataRoute.Sitemap = staticRoutes.map(({ path, priority, changeFrequency }) => ({
     url: `${base}${path}`,
     priority,
     changeFrequency,
+    lastModified: new Date(),
   }));
 
   const diagnosisEntries: MetadataRoute.Sitemap = diagnoses
@@ -42,5 +45,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly" as const,
   }));
 
-  return [...staticEntries, ...diagnosisEntries, ...testEntries];
+  let columnEntries: MetadataRoute.Sitemap = [];
+  try {
+    const { data } = await supabase
+      .from("columns")
+      .select("slug, updated_at")
+      .eq("status", "published")
+      .order("published_at", { ascending: false });
+
+    if (data) {
+      columnEntries = data.map((col) => ({
+        url: `${base}/columns/${col.slug}`,
+        priority: 0.7,
+        changeFrequency: "monthly" as const,
+        lastModified: col.updated_at ? new Date(col.updated_at) : undefined,
+      }));
+    }
+  } catch {
+    // Supabase unavailable at build time; column entries are skipped
+  }
+
+  return [...staticEntries, ...diagnosisEntries, ...testEntries, ...columnEntries];
 }

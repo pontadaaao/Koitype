@@ -124,6 +124,7 @@ export default function HomePageClient() {
             title="恋愛コラム"
             description="恋愛のヒントなどを記事にしてお届け"
             icon="leaf"
+            titleClassName="text-[#333333]"
           />
           <div className="overflow-hidden rounded-2xl border border-pink-light/60 bg-white">
             {staticColumns

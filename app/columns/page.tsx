@@ -101,7 +101,7 @@ export default function ColumnsPage({ searchParams }: ColumnsPageProps) {
           <p className="mb-1 font-cormorant text-sm italic tracking-widest text-accent/70">
             Column
           </p>
-          <h1 className="font-heading text-2xl font-bold text-accent sm:text-3xl">
+          <h1 className="font-heading text-2xl font-bold sm:text-3xl" style={{ color: "#333333" }}>
             恋愛コラム
           </h1>
           <p className="mt-2 text-xs text-text-main">
