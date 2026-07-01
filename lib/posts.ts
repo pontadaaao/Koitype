@@ -15,13 +15,15 @@ export type PostCategory =
   | "恋人"
   | "片想い"
   | "失恋"
-  | "恋の悩み";
+  | "恋の悩み"
+  | "すきぴ";
 
 export const POST_CATEGORIES: PostCategory[] = [
   "恋人",
   "片想い",
   "失恋",
   "恋の悩み",
+  "すきぴ",
 ];
 
 export const ANONYMOUS_NAME = "匿名さん";
@@ -37,6 +39,7 @@ export const CATEGORY_COLORS: Record<PostCategory, { bg: string; tx: string }> =
     片想い: { bg: "#f3eefe", tx: "#9B6FD4" },
     失恋: { bg: "#e8f2ff", tx: "#4A9EE8" },
     恋の悩み: { bg: "#fff1ee", tx: "#FF7A5C" },
+    すきぴ: { bg: "#fff5fb", tx: "#FF4FA0" },
   };
 
 export type Post = {

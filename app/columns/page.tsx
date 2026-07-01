@@ -4,19 +4,26 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { getStaticColumns, type StaticColumn } from "@/lib/static-columns";
 import { COLUMN_CATEGORIES, type ColumnCategory } from "@/lib/column-types";
-import { siteTitle, SITE_DEFAULT_URL } from "@/lib/site";
+import { siteTitle, SITE_DEFAULT_URL, SITE_NAME } from "@/lib/site";
+
+const COLUMNS_DESCRIPTION = "恋愛テクニック・片思い・カップル・心理まで。Koitypeの恋愛コラムで、もっと恋愛を知ろう。";
 
 export const metadata: Metadata = {
   title: siteTitle("恋愛コラム"),
-  description:
-    "恋愛テクニック・片思い・カップル・心理まで。Koitypeの恋愛コラムで、もっと恋愛を知ろう。",
+  description: COLUMNS_DESCRIPTION,
   alternates: { canonical: `${SITE_DEFAULT_URL}/columns` },
   openGraph: {
-    title: "恋愛コラム | Koitype",
-    description:
-      "恋愛テクニック・片思い・カップル・心理まで。Koitypeの恋愛コラムで、もっと恋愛を知ろう。",
-    url: "/columns",
+    title: `恋愛コラム | ${SITE_NAME}`,
+    description: COLUMNS_DESCRIPTION,
+    url: `${SITE_DEFAULT_URL}/columns`,
     type: "website",
+    siteName: SITE_NAME,
+    locale: "ja_JP",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `恋愛コラム | ${SITE_NAME}`,
+    description: COLUMNS_DESCRIPTION,
   },
 };
 
@@ -55,7 +62,7 @@ function ColumnListItem({ column }: { column: StaticColumn }) {
       className="group flex items-center justify-between border-b border-pink-light/60 px-4 py-5 transition-colors last:border-b-0 hover:bg-pink-pale/30"
     >
       <div className="min-w-0 flex-1">
-        <h2 className="font-heading text-[15px] font-bold leading-snug text-text-main transition-colors group-hover:text-accent sm:text-base">
+        <h2 className="font-heading text-[15px] font-bold leading-snug transition-colors group-hover:text-accent sm:text-base" style={{ color: "#5C4033" }}>
           {column.title}
         </h2>
         <div className="mt-1.5 flex items-center gap-2">
@@ -101,7 +108,7 @@ export default function ColumnsPage({ searchParams }: ColumnsPageProps) {
           <p className="mb-1 font-cormorant text-sm italic tracking-widest text-accent/70">
             Column
           </p>
-          <h1 className="font-heading text-2xl font-bold sm:text-3xl" style={{ color: "#333333" }}>
+          <h1 className="font-heading text-2xl font-bold sm:text-3xl" style={{ color: "#5C4033" }}>
             恋愛コラム
           </h1>
           <p className="mt-2 text-xs text-text-main">

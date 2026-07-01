@@ -51,11 +51,26 @@ export default function HomePageClient() {
           id="love-diagnosis"
           className="scroll-mt-52 pb-16 pt-4 first:border-t-0 sm:pt-6"
         >
+          <div className="mb-8 mt-6 text-center">
+            <span className="mb-2 inline-flex items-center gap-1 rounded-full bg-accent/10 px-3 py-1 text-[11px] font-bold tracking-wide text-accent">
+              <svg viewBox="0 0 20 20" fill="currentColor" className="h-3 w-3">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clipRule="evenodd"/>
+              </svg>
+              毎週新しい診断を追加
+            </span>
+            <p className="font-heading text-base font-black leading-snug sm:text-lg" style={{ color: "#5C4033" }}>
+              今日の恋、ちょっとのぞいてみない？♡
+            </p>
+            <p className="mt-1 text-xs text-accent/70">
+              あなたの恋愛タイプや相性がわかる無料診断。
+            </p>
+          </div>
           <DiagnosisSlider />
           <HomeSectionHeading
             title={t.sections.loveDiagnosis.title}
+            subtitle="Diagnosis"
             description="恋愛タイプがわかる診断一覧"
-            icon="heart"
+            className="mt-10 sm:mt-12"
           />
           <LoveDiagnosisSection />
           <div className="mt-4 text-right">
@@ -69,8 +84,11 @@ export default function HomePageClient() {
           <section className="pb-16">
             <HomeSectionHeading
               title="人気の心理テスト"
+              subtitle="Love Test"
               description="本音や隠れた性格が見えてくる"
-              icon="bulb"
+              titleClassName="text-accent"
+              subtitleClassName="text-accent/70"
+              className="mt-6 sm:mt-8"
             />
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {shinriTests.map((test, i) => {
@@ -122,9 +140,11 @@ export default function HomePageClient() {
         <section className="pb-16">
           <HomeSectionHeading
             title="恋愛コラム"
+            subtitle="Column"
             description="恋愛のヒントなどを記事にしてお届け"
-            icon="leaf"
-            titleClassName="text-[#333333]"
+            titleClassName="text-accent"
+            subtitleClassName="text-accent/70"
+            className="mt-6 sm:mt-8"
           />
           <div className="overflow-hidden rounded-2xl border border-pink-light/60 bg-white">
             {staticColumns
@@ -141,7 +161,7 @@ export default function HomePageClient() {
                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                   </svg>
                   <div className="min-w-0 flex-1">
-                    <h2 className="font-heading text-sm font-bold leading-snug text-text-main transition-colors group-hover:text-accent">
+                    <h2 className="font-heading text-sm font-bold leading-snug transition-colors group-hover:text-accent" style={{ color: "#5C4033" }}>
                       {col.title}
                     </h2>
                     <span className="mt-1 inline-block rounded-full bg-pink-pale px-2 py-0.5 text-[10px] font-medium text-accent">

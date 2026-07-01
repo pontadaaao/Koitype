@@ -4,11 +4,23 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { loveTests } from "@/lib/love-tests";
 import LoveTestIcon from "@/components/LoveTestIcon";
-import { siteTitle } from "@/lib/site";
+import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: siteTitle("恋愛心理テスト"),
-  description: "あなたの恋愛タイプや本音がわかる心理テストを集めました♡",
+  description: "あなたの恋愛タイプや本音がわかる無料の心理テストを集めました。1問で診断できる恋愛心理テスト多数。",
+  alternates: { canonical: `${SITE_DEFAULT_URL}/tests` },
+  openGraph: {
+    title: `恋愛心理テスト | ${SITE_NAME}`,
+    description: "あなたの恋愛タイプや本音がわかる無料の心理テスト多数。",
+    url: `${SITE_DEFAULT_URL}/tests`,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `恋愛心理テスト | ${SITE_NAME}`,
+    description: "あなたの恋愛タイプや本音がわかる無料の心理テスト多数。",
+  },
 };
 
 const CARD_STYLES = [

@@ -35,6 +35,7 @@ const translations = {
       loveDiagnosis: "恋愛診断",
       psychoTest: "心理テスト",
       koiMikuji: "恋みくじ",
+      columns: "恋愛コラム",
       contact: "お問い合わせ",
     },
     header: {
@@ -159,6 +160,7 @@ const translations = {
       loveDiagnosis: "Love Quiz",
       psychoTest: "Psych Test",
       koiMikuji: "Love Fortune",
+      columns: "Column",
       contact: "Contact",
     },
     header: {
@@ -283,6 +285,7 @@ const translations = {
       loveDiagnosis: "연애 진단",
       psychoTest: "심리 테스트",
       koiMikuji: "연애 운세",
+      columns: "칼럼",
       contact: "문의하기",
     },
     header: {
@@ -407,6 +410,7 @@ const translations = {
       loveDiagnosis: "戀愛診斷",
       psychoTest: "心理測驗",
       koiMikuji: "戀愛御籤",
+      columns: "專欄",
       contact: "聯絡我們",
     },
     header: {
@@ -531,6 +535,7 @@ const translations = {
       loveDiagnosis: "恋爱诊断",
       psychoTest: "心理测验",
       koiMikuji: "恋爱御签",
+      columns: "专栏",
       contact: "联系我们",
     },
     header: {
@@ -654,13 +659,14 @@ export function getTranslations(locale: Locale) {
 
 export const navItems: {
   href: string;
-  key: "home" | "loveType" | "compatibility" | "log" | "loveDiagnosis" | "psychoTest" | "koiMikuji" | "contact";
+  key: "home" | "loveType" | "compatibility" | "log" | "loveDiagnosis" | "psychoTest" | "koiMikuji" | "columns" | "contact";
   icon: IconKey;
 }[] = [
   { href: "/", key: "home", icon: "flower" },
   { href: "/love-diagnosis", key: "loveDiagnosis", icon: "heart" },
   { href: "/tests", key: "psychoTest", icon: "bulb" },
   { href: "/koi-mikuji", key: "koiMikuji", icon: "sparkle" },
+  { href: "/columns", key: "columns", icon: "clipboard" },
   { href: "/log", key: "log", icon: "note" },
   { href: "/contact", key: "contact", icon: "mail" },
 ];

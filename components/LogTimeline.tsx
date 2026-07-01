@@ -17,6 +17,7 @@ const FILTER_CATEGORIES: PostCategory[] = [
   "片想い",
   "失恋",
   "恋の悩み",
+  "すきぴ",
 ];
 
 interface LogTimelineProps {
@@ -66,7 +67,7 @@ export default function LogTimeline({ embedded = false }: LogTimelineProps) {
           <p className="mt-2 text-xs text-text-main">誰にも言えない恋も、嬉しかった恋も。匿名でシェアしよう</p>
         </div>
         <LogPostButton onPosted={refreshPosts} />
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="mt-3 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {FILTER_CATEGORIES.map((cat) => {
             const selected = activeFilter === cat;
             const colors = CATEGORY_COLORS[cat];

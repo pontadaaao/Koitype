@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import DiagnosisClient from "@/components/DiagnosisClient";
 import { getDiagnosisById, getResultById } from "@/lib/diagnoses";
-import { siteTitle } from "@/lib/site";
+import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
 interface DiagnosisPageProps {
   params: { id: string };
@@ -21,10 +21,24 @@ export async function generateMetadata({
     return { title: siteTitle("恋愛診断") };
   }
 
+  const diagnosisUrl = `${SITE_DEFAULT_URL}/diagnosis/${diagnosis.id}`;
+
   if (!searchParams?.result) {
     return {
       title: siteTitle(diagnosis.title),
       description: diagnosis.description,
+      alternates: { canonical: diagnosisUrl },
+      openGraph: {
+        title: `${diagnosis.title} | ${SITE_NAME}`,
+        description: diagnosis.description,
+        url: diagnosisUrl,
+        type: "website",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${diagnosis.title} | ${SITE_NAME}`,
+        description: diagnosis.description,
+      },
     };
   }
 
@@ -34,12 +48,14 @@ export async function generateMetadata({
     return {
       title: siteTitle(diagnosis.title),
       description: diagnosis.description,
+      alternates: { canonical: diagnosisUrl },
     };
   }
 
   return {
     title: siteTitle(`私の恋愛スタイルは「${result.name}」でした`),
     description: result.desc,
+    robots: { index: false, follow: false },
     openGraph: {
       title: `私の恋愛スタイルは「${result.name}」でした`,
       description: result.desc,
@@ -79,15 +95,31 @@ export default function DiagnosisPage({ params }: DiagnosisPageProps) {
     );
   }
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "ホーム", item: SITE_DEFAULT_URL },
+      { "@type": "ListItem", position: 2, name: "恋愛診断", item: `${SITE_DEFAULT_URL}/love-diagnosis` },
+      { "@type": "ListItem", position: 3, name: diagnosis.title, item: `${SITE_DEFAULT_URL}/diagnosis/${diagnosis.id}` },
+    ],
+  };
+
   return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center bg-base">
-          <p className="text-text-sub">読み込み中...</p>
-        </div>
-      }
-    >
-      <DiagnosisClient diagnosis={diagnosis} />
-    </Suspense>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <Suspense
+        fallback={
+          <div className="flex min-h-screen items-center justify-center bg-base">
+            <p className="text-text-sub">読み込み中...</p>
+          </div>
+        }
+      >
+        <DiagnosisClient diagnosis={diagnosis} />
+      </Suspense>
+    </>
   );
 }

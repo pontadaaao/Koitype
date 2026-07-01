@@ -14,7 +14,7 @@ const config: Config = {
         accent: "#F067A6",
         "pink-light": "#FFD6EC",
         "pink-pale": "#FFF0F8",
-        "text-main": "#2a1a22",
+        "text-main": "#5C4033",
         "text-sub": "#7a5568",
         "tag-text": "#F067A6",
         "log-hint": "#C086A8",

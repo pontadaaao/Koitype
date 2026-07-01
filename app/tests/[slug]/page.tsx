@@ -5,7 +5,7 @@ import SiteFooter from "@/components/SiteFooter";
 import LoveTestClient from "@/components/LoveTestClient";
 import { loveTests, getLoveTestBySlug } from "@/lib/love-tests";
 import LoveTestIcon from "@/components/LoveTestIcon";
-import { siteTitle } from "@/lib/site";
+import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
 interface Props {
   params: { slug: string };
@@ -18,9 +18,22 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const test = getLoveTestBySlug(params.slug);
   if (!test) return { title: siteTitle("心理テスト") };
+  const url = `${SITE_DEFAULT_URL}/tests/${test.slug}`;
   return {
     title: siteTitle(test.title),
     description: test.description,
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${test.title} | ${SITE_NAME}`,
+      description: test.description,
+      url,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${test.title} | ${SITE_NAME}`,
+      description: test.description,
+    },
   };
 }
 
@@ -28,10 +41,25 @@ export default function LoveTestPage({ params }: Props) {
   const test = getLoveTestBySlug(params.slug);
   if (!test) notFound();
 
+  const url = `${SITE_DEFAULT_URL}/tests/${test.slug}`;
   const otherTests = loveTests.filter((t) => t.slug !== test.slug);
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "ホーム", item: SITE_DEFAULT_URL },
+      { "@type": "ListItem", position: 2, name: "恋愛心理テスト", item: `${SITE_DEFAULT_URL}/tests` },
+      { "@type": "ListItem", position: 3, name: test.title, item: url },
+    ],
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="min-h-screen bg-base">
         <SiteHeader backHref="/tests" backLabel="心理テスト一覧" solidBg />
 

@@ -69,36 +69,38 @@ export default function DiagnosisSlider() {
 
   return (
     <div className="mb-5">
-      <div className="relative overflow-hidden rounded-2xl shadow-md">
-        <div
-          className="flex transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${current * 100}%)` }}
-        >
-          {slides.map((d) => (
-            <Link
-              key={d.id}
-              href={diagnosisHref(d)}
-              className="relative w-full shrink-0"
-              onClick={() => trackClick(d.id)}
-            >
-              <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-pink-pale via-pink-light/80 to-accent/15">
-                {d.thumbnail && (
-                  <Image
-                    src={d.thumbnail}
-                    alt={d.title}
-                    fill
-                    className="object-cover transition-transform duration-300 hover:scale-[1.02]"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 736px, 992px"
-                  />
-                )}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent px-4 py-3">
-                  <p className="font-heading text-sm font-bold leading-snug text-white drop-shadow">
-                    {d.title}
-                  </p>
+      <div className="relative">
+        <div className="overflow-hidden rounded-2xl shadow-md">
+          <div
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${current * 100}%)` }}
+          >
+            {slides.map((d) => (
+              <Link
+                key={d.id}
+                href={diagnosisHref(d)}
+                className="relative w-full shrink-0"
+                onClick={() => trackClick(d.id)}
+              >
+                <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-pink-pale via-pink-light/80 to-accent/15">
+                  {d.thumbnail && (
+                    <Image
+                      src={d.thumbnail}
+                      alt={d.title}
+                      fill
+                      className="object-cover transition-transform duration-300 hover:scale-[1.02]"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 736px, 992px"
+                    />
+                  )}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent px-4 py-3">
+                    <p className="font-heading text-sm font-bold leading-snug text-white drop-shadow">
+                      {d.title}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 

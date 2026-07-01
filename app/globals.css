@@ -97,7 +97,7 @@
 
 /* プライバシーポリシー・フッター */
 .pp {
-  --text: #1a1a1a;
+  --text: #5C4033;
   --muted: #666666;
   --border: #e5e5e5;
   --accent: #F067A6;
@@ -158,8 +158,8 @@
 
 .ft {
   --footer-bg: #ffffff;
-  --footer-text: #2a1a22;
-  --footer-link: #2a1a22;
+  --footer-text: #5C4033;
+  --footer-link: #5C4033;
   --footer-muted: #7a5568;
   background: var(--footer-bg);
   color: var(--footer-text);

@@ -1,31 +1,21 @@
 import { ImageResponse } from "next/og";
 import { OgLayout } from "@/lib/og-layout";
-import { getDiagnosisById } from "@/lib/diagnoses";
 import { loadOgFont } from "@/lib/og-font";
 import { SITE_NAME } from "@/lib/site";
 
 export const runtime = "nodejs";
+export const alt = `運営者情報 | ${SITE_NAME}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-interface Props {
-  params: { id: string };
-}
-
-export function generateAlt({ params }: Props) {
-  const diagnosis = getDiagnosisById(params.id);
-  return diagnosis ? `${diagnosis.title} | ${SITE_NAME}` : `恋愛診断 | ${SITE_NAME}`;
-}
-
-export default async function Image({ params }: Props) {
-  const diagnosis = getDiagnosisById(params.id);
+export default async function Image() {
   const fontData = await loadOgFont();
 
-  const title = diagnosis?.title ?? "恋愛診断";
-  const subtitle = diagnosis?.description;
-
   return new ImageResponse(
-    <OgLayout title={title} subtitle={subtitle} />,
+    <OgLayout
+      title="運営者情報"
+      subtitle="Koitypeについて"
+    />,
     {
       ...size,
       fonts: [
