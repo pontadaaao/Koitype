@@ -16,16 +16,18 @@ export async function POST(req: Request) {
 
     const apiKey = process.env.RESEND_API_KEY;
     const to = process.env.CONTACT_EMAIL;
+    const from =
+      process.env.RESEND_FROM_EMAIL ?? "Koitype Contact <onboarding@resend.dev>";
 
     if (!apiKey || !to) {
-      console.error("Missing env: RESEND_API_KEY or CONTACT_EMAIL");
+      console.error("[contact] Missing env: RESEND_API_KEY or CONTACT_EMAIL");
       return NextResponse.json({ error: "設定エラー" }, { status: 500 });
     }
 
     const resend = new Resend(apiKey);
 
-    const { error } = await resend.emails.send({
-      from: "Koitype Contact <onboarding@resend.dev>",
+    const { data, error } = await resend.emails.send({
+      from,
       to,
       replyTo: email,
       subject: `【Koitype お問い合わせ】${subject}`,
@@ -40,13 +42,14 @@ export async function POST(req: Request) {
     });
 
     if (error) {
-      console.error("Resend error:", error);
-      return NextResponse.json({ error: "メール送信失敗" }, { status: 500 });
+      console.error("[contact] Resend error:", JSON.stringify(error));
+      return NextResponse.json({ error: "メール送信失敗", detail: error.message }, { status: 500 });
     }
 
+    console.log("[contact] Sent:", data?.id);
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("Contact API error:", err);
+    console.error("[contact] Unexpected error:", err);
     return NextResponse.json({ error: "サーバーエラー" }, { status: 500 });
   }
 }
