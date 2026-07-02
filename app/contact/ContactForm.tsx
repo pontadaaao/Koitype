@@ -58,24 +58,23 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
+    if (formData.honeypot) return;
     setSubmitting(true);
     setServerError(null);
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("https://formspree.io/f/mjgqaddg", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
           subject: formData.subject,
-          content: formData.content,
-          honeypot: formData.honeypot,
+          message: formData.content,
         }),
       });
       const json = await res.json().catch(() => null);
-      console.error("[contact] status:", res.status, "body:", JSON.stringify(json));
       if (!res.ok) {
-        const detail = json?.detail ?? json?.error ?? `HTTP ${res.status}`;
+        const detail = json?.error ?? `HTTP ${res.status}`;
         setServerError(detail);
         return;
       }
@@ -114,9 +113,9 @@ export default function ContactForm() {
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-medium text-accent">
+          <label className="mb-2 block text-sm font-medium text-text-main">
             {ct.name}
-            <span className="ml-1 text-xs text-red-400">{ct.required}</span>
+            <span className="ml-1.5 inline-block rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-normal text-white">{ct.required}</span>
           </label>
           <input
             type="text"
@@ -128,9 +127,9 @@ export default function ContactForm() {
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-medium text-accent">
+          <label className="mb-2 block text-sm font-medium text-text-main">
             {ct.email}
-            <span className="ml-1 text-xs text-red-400">{ct.required}</span>
+            <span className="ml-1.5 inline-block rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-normal text-white">{ct.required}</span>
           </label>
           <input
             type="email"
@@ -142,9 +141,9 @@ export default function ContactForm() {
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-medium text-accent">
+          <label className="mb-2 block text-sm font-medium text-text-main">
             {ct.subject}
-            <span className="ml-1 text-xs text-red-400">{ct.required}</span>
+            <span className="ml-1.5 inline-block rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-normal text-white">{ct.required}</span>
           </label>
           <input
             type="text"
@@ -156,9 +155,9 @@ export default function ContactForm() {
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-medium text-accent">
+          <label className="mb-2 block text-sm font-medium text-text-main">
             {ct.content}
-            <span className="ml-1 text-xs text-red-400">{ct.required}</span>
+            <span className="ml-1.5 inline-block rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-normal text-white">{ct.required}</span>
           </label>
           <textarea
             value={formData.content}
