@@ -137,6 +137,7 @@ const translations = {
       errorEmailInvalid: "正しいメールアドレスを入力してください",
       errorSubject: "件名を入力してください",
       errorContent: "お問い合わせ内容を入力してください",
+      errorContentMin: "お問い合わせ内容は10文字以上で入力してください",
     },
     about: {
       title: "運営者情報",
@@ -258,6 +259,7 @@ const translations = {
       errorEmailInvalid: "Please enter a valid email address.",
       errorSubject: "Please enter a subject.",
       errorContent: "Please enter your message.",
+      errorContentMin: "Please enter at least 10 characters.",
     },
     about: {
       title: "About",
@@ -379,6 +381,7 @@ const translations = {
       errorEmailInvalid: "올바른 이메일 주소를 입력해주세요.",
       errorSubject: "제목을 입력해주세요.",
       errorContent: "문의 내용을 입력해주세요.",
+      errorContentMin: "문의 내용은 10자 이상 입력해주세요.",
     },
     about: {
       title: "운영자 정보",
@@ -500,6 +503,7 @@ const translations = {
       errorEmailInvalid: "請輸入正確的電子郵件地址。",
       errorSubject: "請輸入主旨。",
       errorContent: "請輸入詢問內容。",
+      errorContentMin: "詢問內容請至少輸入10個字。",
     },
     about: {
       title: "關於我們",
@@ -621,6 +625,7 @@ const translations = {
       errorEmailInvalid: "请输入正确的电子邮件地址。",
       errorSubject: "请输入主题。",
       errorContent: "请输入咨询内容。",
+      errorContentMin: "咨询内容请至少输入10个字。",
     },
     about: {
       title: "关于我们",

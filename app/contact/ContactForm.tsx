@@ -46,7 +46,11 @@ export default function ContactForm() {
       next.email = ct.errorEmailInvalid;
     }
     if (!formData.subject.trim()) next.subject = ct.errorSubject;
-    if (!formData.content.trim()) next.content = ct.errorContent;
+    if (!formData.content.trim()) {
+      next.content = ct.errorContent;
+    } else if (formData.content.trim().length < 10) {
+      next.content = ct.errorContentMin;
+    }
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -57,15 +61,17 @@ export default function ContactForm() {
     setSubmitting(true);
     setServerError(false);
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("https://formspree.io/f/mjgqaddg", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
           subject: formData.subject,
-          content: formData.content,
-          honeypot: formData.honeypot,
+          message: formData.content,
         }),
       });
       if (!res.ok) throw new Error("failed");
