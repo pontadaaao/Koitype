@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
+import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { SITE_DEFAULT_URL, SITE_DESCRIPTION, SITE_NAME, siteTitle } from "@/lib/site";
@@ -90,7 +91,15 @@ export default function RootLayout({
         <LanguageProvider>{children}</LanguageProvider>
       </body>
       {process.env.NODE_ENV === "production" && (
-        <GoogleAnalytics gaId="G-4F88R7GYT2" />
+        <>
+          <GoogleAnalytics gaId="G-4F88R7GYT2" />
+          <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4709100652775310"
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        </>
       )}
     </html>
   );
