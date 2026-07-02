@@ -61,17 +61,15 @@ export default function ContactForm() {
     setSubmitting(true);
     setServerError(false);
     try {
-      const res = await fetch("https://formspree.io/f/mjgqaddg", {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
           subject: formData.subject,
-          message: formData.content,
+          content: formData.content,
+          honeypot: formData.honeypot,
         }),
       });
       if (!res.ok) throw new Error("failed");
