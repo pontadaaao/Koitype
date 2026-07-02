@@ -35,7 +35,7 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [serverError, setServerError] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const validate = (): boolean => {
     const next: FormErrors = {};
@@ -59,7 +59,7 @@ export default function ContactForm() {
     e.preventDefault();
     if (!validate()) return;
     setSubmitting(true);
-    setServerError(false);
+    setServerError(null);
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -72,10 +72,17 @@ export default function ContactForm() {
           honeypot: formData.honeypot,
         }),
       });
-      if (!res.ok) throw new Error("failed");
+      const json = await res.json().catch(() => null);
+      console.error("[contact] status:", res.status, "body:", JSON.stringify(json));
+      if (!res.ok) {
+        const detail = json?.detail ?? json?.error ?? `HTTP ${res.status}`;
+        setServerError(detail);
+        return;
+      }
       setSubmitted(true);
-    } catch {
-      setServerError(true);
+    } catch (err) {
+      console.error("[contact] fetch error:", err);
+      setServerError("ネットワークエラー");
     } finally {
       setSubmitting(false);
     }
@@ -163,7 +170,10 @@ export default function ContactForm() {
         </div>
 
         {serverError && (
-          <p className="text-center text-sm text-red-400">{ct.errorAlert}</p>
+          <div className="text-center text-sm text-red-400">
+            <p>{ct.errorAlert}</p>
+            <p className="mt-1 font-mono text-xs opacity-70">{serverError}</p>
+          </div>
         )}
 
         <div className="flex justify-center pt-2">
