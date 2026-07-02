@@ -6,14 +6,15 @@ import { useLanguage } from "@/components/LanguageProvider";
 interface FormData {
   name: string;
   email: string;
-  type: string;
+  subject: string;
   content: string;
+  honeypot: string;
 }
 
 interface FormErrors {
   name?: string;
   email?: string;
-  type?: string;
+  subject?: string;
   content?: string;
 }
 
@@ -27,12 +28,14 @@ export default function ContactForm() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
-    type: "",
+    subject: "",
     content: "",
+    honeypot: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [serverError, setServerError] = useState(false);
 
   const validate = (): boolean => {
     const next: FormErrors = {};
@@ -42,7 +45,7 @@ export default function ContactForm() {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       next.email = ct.errorEmailInvalid;
     }
-    if (!formData.type) next.type = ct.errorType;
+    if (!formData.subject.trim()) next.subject = ct.errorSubject;
     if (!formData.content.trim()) next.content = ct.errorContent;
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -52,16 +55,23 @@ export default function ContactForm() {
     e.preventDefault();
     if (!validate()) return;
     setSubmitting(true);
+    setServerError(false);
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          content: formData.content,
+          honeypot: formData.honeypot,
+        }),
       });
       if (!res.ok) throw new Error("failed");
       setSubmitted(true);
     } catch {
-      alert(ct.errorAlert);
+      setServerError(true);
     } finally {
       setSubmitting(false);
     }
@@ -80,6 +90,18 @@ export default function ContactForm() {
   return (
     <div className="rounded-2xl border-2 border-pink-light bg-base px-8 py-8 shadow-sm">
       <form onSubmit={handleSubmit} noValidate className="space-y-6">
+        {/* honeypot: hidden from real users, bots will fill it */}
+        <div aria-hidden="true" className="absolute -left-[9999px]">
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            value={formData.honeypot}
+            onChange={(e) => setFormData({ ...formData, honeypot: e.target.value })}
+          />
+        </div>
+
         <div>
           <label className="mb-2 block text-sm font-medium text-accent">
             {ct.name}
@@ -110,35 +132,16 @@ export default function ContactForm() {
 
         <div>
           <label className="mb-2 block text-sm font-medium text-accent">
-            {ct.type}
+            {ct.subject}
             <span className="ml-1 text-xs text-red-400">{ct.required}</span>
           </label>
-          <div className="relative">
-            <select
-              value={formData.type}
-              onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-              className={`${fieldClass} rounded-full border-pink-light appearance-none ${errors.type ? "border-red-300" : ""} ${!formData.type ? "text-text-sub/40" : ""}`}
-            >
-              <option value="" disabled>{ct.typePlaceholder}</option>
-              <option value="バグ報告">{ct.typeBug}</option>
-              <option value="ご要望">{ct.typeRequest}</option>
-              <option value="その他">{ct.typeOther}</option>
-            </select>
-            <svg
-              className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#F067A6"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </div>
-          {errors.type && <p className="mt-1 text-xs text-red-400">{errors.type}</p>}
+          <input
+            type="text"
+            value={formData.subject}
+            onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+            className={`${fieldClass} rounded-full border-pink-light ${errors.subject ? "border-red-300" : ""}`}
+          />
+          {errors.subject && <p className="mt-1 text-xs text-red-400">{errors.subject}</p>}
         </div>
 
         <div>
@@ -154,6 +157,10 @@ export default function ContactForm() {
           />
           {errors.content && <p className="mt-1 text-xs text-red-400">{errors.content}</p>}
         </div>
+
+        {serverError && (
+          <p className="text-center text-sm text-red-400">{ct.errorAlert}</p>
+        )}
 
         <div className="flex justify-center pt-2">
           <button
