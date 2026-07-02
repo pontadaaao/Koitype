@@ -62,7 +62,7 @@ export default function HeaderNavTabs() {
       aria-label="サイト内ナビゲーション"
       className="mx-auto max-w-[1080px] border-b border-pink-light/60 bg-base"
     >
-      <ul className="flex list-none gap-5 overflow-x-auto px-4 scrollbar-hide sm:gap-6">
+      <ul className="flex list-none gap-5 overflow-x-auto overflow-y-hidden px-4 scrollbar-hide sm:gap-6">
         {headerNavTabs.map((tab) => {
             const active = isHeaderNavTabActive(pathname, hash, tab.id);
 

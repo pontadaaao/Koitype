@@ -1,11 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PostComposer from "@/components/PostComposer";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
-import { addPost } from "@/lib/post-storage";
+import { insertPost } from "@/lib/supabase-posts";
 import type { Post } from "@/lib/posts";
 
 interface PostNewClientProps {
@@ -14,10 +15,20 @@ interface PostNewClientProps {
 
 export default function PostNewClient({ embedded = false }: PostNewClientProps) {
   const router = useRouter();
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleSubmit = (data: Omit<Post, "id" | "time" | "reacts">) => {
-    addPost(data);
-    router.push("/log");
+  const handleSubmit = async (data: Omit<Post, "id" | "createdAt" | "reacts">) => {
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      await insertPost(data);
+      router.push("/log");
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : "投稿に失敗しました");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const content = (
@@ -42,8 +53,13 @@ export default function PostNewClient({ embedded = false }: PostNewClientProps) 
         </p>
       </section>
 
+      {submitError && (
+        <p className="mb-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+          {submitError}
+        </p>
+      )}
       <section className="overflow-hidden rounded-2xl border border-log-border">
-        <PostComposer onSubmit={handleSubmit} submitLabel="投稿する" />
+        <PostComposer onSubmit={handleSubmit} submitLabel="投稿する" submitting={submitting} />
       </section>
     </>
   );

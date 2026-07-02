@@ -31,6 +31,26 @@ const config: Config = {
         "result-title": "#F2AECE",
         "result-text": "#5C4033",
       },
+      keyframes: {
+        blink: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
+        },
+        "bell-swing": {
+          "0%, 100%": { transform: "translateX(0px)" },
+          "10%": { transform: "translateX(-5px)" },
+          "20%": { transform: "translateX(5px)" },
+          "30%": { transform: "translateX(-4px)" },
+          "40%": { transform: "translateX(4px)" },
+          "50%": { transform: "translateX(-2px)" },
+          "60%": { transform: "translateX(2px)" },
+          "70%": { transform: "translateX(0px)" },
+        },
+      },
+      animation: {
+        blink: "blink 0.7s step-end infinite",
+        "bell-swing": "bell-swing 1.8s linear infinite",
+      },
       fontFamily: {
         heading: ["var(--font-noto-sans)", "sans-serif"],
         body: ["var(--font-noto-sans)", "sans-serif"],

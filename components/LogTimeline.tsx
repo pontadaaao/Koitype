@@ -5,12 +5,9 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import LogPostButton from "@/components/LogPostButton";
 import PostCard from "@/components/PostCard";
-import {
-  loadPosts,
-  loadUserReacts,
-  togglePostReaction,
-} from "@/lib/post-storage";
-import { CATEGORY_COLORS, initialPosts, type Post, type PostCategory, type StampKey } from "@/lib/posts";
+import { loadUserReacts, saveUserReacts, type UserReactsMap } from "@/lib/post-storage";
+import { fetchPosts, updatePostReacts } from "@/lib/supabase-posts";
+import { CATEGORY_COLORS, type Post, type PostCategory, type StampKey } from "@/lib/posts";
 
 const FILTER_CATEGORIES: PostCategory[] = [
   "恋人",
@@ -25,14 +22,13 @@ interface LogTimelineProps {
 }
 
 export default function LogTimeline({ embedded = false }: LogTimelineProps) {
-  const [posts, setPosts] = useState<Post[]>(initialPosts);
-  const [userReacts, setUserReacts] = useState<
-    Partial<Record<number, StampKey[]>>
-  >({});
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [userReacts, setUserReacts] = useState<UserReactsMap>({});
   const [activeFilter, setActiveFilter] = useState<PostCategory | null>(null);
 
-  const refreshPosts = () => {
-    setPosts(loadPosts());
+  const refreshPosts = async () => {
+    const fetched = await fetchPosts();
+    setPosts(fetched);
     setUserReacts(loadUserReacts());
   };
 
@@ -41,17 +37,39 @@ export default function LogTimeline({ embedded = false }: LogTimelineProps) {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("focus", refreshPosts);
-    return () => window.removeEventListener("focus", refreshPosts);
+    const onFocus = () => refreshPosts();
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
   }, []);
 
-  const handleToggleReact = (postId: number, stampKey: StampKey) => {
-    const { posts: nextPosts, userReacts: nextUserReacts } = togglePostReaction(
-      postId,
-      stampKey
-    );
-    setPosts(nextPosts);
+  const handleToggleReact = async (postId: number, stampKey: StampKey) => {
+    const post = posts.find((p) => p.id === postId);
+    if (!post) return;
+
+    const postUserReacts = userReacts[postId] ?? [];
+    const alreadyReacted = postUserReacts.includes(stampKey);
+    const currentCount = post.reacts[stampKey] ?? 0;
+    const nextReacts = { ...post.reacts };
+    const nextUserReacts = { ...userReacts };
+
+    if (alreadyReacted) {
+      const next = Math.max(0, currentCount - 1);
+      if (next === 0) delete nextReacts[stampKey];
+      else nextReacts[stampKey] = next;
+      const remaining = postUserReacts.filter((k) => k !== stampKey);
+      if (remaining.length > 0) nextUserReacts[postId] = remaining;
+      else delete nextUserReacts[postId];
+    } else {
+      nextReacts[stampKey] = currentCount + 1;
+      nextUserReacts[postId] = [...postUserReacts, stampKey];
+    }
+
+    // Optimistic update
+    setPosts(posts.map((p) => (p.id === postId ? { ...p, reacts: nextReacts } : p)));
     setUserReacts(nextUserReacts);
+    saveUserReacts(nextUserReacts);
+
+    await updatePostReacts(postId, nextReacts);
   };
 
   const filteredPosts = activeFilter
@@ -60,14 +78,14 @@ export default function LogTimeline({ embedded = false }: LogTimelineProps) {
 
   const timeline = (
     <>
-      <div className="border-b border-log-border px-4 py-3">
+      <div className="border-b border-log-border px-4 pt-8 pb-4">
         <div className="mb-3 text-center">
           <p className="mb-1 font-cormorant text-sm italic tracking-widest text-accent/70">Love Log</p>
           <h1 className="font-heading text-2xl font-bold text-accent sm:text-3xl">恋ログ</h1>
           <p className="mt-2 text-xs text-text-main">誰にも言えない恋も、嬉しかった恋も。匿名でシェアしよう</p>
         </div>
         <LogPostButton onPosted={refreshPosts} />
-        <div className="mt-3 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+        <div className="mt-3 flex gap-2 overflow-x-auto pb-4 scrollbar-hide">
           {FILTER_CATEGORIES.map((cat) => {
             const selected = activeFilter === cat;
             const colors = CATEGORY_COLORS[cat];

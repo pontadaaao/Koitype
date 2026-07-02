@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 
 interface FormData {
@@ -87,14 +87,66 @@ export default function ContactForm() {
     }
   };
 
-  if (submitted) {
+  const SuccessCard = () => {
+    const [displayed, setDisplayed] = useState("");
+    const full = ct.successTitle;
+
+    useEffect(() => {
+      setDisplayed("");
+      let i = 0;
+      const id = setInterval(() => {
+        i++;
+        setDisplayed(full.slice(0, i));
+        if (i >= full.length) clearInterval(id);
+      }, 80);
+      return () => clearInterval(id);
+    }, [full]);
+
     return (
       <div className="rounded-2xl border-2 border-pink-strong bg-gradient-to-br from-pink-pale to-base px-8 py-12 text-center shadow-sm">
-        <div className="mb-3 text-3xl">&#x1F497;</div>
-        <p className="text-lg font-medium text-accent">{ct.successTitle}</p>
+        <div className="mb-4 flex justify-center">
+          <svg
+            width="72"
+            height="72"
+            viewBox="0 0 72 72"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            {/* 顔 */}
+            <circle cx="36" cy="36" r="34" fill="#FEF08A" />
+            {/* 左目 */}
+            <circle cx="24" cy="30" r="4" fill="#92400E" />
+            <circle cx="25.5" cy="28.5" r="1.5" fill="white" />
+            {/* 右目 */}
+            <circle cx="48" cy="30" r="4" fill="#92400E" />
+            <circle cx="49.5" cy="28.5" r="1.5" fill="white" />
+            {/* 口 */}
+            <path
+              d="M22 42 Q36 54 50 42"
+              stroke="#92400E"
+              strokeWidth="3"
+              strokeLinecap="round"
+              fill="none"
+            />
+            {/* ほっぺ */}
+            <circle cx="17" cy="40" r="5" fill="#FCA5A5" opacity="0.5" />
+            <circle cx="55" cy="40" r="5" fill="#FCA5A5" opacity="0.5" />
+          </svg>
+        </div>
+        <p className="text-lg font-medium text-accent">
+          {displayed}
+          {displayed.length < full.length && (
+            <span className="ml-0.5 inline-block h-[1em] w-[2px] translate-y-[1px] animate-blink bg-accent" />
+          )}
+        </p>
         <p className="mt-2 text-sm text-text-sub">{ct.successBody}</p>
       </div>
     );
+  };
+
+  if (submitted) {
+    return <SuccessCard />;
   }
 
   return (

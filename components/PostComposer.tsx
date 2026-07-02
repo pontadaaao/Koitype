@@ -10,13 +10,15 @@ import {
 } from "@/lib/posts";
 
 interface PostComposerProps {
-  onSubmit: (post: Omit<Post, "id" | "time" | "reacts">) => void;
+  onSubmit: (post: Omit<Post, "id" | "createdAt" | "reacts">) => void | Promise<void>;
   submitLabel?: string;
+  submitting?: boolean;
 }
 
 export default function PostComposer({
   onSubmit,
   submitLabel = "投稿する",
+  submitting = false,
 }: PostComposerProps) {
   const [name, setName] = useState("");
   const [text, setText] = useState("");
@@ -127,10 +129,10 @@ export default function PostComposer({
         <div className="flex justify-end pt-1">
           <button
             type="submit"
-            disabled={!canSubmit}
+            disabled={!canSubmit || submitting}
             className="rounded-full bg-accent px-5 py-2 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            {submitLabel}
+            {submitting ? "投稿中..." : submitLabel}
           </button>
         </div>
       </div>

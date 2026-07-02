@@ -17,13 +17,30 @@ const CARD_STYLES = [
 ];
 
 
+const HERO_TEXT = "今日の恋、ちょっとのぞいてみない？♡";
+
 export default function HomePageClient() {
   const { t } = useLanguage();
   const [shinriTests, setShinriTests] = useState<LoveTest[]>([]);
+  const [typedText, setTypedText] = useState("");
+  const [typingDone, setTypingDone] = useState(false);
 
   useEffect(() => {
     const shuffled = [...loveTests].sort(() => Math.random() - 0.5).slice(0, 6);
     setShinriTests(shuffled);
+  }, []);
+
+  useEffect(() => {
+    let i = 0;
+    const timer = setInterval(() => {
+      i++;
+      setTypedText(HERO_TEXT.slice(0, i));
+      if (i >= HERO_TEXT.length) {
+        setTypingDone(true);
+        clearInterval(timer);
+      }
+    }, 80);
+    return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -54,12 +71,15 @@ export default function HomePageClient() {
           <div className="mb-8 mt-6 text-center">
             <span className="mb-2 inline-flex items-center gap-1 rounded-full bg-accent/10 px-3 py-1 text-[11px] font-bold tracking-wide text-accent">
               <svg viewBox="0 0 20 20" fill="currentColor" className="h-3 w-3">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clipRule="evenodd"/>
+                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a2 2 0 002-2H8a2 2 0 002 2z"/>
               </svg>
-              毎週新しい診断を追加
+              【随時更新】最新情報はベルアイコンをクリック！
             </span>
-            <p className="font-heading text-base font-black leading-snug sm:text-lg" style={{ color: "#5C4033" }}>
-              今日の恋、ちょっとのぞいてみない？♡
+            <p className="font-heading text-base font-black leading-snug sm:text-lg md:text-2xl" style={{ color: "#5C4033" }}>
+              {typedText}
+              <span
+                className={`ml-0.5 inline-block h-[0.85em] w-[2px] translate-y-[0.05em] bg-[#5C4033] align-middle ${typingDone ? "animate-blink" : ""}`}
+              />
             </p>
             <p className="mt-1 text-xs text-accent/70">
               あなたの恋愛タイプや相性がわかる無料診断。
@@ -182,126 +202,28 @@ export default function HomePageClient() {
         </section>
 
         <section className="pb-16">
-          <div className="mx-auto flex max-w-xl gap-5">
+          <div className="mx-auto flex max-w-xl flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <a
               id="koi-mikuji"
               href="/koi-mikuji/index.html"
-              className="group relative flex flex-1 flex-col overflow-hidden transition-transform hover:scale-[1.02] active:scale-[0.98]"
-              style={{
-                background: "#fdf8f0",
-                borderRadius: "8px",
-                border: "1px solid #a83838",
-                boxShadow: "0 8px 24px rgba(120,20,20,0.15), inset 0 0 0 3px #fdf8f0, inset 0 0 0 5px #d9a0a0",
-              }}
+              className="block transition-transform hover:scale-[1.03] active:scale-[0.97]"
             >
-              {/* 赤帯ヘッダー */}
-              <div
-                className="flex flex-col items-center pb-3 pt-3"
-                style={{ background: "linear-gradient(180deg, #b82020 0%, #991515 100%)" }}
-              >
-                <span className="text-[13px] font-bold tracking-[0.3em] text-white" style={{ opacity: 0.95 }}>
-                  恋 み く じ
-                </span>
-              </div>
-
-              {/* 二重線区切り */}
-              <div className="mx-3 mt-2">
-                <div className="border-t" style={{ borderColor: "#a83838" }} />
-                <div className="mt-[3px] border-t" style={{ borderColor: "#a83838" }} />
-              </div>
-
-              {/* 本文エリア */}
-              <div className="flex flex-1 flex-col items-center justify-center gap-2.5 px-4 py-4">
-                <svg viewBox="0 0 24 24" fill="#b82020" className="h-6 w-6">
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                </svg>
-                <p className="text-center font-heading text-sm font-bold leading-tight" style={{ color: "#3a0a0a" }}>
-                  {t.sections.koiMikuji.title}
-                </p>
-              </div>
-
-              {/* 二重線区切り */}
-              <div className="mx-3 mb-2">
-                <div className="border-t" style={{ borderColor: "#a83838" }} />
-                <div className="mt-[3px] border-t" style={{ borderColor: "#a83838" }} />
-              </div>
-
-              {/* 引くボタン */}
-              <div className="px-4 pb-4">
-                <div
-                  className="flex w-full items-center justify-center py-2 text-[11px] font-bold tracking-[0.25em] text-white"
-                  style={{
-                    background: "linear-gradient(180deg, #c82828 0%, #991515 100%)",
-                    borderRadius: "2px",
-                  }}
-                >
-                  一 枚 引 く
-                </div>
-              </div>
+              <img
+                src="/koimikuji.png"
+                alt="恋みくじを引く！"
+                className="h-auto w-full max-w-[320px] sm:max-w-[280px]"
+              />
             </a>
             <a
               id="log"
               href="/log"
-              className="group relative flex flex-1 flex-col overflow-hidden transition-transform hover:scale-[1.02] active:scale-[0.98]"
-                style={{
-                  background: "#fdf5ff",
-                  borderRadius: "8px",
-                  border: "1.5px solid #c37fd4",
-                  boxShadow: "0 8px 22px rgba(155,111,212,0.18), inset 0 0 0 3px #fdf5ff, inset 0 0 0 5px #e8c8f0",
-                }}
-              >
-                {/* ノート横線 */}
-                <div
-                  className="pointer-events-none absolute inset-0"
-                  style={{
-                    backgroundImage: "repeating-linear-gradient(transparent, transparent 18px, rgba(195,127,212,0.18) 19px)",
-                  }}
-                />
-
-                {/* パープルヘッダー帯 */}
-                <div
-                  className="relative flex flex-col items-center pb-3 pt-3"
-                  style={{ background: "linear-gradient(180deg, #b05fc8 0%, #8b3db5 100%)" }}
-                >
-                  <span className="text-[13px] font-bold tracking-[0.3em] text-white" style={{ opacity: 0.95 }}>
-                    恋 ロ グ
-                  </span>
-                </div>
-
-                {/* 二重線 */}
-                <div className="relative mx-3 mt-2">
-                  <div className="border-t" style={{ borderColor: "#c37fd4" }} />
-                  <div className="mt-[3px] border-t" style={{ borderColor: "#c37fd4" }} />
-                </div>
-
-                {/* 本文 */}
-                <div className="relative flex flex-1 flex-col items-center justify-center gap-2.5 px-4 py-4">
-                  <svg viewBox="0 0 24 24" fill="#b05fc8" className="h-6 w-6">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                  </svg>
-                  <p className="text-center font-heading text-sm font-bold leading-tight" style={{ color: "#3a0a3a" }}>
-                    {t.sections.log.title}
-                  </p>
-                </div>
-
-                {/* 二重線 */}
-                <div className="relative mx-3 mb-2">
-                  <div className="border-t" style={{ borderColor: "#c37fd4" }} />
-                  <div className="mt-[3px] border-t" style={{ borderColor: "#c37fd4" }} />
-                </div>
-
-                {/* ボタン */}
-                <div className="relative px-4 pb-4">
-                  <div
-                    className="flex w-full items-center justify-center py-2 text-[11px] font-bold tracking-[0.25em] text-white"
-                    style={{
-                      background: "linear-gradient(180deg, #c070d8 0%, #8b3db5 100%)",
-                      borderRadius: "2px",
-                    }}
-                  >
-                    読 む · 書 く
-                  </div>
-                </div>
+              className="block transition-transform hover:scale-[1.03] active:scale-[0.97]"
+            >
+              <img
+                src="/koilog.png"
+                alt="恋ログをみる！"
+                className="h-auto w-full max-w-[320px] sm:max-w-[280px]"
+              />
             </a>
           </div>
         </section>

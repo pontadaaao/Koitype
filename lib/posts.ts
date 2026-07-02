@@ -46,17 +46,21 @@ export type Post = {
   id: number;
   category: PostCategory;
   name: string;
-  time: string;
+  createdAt: string; // ISO 8601
   text: string;
   reacts: Partial<Record<StampKey, number>>;
 };
+
+function minsAgo(mins: number): string {
+  return new Date(Date.now() - mins * 60 * 1000).toISOString();
+}
 
 export const initialPosts: Post[] = [
   {
     id: 1,
     category: "片想い",
     name: "あんず",
-    time: "5分",
+    createdAt: minsAgo(5),
     text: "3年片思いの先輩、卒業前にやっと告白した。「ありがとう、でもごめん」って。\nでも不思議とスッキリしてる。言えてよかった。",
     reacts: { 分かる: 34, 推せる: 128, 泣いた: 56 },
   },
@@ -64,7 +68,7 @@ export const initialPosts: Post[] = [
     id: 2,
     category: "恋人",
     name: "匿名さん",
-    time: "32分",
+    createdAt: minsAgo(32),
     text: "ずっと仲良かった友達と、お互い好きだったって判明した瞬間。\n「実は前から好きだった」って言われて泣きそうになった。焦らなくてよかった。",
     reacts: { 推せる: 201, 応援: 88 },
   },
@@ -72,7 +76,7 @@ export const initialPosts: Post[] = [
     id: 3,
     category: "失恋",
     name: "匿名さん",
-    time: "2時間",
+    createdAt: minsAgo(120),
     text: "3年付き合った彼と、価値観の違いで別れることに。\n泣いたけど嫌いになったわけじゃない。今はただ前を向きたい。同じ経験した人いますか？",
     reacts: { 分かる: 312, 泣いた: 189, 応援: 97 },
   },
@@ -80,7 +84,7 @@ export const initialPosts: Post[] = [
     id: 4,
     category: "恋の悩み",
     name: "こはく",
-    time: "4時間",
+    createdAt: minsAgo(240),
     text: "東京と福岡の遠距離を2年続けて、ついにプロポーズされました。\n会えない時間が長かった分、信頼関係が深まった気がする。遠距離中の人、応援してます！",
     reacts: { 推せる: 233, 応援: 102, 泣いた: 45 },
   },

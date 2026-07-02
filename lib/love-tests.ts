@@ -17,6 +17,7 @@ export type LoveTest = {
   icon: string;
   color: string;
   question: string;
+  publishedAt?: string; // YYYY-MM-DD — set when added to show in notifications
   choices: LoveTestChoice[];
 };
 

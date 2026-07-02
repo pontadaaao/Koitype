@@ -44,6 +44,7 @@ export interface Diagnosis {
   tag?: DiagnosisTag;
   href?: string;
   thumbnail?: string;
+  publishedAt?: string; // YYYY-MM-DD — set when added to show in notifications
   questions: Question[];
   results: DiagnosisResult[];
 }

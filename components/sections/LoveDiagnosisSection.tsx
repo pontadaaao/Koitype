@@ -16,7 +16,7 @@ const TAGS: { label: string; value: DiagnosisTag | null }[] = [
   { label: "キャラ", value: "キャラ系" },
 ];
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 12;
 
 function getPageNumbers(currentPage: number, totalPages: number): number[] {
   if (totalPages <= 3) return Array.from({ length: totalPages }, (_, i) => i + 1);

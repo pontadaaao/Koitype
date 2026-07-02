@@ -1,5 +1,6 @@
 "use client";
 
+import RelativeTime from "@/components/RelativeTime";
 import ReactionChips from "@/components/ReactionChips";
 import { CATEGORY_COLORS, type Post, type StampKey } from "@/lib/posts";
 
@@ -24,7 +25,7 @@ export default function PostCard({
           <div className="flex min-w-0 flex-wrap items-center gap-x-1 text-[15px] leading-5">
             <span className="truncate font-bold text-text-main">{post.name}</span>
             <span className="text-text-sub">·</span>
-            <span className="shrink-0 text-text-sub">{post.time}</span>
+            <RelativeTime createdAt={post.createdAt} className="shrink-0 text-text-sub" />
           </div>
           <span
             className="shrink-0 rounded-full px-2 py-0.5 text-[11px] font-medium"

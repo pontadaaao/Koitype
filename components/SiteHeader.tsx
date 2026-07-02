@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { IconChevronDown, IconMail, IconMenu2, IconX } from "@tabler/icons-react";
+import { IconBell, IconChevronDown, IconMail, IconMenu2, IconX } from "@tabler/icons-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import SiteLogo from "@/components/SiteLogo";
 import HeaderNavTabs from "@/components/HeaderNavTabs";
@@ -160,13 +160,23 @@ export default function SiteHeader({
                 </Link>
               )}
               <Link
+                href="/notifications"
+                className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-pink-pale"
+                aria-label="お知らせ"
+                style={{ color: "#F97316" }}
+              >
+                <span className="animate-bell-swing inline-flex">
+                  <IconBell size={22} stroke={1.75} />
+                </span>
+              </Link>
+              <LanguageSwitcher compact />
+              <Link
                 href="/contact"
                 className="hidden items-center gap-1.5 rounded-full border border-pink-light px-3 py-1.5 text-sm text-text-sub transition-colors hover:border-accent/40 hover:text-accent sm:inline-flex"
               >
                 <IconMail size={16} stroke={1.75} />
                 お問い合わせ
               </Link>
-              <LanguageSwitcher compact />
               <button
                 type="button"
                 onClick={() => setMenuOpen((open) => !open)}
