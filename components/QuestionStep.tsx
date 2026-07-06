@@ -38,7 +38,7 @@ export default function QuestionStep({
           {t.diagnosis.question} {questionNumber}
         </span>
       </div>
-      <h2 className="font-heading mb-6 text-xl font-bold leading-relaxed text-text-main">
+      <h2 className="font-heading mb-6 text-base font-bold leading-relaxed text-text-main sm:text-xl">
         {question.text}
       </h2>
       <div className="flex flex-col gap-3">

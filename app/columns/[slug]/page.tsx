@@ -137,7 +137,7 @@ export default function ColumnDetailPage({ params }: ColumnDetailPageProps) {
 
       <SiteHeader backHref="/columns" backLabel="コラム一覧" />
 
-      <main className="mx-auto max-w-2xl px-4 pb-20 pt-6">
+      <main className="mx-auto max-w-2xl px-4 pb-16 pt-4 sm:pb-20 sm:pt-6">
         {/* パンくずリスト */}
         <nav aria-label="パンくずリスト" className="mb-4">
           <ol className="flex flex-wrap items-center gap-1 text-xs text-text-sub">
@@ -190,7 +190,7 @@ export default function ColumnDetailPage({ params }: ColumnDetailPageProps) {
         {headings.length >= 3 && (
           <nav
             aria-label="目次"
-            className="my-8 rounded-2xl border border-pink-light bg-sub-bg px-5 py-4"
+            className="my-6 rounded-2xl border border-pink-light bg-sub-bg px-4 py-4 sm:my-8 sm:px-5"
           >
             <p className="mb-3 text-sm font-bold text-text-main">目次</p>
             <ol className="space-y-1.5">
@@ -268,43 +268,71 @@ export default function ColumnDetailPage({ params }: ColumnDetailPageProps) {
         .column-body {
           line-height: 1.9;
           color: #5C4033;
-          font-size: 0.97rem;
+          font-size: 0.94rem;
+        }
+        @media (min-width: 640px) {
+          .column-body {
+            font-size: 0.97rem;
+          }
         }
         .column-body h2 {
           font-family: var(--font-zen-maru), sans-serif;
-          font-size: 1.2rem;
+          font-size: 1.08rem;
           font-weight: 700;
-          margin: 2.2rem 0 0.8rem;
+          margin: 1.8rem 0 0.7rem;
           padding-bottom: 0.4rem;
           border-bottom: 2px solid #ffd6e7;
           color: #5C4033;
         }
+        @media (min-width: 640px) {
+          .column-body h2 {
+            font-size: 1.2rem;
+            margin: 2.2rem 0 0.8rem;
+          }
+        }
         .column-body h3 {
           font-family: var(--font-zen-maru), sans-serif;
-          font-size: 1rem;
+          font-size: 0.97rem;
           font-weight: 700;
-          margin: 1.6rem 0 0.5rem;
+          margin: 1.4rem 0 0.5rem;
           color: #F067A6;
         }
+        @media (min-width: 640px) {
+          .column-body h3 {
+            font-size: 1rem;
+            margin: 1.6rem 0 0.5rem;
+          }
+        }
         .column-body p {
-          margin-bottom: 1.2rem;
+          margin-bottom: 1.1rem;
+        }
+        @media (min-width: 640px) {
+          .column-body p {
+            margin-bottom: 1.2rem;
+          }
         }
         .column-body ul,
         .column-body ol {
           padding-left: 1.4em;
-          margin-bottom: 1.2rem;
+          margin-bottom: 1.1rem;
         }
         .column-body li {
           margin-bottom: 0.4rem;
         }
         .column-body blockquote {
           border-left: 3px solid #ffd6e7;
-          padding: 0.6rem 1rem;
+          padding: 0.5rem 0.85rem;
           background: #fff0f5;
           border-radius: 0 8px 8px 0;
-          margin: 1.2rem 0;
+          margin: 1rem 0;
           color: #7a5568;
           font-style: italic;
+        }
+        @media (min-width: 640px) {
+          .column-body blockquote {
+            padding: 0.6rem 1rem;
+            margin: 1.2rem 0;
+          }
         }
         .column-body strong {
           color: #F067A6;

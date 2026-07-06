@@ -31,8 +31,8 @@ export default function DiagnosisCard({ diagnosis, hideThumbnail = false }: Diag
           ) : null}
         </div>
       )}
-      <div className="p-3">
-        <h3 className="line-clamp-2 font-heading text-sm font-bold leading-snug group-hover:text-accent" style={{ color: "#5C4033" }}>
+      <div className="p-3 sm:p-4">
+        <h3 className="line-clamp-2 font-heading text-sm font-bold leading-snug group-hover:text-accent sm:text-[15px]" style={{ color: "#5C4033" }}>
           {diagnosis.title}
         </h3>
       </div>

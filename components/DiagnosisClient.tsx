@@ -9,7 +9,7 @@ import QuestionStep from "@/components/QuestionStep";
 import ResultCard from "@/components/ResultCard";
 import ShareButtons from "@/components/ShareButtons";
 import SiteHeader from "@/components/SiteHeader";
-import { calculateResult, getResultById } from "@/lib/diagnoses";
+import { calculateResult, diagnoses, getResultById } from "@/lib/diagnoses";
 import type { Diagnosis, DiagnosisResult } from "@/lib/types";
 import { useLanguage } from "@/components/LanguageProvider";
 import { formatN } from "@/lib/i18n";
@@ -106,9 +106,9 @@ export default function DiagnosisClient({ diagnosis }: DiagnosisClientProps) {
 
   return (
     <div className="min-h-screen bg-base">
-      <SiteHeader />
+      <SiteHeader showBack={false} />
 
-      <main className="mx-auto max-w-xl overflow-x-hidden px-4 py-6 sm:py-8">
+      <main className={`mx-auto overflow-x-hidden px-4 py-6 sm:py-8 ${result ? "max-w-3xl" : "max-w-xl"}`}>
         {!started && !result ? (
           <div className="text-center">
             <div className="overflow-hidden rounded-2xl border border-pink-light bg-base p-8 shadow-sm">
@@ -133,20 +133,39 @@ export default function DiagnosisClient({ diagnosis }: DiagnosisClientProps) {
             <button type="button" onClick={handleStart} className="btn-primary mt-6">
               {t.diagnosis.start}
             </button>
+            <button
+              type="button"
+              onClick={() => {
+                const ids = diagnoses.map((d) => d.id).filter((id) => id !== diagnosis.id);
+                const randomId = ids[Math.floor(Math.random() * ids.length)];
+                router.push(`/diagnosis/${randomId}`);
+              }}
+              className="btn-primary mt-3"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <polyline points="16 3 21 3 21 8" />
+                <line x1="4" y1="20" x2="21" y2="3" />
+                <polyline points="21 16 21 21 16 21" />
+                <line x1="15" y1="15" x2="21" y2="21" />
+              </svg>
+              ランダムでもう一回！
+            </button>
           </div>
         ) : result ? (
           <div className="space-y-5">
             <ResultCard result={result} />
-            <div className="card p-5">
-              <ShareButtons diagnosisId={diagnosis.id} result={result} />
-            </div>
-            <div className="flex flex-col gap-3 pb-4">
-              <button type="button" onClick={handleRetry} className="btn-secondary">
-                {t.diagnosis.retry}
-              </button>
-              <Link href="/" className="btn-primary">
-                {t.diagnosis.seeMore}
-              </Link>
+            <div className="mx-auto max-w-xl space-y-5">
+              <div className="card p-5">
+                <ShareButtons diagnosisId={diagnosis.id} result={result} />
+              </div>
+              <div className="flex flex-col gap-3 pb-4">
+                <button type="button" onClick={handleRetry} className="btn-secondary">
+                  {t.diagnosis.retry}
+                </button>
+                <Link href="/" className="btn-primary">
+                  {t.diagnosis.seeMore}
+                </Link>
+              </div>
             </div>
           </div>
         ) : (

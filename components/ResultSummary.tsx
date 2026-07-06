@@ -115,7 +115,7 @@ export default function ResultSummary({
         </ResultSection>
       </div>
 
-      <div className="mt-5 space-y-5">
+      <div className="mx-auto mt-5 max-w-xl space-y-5">
         <div className="card p-5">
           <ShareButtons
             diagnosisId="dog-cat"

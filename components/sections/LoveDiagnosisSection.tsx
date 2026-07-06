@@ -72,17 +72,17 @@ export default function LoveDiagnosisSection({ topOnly = false }: Props) {
       </div>
 
       {totalPages > 1 && (
-        <nav className="mt-6 flex items-center justify-center gap-2" aria-label="ページ">
+        <nav className="mt-6 flex items-center justify-center gap-1 sm:gap-2" aria-label="ページ">
           {/* First */}
           <button
             type="button"
             onClick={() => setPage(1)}
             disabled={page === 1}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50 disabled:cursor-not-allowed disabled:opacity-30"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50 disabled:cursor-not-allowed disabled:opacity-30 sm:h-10 sm:w-10"
             style={{ color: "#F067A6" }}
             aria-label="最初のページ"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5">
               <path d="M17 18l-6-6 6-6" /><path d="M11 18l-6-6 6-6" />
             </svg>
           </button>
@@ -91,11 +91,11 @@ export default function LoveDiagnosisSection({ topOnly = false }: Props) {
             type="button"
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50 disabled:cursor-not-allowed disabled:opacity-30"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50 disabled:cursor-not-allowed disabled:opacity-30 sm:h-10 sm:w-10"
             style={{ color: "#F067A6" }}
             aria-label="前のページ"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5">
               <path d="M15 18l-6-6 6-6" />
             </svg>
           </button>
@@ -104,7 +104,7 @@ export default function LoveDiagnosisSection({ topOnly = false }: Props) {
             p === page ? (
               <span
                 key={p}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-medium text-white"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-medium text-white sm:h-10 sm:w-10"
                 style={{ background: "linear-gradient(135deg, #F067A6, #F067A6cc)" }}
                 aria-current="page"
               >
@@ -115,7 +115,7 @@ export default function LoveDiagnosisSection({ topOnly = false }: Props) {
                 key={p}
                 type="button"
                 onClick={() => setPage(p)}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 text-xs font-normal transition-colors hover:bg-pink-50"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-pink-200 text-sm font-normal transition-colors hover:bg-pink-50 sm:h-10 sm:w-10"
                 style={{ color: "#5C4033" }}
               >
                 {p}
@@ -127,11 +127,11 @@ export default function LoveDiagnosisSection({ topOnly = false }: Props) {
             type="button"
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50 disabled:cursor-not-allowed disabled:opacity-30"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50 disabled:cursor-not-allowed disabled:opacity-30 sm:h-10 sm:w-10"
             style={{ color: "#F067A6" }}
             aria-label="次のページ"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5">
               <path d="M9 18l6-6-6-6" />
             </svg>
           </button>
@@ -140,11 +140,11 @@ export default function LoveDiagnosisSection({ topOnly = false }: Props) {
             type="button"
             onClick={() => setPage(totalPages)}
             disabled={page === totalPages}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50 disabled:cursor-not-allowed disabled:opacity-30"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50 disabled:cursor-not-allowed disabled:opacity-30 sm:h-10 sm:w-10"
             style={{ color: "#F067A6" }}
             aria-label="最後のページ"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5">
               <path d="M7 18l6-6-6-6" /><path d="M13 18l6-6-6-6" />
             </svg>
           </button>

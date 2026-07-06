@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IconBell,
   IconClipboardHeart,
@@ -10,10 +10,12 @@ import {
   IconChevronLeft,
   IconChevronRight,
 } from "@tabler/icons-react";
-import { diagnoses } from "@/lib/diagnoses";
-import { loveTests } from "@/lib/love-tests";
-import { staticColumns } from "@/lib/static-columns";
-import { specialEntries, type NotificationCategory } from "./data";
+import {
+  buildAllEntries,
+  aggregate,
+  NOTIFICATIONS_LS_KEY,
+  type NotificationCategory,
+} from "./data";
 
 const PAGE_SIZE = 10;
 
@@ -44,45 +46,7 @@ const categoryConfig: Record<NotificationCategory, { label: string; icon: React.
   },
 };
 
-type RawEntry = { date: string; category: NotificationCategory; title: string };
-type AggregatedItem = { key: string; date: string; category: NotificationCategory; titles: string[] };
-
-function toDisplayDate(iso: string): string {
-  return iso.replace(/-/g, ".");
-}
-
-function buildAllEntries(): RawEntry[] {
-  return [
-    ...specialEntries,
-    ...diagnoses
-      .filter((d) => d.publishedAt)
-      .map((d) => ({ date: toDisplayDate(d.publishedAt!), category: "love-diagnosis" as const, title: d.title })),
-    ...loveTests
-      .filter((t) => t.publishedAt)
-      .map((t) => ({ date: toDisplayDate(t.publishedAt!), category: "psychology-test" as const, title: t.title })),
-    ...staticColumns.map((c) => ({
-      date: toDisplayDate(c.publishedAt),
-      category: "love-column" as const,
-      title: c.title,
-    })),
-  ];
-}
-
-function aggregate(entries: RawEntry[]): AggregatedItem[] {
-  const map = new Map<string, AggregatedItem>();
-  for (const e of entries) {
-    const key = `${e.date}__${e.category}`;
-    const existing = map.get(key);
-    if (existing) {
-      existing.titles.push(e.title);
-    } else {
-      map.set(key, { key, date: e.date, category: e.category, titles: [e.title] });
-    }
-  }
-  return Array.from(map.values()).sort((a, b) => b.date.localeCompare(a.date));
-}
-
-function buildTitle(item: AggregatedItem): string {
+function buildTitle(item: ReturnType<typeof aggregate>[number]): string {
   const cfg = categoryConfig[item.category];
   if (item.category === "launch") return item.titles[0];
   if (item.titles.length === 1) return `「${item.titles[0]}」を追加しました`;
@@ -92,6 +56,12 @@ function buildTitle(item: AggregatedItem): string {
 export default function NotificationsContent() {
   const [page, setPage] = useState(1);
   const all = aggregate(buildAllEntries());
+
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    localStorage.setItem(NOTIFICATIONS_LS_KEY, today);
+    window.dispatchEvent(new Event("notifications-visited"));
+  }, []);
   const totalPages = Math.ceil(all.length / PAGE_SIZE);
   const items = all.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 

@@ -59,10 +59,10 @@ function ColumnListItem({ column }: { column: StaticColumn }) {
   return (
     <Link
       href={`/columns/${column.slug}`}
-      className="group flex items-center justify-between border-b border-pink-light/60 px-4 py-5 transition-colors last:border-b-0 hover:bg-pink-pale/30"
+      className="group flex items-center justify-between border-b border-pink-light/60 px-3 py-4 transition-colors last:border-b-0 hover:bg-pink-pale/30 sm:px-4 sm:py-5"
     >
       <div className="min-w-0 flex-1">
-        <h2 className="font-heading text-[15px] font-bold leading-snug transition-colors group-hover:text-accent sm:text-base" style={{ color: "#5C4033" }}>
+        <h2 className="line-clamp-2 font-heading text-[15px] font-bold leading-snug transition-colors group-hover:text-accent sm:text-base" style={{ color: "#5C4033" }}>
           {column.title}
         </h2>
         <div className="mt-1.5 flex items-center gap-2">
@@ -102,7 +102,7 @@ export default function ColumnsPage({ searchParams }: ColumnsPageProps) {
     <>
       <SiteHeader showBack={false} />
 
-      <main className="mx-auto max-w-2xl px-4 pb-20 pt-8">
+      <main className="mx-auto max-w-2xl px-4 pb-16 pt-5 sm:pb-20 sm:pt-8">
         {/* ヘッダー */}
         <div className="mb-8 text-center">
           <p className="mb-1 font-cormorant text-sm italic tracking-widest text-accent/70">
@@ -168,22 +168,22 @@ export default function ColumnsPage({ searchParams }: ColumnsPageProps) {
 
         {/* ページネーション */}
         {totalPages > 1 && (
-          <nav className="mt-6 flex items-center justify-center gap-2" aria-label="ページ">
+          <nav className="mt-6 flex items-center justify-center gap-1.5 sm:gap-2" aria-label="ページ">
             {/* First */}
             {page > 1 ? (
               <Link
                 href={`/columns?page=1${category ? `&category=${encodeURIComponent(category)}` : ""}`}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50"
+                className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50 sm:flex"
                 style={{ color: "#F067A6" }}
                 aria-label="最初のページ"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                   <path d="M17 18l-6-6 6-6" /><path d="M11 18l-6-6 6-6" />
                 </svg>
               </Link>
             ) : (
-              <span className="flex h-8 w-8 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30" style={{ color: "#F067A6" }} aria-disabled="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+              <span className="hidden h-10 w-10 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30 sm:flex" style={{ color: "#F067A6" }} aria-disabled="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                   <path d="M17 18l-6-6 6-6" /><path d="M11 18l-6-6 6-6" />
                 </svg>
               </span>
@@ -192,17 +192,17 @@ export default function ColumnsPage({ searchParams }: ColumnsPageProps) {
             {page > 1 ? (
               <Link
                 href={`/columns?page=${page - 1}${category ? `&category=${encodeURIComponent(category)}` : ""}`}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50"
                 style={{ color: "#F067A6" }}
                 aria-label="前のページ"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                   <path d="M15 18l-6-6 6-6" />
                 </svg>
               </Link>
             ) : (
-              <span className="flex h-8 w-8 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30" style={{ color: "#F067A6" }} aria-disabled="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+              <span className="flex h-10 w-10 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30" style={{ color: "#F067A6" }} aria-disabled="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                   <path d="M15 18l-6-6 6-6" />
                 </svg>
               </span>
@@ -212,7 +212,7 @@ export default function ColumnsPage({ searchParams }: ColumnsPageProps) {
               p === page ? (
                 <span
                   key={p}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-medium text-white"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-medium text-white"
                   style={{ background: "linear-gradient(135deg, #F067A6, #F067A6cc)" }}
                   aria-current="page"
                 >
@@ -222,7 +222,7 @@ export default function ColumnsPage({ searchParams }: ColumnsPageProps) {
                 <Link
                   key={p}
                   href={`/columns?page=${p}${category ? `&category=${encodeURIComponent(category)}` : ""}`}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 text-xs font-normal transition-colors hover:bg-pink-50"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-pink-200 text-sm font-normal transition-colors hover:bg-pink-50"
                   style={{ color: "#5C4033" }}
                 >
                   {p}
@@ -233,17 +233,17 @@ export default function ColumnsPage({ searchParams }: ColumnsPageProps) {
             {page < totalPages ? (
               <Link
                 href={`/columns?page=${page + 1}${category ? `&category=${encodeURIComponent(category)}` : ""}`}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50"
                 style={{ color: "#F067A6" }}
                 aria-label="次のページ"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                   <path d="M9 18l6-6-6-6" />
                 </svg>
               </Link>
             ) : (
-              <span className="flex h-8 w-8 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30" style={{ color: "#F067A6" }} aria-disabled="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+              <span className="flex h-10 w-10 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30" style={{ color: "#F067A6" }} aria-disabled="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                   <path d="M9 18l6-6-6-6" />
                 </svg>
               </span>
@@ -252,17 +252,17 @@ export default function ColumnsPage({ searchParams }: ColumnsPageProps) {
             {page < totalPages ? (
               <Link
                 href={`/columns?page=${totalPages}${category ? `&category=${encodeURIComponent(category)}` : ""}`}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50"
+                className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50 sm:flex"
                 style={{ color: "#F067A6" }}
                 aria-label="最後のページ"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                   <path d="M7 18l6-6-6-6" /><path d="M13 18l6-6-6-6" />
                 </svg>
               </Link>
             ) : (
-              <span className="flex h-8 w-8 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30" style={{ color: "#F067A6" }} aria-disabled="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+              <span className="hidden h-10 w-10 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30 sm:flex" style={{ color: "#F067A6" }} aria-disabled="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                   <path d="M7 18l6-6-6-6" /><path d="M13 18l6-6-6-6" />
                 </svg>
               </span>

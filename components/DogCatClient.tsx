@@ -134,7 +134,7 @@ export default function DogCatClient() {
     <div className="min-h-screen bg-base">
       <SiteHeader />
 
-      <main className="mx-auto max-w-xl overflow-x-hidden px-4 py-6 sm:py-8">
+      <main className={`mx-auto overflow-x-hidden px-4 py-6 sm:py-8 ${screen === "result" ? "max-w-3xl" : "max-w-xl"}`}>
         {screen === "intro" && (
           <div className="text-center">
             <section className="overflow-hidden rounded-2xl border border-pink-light">

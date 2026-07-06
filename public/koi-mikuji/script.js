@@ -24,7 +24,7 @@ const FORTUNES=[
    stats:[["出会い運",3],["LINE運",3],["恋の進展",4]],lucky:[["ラッキー行動","夜の散歩"],["ラッキーアイテム","イヤホン"]]},
   {key:"小吉",icon:"shokichi",accent:"#3fb6e6",soft:"#cdeefc",weight:24,catch:"実はモテ期の入口かも。",
    body:"今はまだ気づいてないだけで、あなたを気にしてる人が近くにいる可能性あり。SNSの投稿やストーリー更新が恋のきっかけになる予感。",
-   stats:[["出会い運",4],["LINE運",2],["片思い運",4]],lucky:[["ラッキーカラー","水色"],["ラッキータイム","22:00"]]},
+   stats:[["出会い運",4],["LINE運",2],["片思い運",4]],lucky:[["ラッキーアイテム","コンパクトミラー"],["ラッキータイム","22:00"]]},
   {key:"末吉",icon:"suekichi",accent:"#b97bf0",soft:"#e7d6fb",weight:23,catch:"考えすぎ注意報。",
    body:"相手の態度を深読みしすぎると苦しくなりそう。\"嫌われたかも\"と思った時ほど、実は何も起きてないことが多い。今日は恋より自分を甘やかす日に◎",
    stats:[["出会い運",2],["LINE運",2],["恋愛メンタル",1]],lucky:[["ラッキー行動","甘いものを食べる"],["ラッキーアイテム","もこもこ系"]]},
@@ -73,8 +73,11 @@ function luckyColorHTML(name,hex){
 function buildLuckyItems(d){
   const color={name:d.luckyColor||"ピンク",hex:d.luckyColorHex||"#ff6eb4"};
   const number=d.luckyNumber??rnd(LUCKY_NUMBERS);
-  const items=d.lucky.filter(l=>l[0]!=="ラッキーカラー");
+  const itemEntry=d.lucky.find(l=>l[0]==="ラッキーアイテム")||["ラッキーアイテム","おまもりストラップ"];
+  const otherEntries=d.lucky.filter(l=>l[0]!=="ラッキーアイテム"&&l[0]!=="ラッキーカラー");
+  const items=[...otherEntries];
   items.push(["ラッキーナンバー",String(number)]);
+  items.push(itemEntry);
   items.push(["ラッキーカラー",luckyColorHTML(color.name,color.hex)]);
   return items;
 }

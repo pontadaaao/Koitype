@@ -97,3 +97,18 @@ export interface DogCatAnswer {
   questionIndex: number;
   choiceIndex: number;
 }
+
+export interface DogLoverQuestion {
+  text: string;
+  choices: string[];
+}
+
+export interface DogLoverResult {
+  id: string;
+  name: string;
+  title: string;
+  traits: string[];
+  partner: string;
+  advice: string;
+  tags: string[];
+}

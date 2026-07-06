@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
-import { loveTests } from "@/lib/love-tests";
+import { loveTests, isNewLoveTest } from "@/lib/love-tests";
 import LoveTestIcon from "@/components/LoveTestIcon";
 import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
@@ -82,13 +82,18 @@ export default function TestsPage({ searchParams }: Props) {
                   <Link
                     key={test.slug}
                     href={`/tests/${test.slug}`}
-                    className="group flex flex-col rounded-3xl border-2 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
+                    className="group relative flex flex-col rounded-3xl border-2 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
                     style={{
                       background: s.bg,
                       borderColor: s.border,
                       boxShadow: "0 2px 12px rgba(254,108,158,0.07)",
                     }}
                   >
+                    {isNewLoveTest(test) && (
+                      <span className="absolute -right-1.5 -top-1.5 z-10 rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                        NEW
+                      </span>
+                    )}
                     <div className="flex items-start gap-4 p-5 sm:p-6">
                       {/* Icon */}
                       <span
@@ -132,27 +137,27 @@ export default function TestsPage({ searchParams }: Props) {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <nav className="mt-10 flex items-center justify-center gap-2" aria-label="ページ">
+              <nav className="mt-10 flex items-center justify-center gap-1 sm:gap-2" aria-label="ページ">
                 {/* First page */}
                 {currentPage > 1 ? (
                   <Link
                     href="/tests?page=1"
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50 sm:h-10 sm:w-10"
                     style={{ color: "#F067A6" }}
                     aria-label="最初のページ"
                   >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5">
                       <path d="M17 18l-6-6 6-6" />
                       <path d="M11 18l-6-6 6-6" />
                     </svg>
                   </Link>
                 ) : (
                   <span
-                    className="flex h-8 w-8 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30"
+                    className="flex h-9 w-9 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30 sm:h-10 sm:w-10"
                     style={{ color: "#F067A6" }}
                     aria-disabled="true"
                   >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5">
                       <path d="M17 18l-6-6 6-6" />
                       <path d="M11 18l-6-6 6-6" />
                     </svg>
@@ -163,21 +168,21 @@ export default function TestsPage({ searchParams }: Props) {
                 {currentPage > 1 ? (
                   <Link
                     href={`/tests?page=${currentPage - 1}`}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50 sm:h-10 sm:w-10"
                     style={{ color: "#F067A6" }}
                     aria-label="前のページ"
                   >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5">
                       <path d="M15 18l-6-6 6-6" />
                     </svg>
                   </Link>
                 ) : (
                   <span
-                    className="flex h-8 w-8 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30"
+                    className="flex h-9 w-9 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30 sm:h-10 sm:w-10"
                     style={{ color: "#F067A6" }}
                     aria-disabled="true"
                   >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5">
                       <path d="M15 18l-6-6 6-6" />
                     </svg>
                   </span>
@@ -188,7 +193,7 @@ export default function TestsPage({ searchParams }: Props) {
                   p === currentPage ? (
                     <span
                       key={p}
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-medium text-white"
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-medium text-white sm:h-10 sm:w-10"
                       style={{ background: "linear-gradient(135deg, #F067A6, #F067A6cc)" }}
                       aria-current="page"
                     >
@@ -198,7 +203,7 @@ export default function TestsPage({ searchParams }: Props) {
                     <Link
                       key={p}
                       href={`/tests?page=${p}`}
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 text-xs font-normal transition-colors hover:bg-pink-50"
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-pink-200 text-sm font-normal transition-colors hover:bg-pink-50 sm:h-10 sm:w-10"
                       style={{ color: "#5C4033" }}
                     >
                       {p}
@@ -210,21 +215,21 @@ export default function TestsPage({ searchParams }: Props) {
                 {currentPage < totalPages ? (
                   <Link
                     href={`/tests?page=${currentPage + 1}`}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50 sm:h-10 sm:w-10"
                     style={{ color: "#F067A6" }}
                     aria-label="次のページ"
                   >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5">
                       <path d="M9 18l6-6-6-6" />
                     </svg>
                   </Link>
                 ) : (
                   <span
-                    className="flex h-8 w-8 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30"
+                    className="flex h-9 w-9 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30 sm:h-10 sm:w-10"
                     style={{ color: "#F067A6" }}
                     aria-disabled="true"
                   >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5">
                       <path d="M9 18l6-6-6-6" />
                     </svg>
                   </span>
@@ -234,22 +239,22 @@ export default function TestsPage({ searchParams }: Props) {
                 {currentPage < totalPages ? (
                   <Link
                     href={`/tests?page=${totalPages}`}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-pink-200 transition-colors hover:bg-pink-50 sm:h-10 sm:w-10"
                     style={{ color: "#F067A6" }}
                     aria-label="最後のページ"
                   >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5">
                       <path d="M7 18l6-6-6-6" />
                       <path d="M13 18l6-6-6-6" />
                     </svg>
                   </Link>
                 ) : (
                   <span
-                    className="flex h-8 w-8 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30"
+                    className="flex h-9 w-9 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-pink-100 opacity-30 sm:h-10 sm:w-10"
                     style={{ color: "#F067A6" }}
                     aria-disabled="true"
                   >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 sm:h-5 sm:w-5">
                       <path d="M7 18l6-6-6-6" />
                       <path d="M13 18l6-6-6-6" />
                     </svg>

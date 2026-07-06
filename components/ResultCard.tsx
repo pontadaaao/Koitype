@@ -194,14 +194,14 @@ export default function ResultCard({ result }: ResultCardProps) {
     <div className="-mx-4 sm:mx-0">
 
       {/* ===== TOP ===== */}
-      <section className="bg-gradient-to-b from-white to-pink-pale text-center">
+      <section className="text-center" style={{ background: "linear-gradient(160deg, #F067A6, #FF8FB8)" }}>
         <div className="px-6 pb-12 pt-14 sm:px-8">
           <div className="mb-6 flex items-center justify-center gap-3">
-            <span className="h-px w-10 shrink-0 rounded-full" style={{ backgroundColor: "#F067A6" }} />
-            <span className="rounded-full px-5 py-1.5 text-xs font-bold tracking-[.3em]" style={{ backgroundColor: "#F067A6", color: "#ffffff" }}>
+            <span className="h-px w-10 shrink-0 rounded-full" style={{ backgroundColor: "rgba(255,255,255,0.6)" }} />
+            <span className="rounded-full px-5 py-1.5 text-xs font-bold tracking-[.3em]" style={{ backgroundColor: "#ffffff", color: "#F067A6" }}>
               {result.resultLabel ?? t.result.yourLoveType}
             </span>
-            <span className="h-px w-10 shrink-0 rounded-full" style={{ backgroundColor: "#F067A6" }} />
+            <span className="h-px w-10 shrink-0 rounded-full" style={{ backgroundColor: "rgba(255,255,255,0.6)" }} />
           </div>
 
           {result.color ? (
@@ -216,10 +216,8 @@ export default function ResultCard({ result }: ResultCardProps) {
               <h1
                 className="font-heading font-black leading-tight"
                 style={{
-                  fontSize: "clamp(20px, 4.5vw, 32px)",
+                  fontSize: "clamp(16px, 3.5vw, 24px)",
                   color: "white",
-                  WebkitTextStroke: `5px ${result.color}`,
-                  paintOrder: "stroke fill",
                 }}
               >
                 {result.name}
@@ -229,10 +227,8 @@ export default function ResultCard({ result }: ResultCardProps) {
             <h1
               className="font-heading font-black leading-tight"
               style={{
-                fontSize: "clamp(22px, 5vw, 34px)",
+                fontSize: "clamp(18px, 4vw, 26px)",
                 color: "white",
-                WebkitTextStroke: "5px #F067A6",
-                paintOrder: "stroke fill",
               }}
             >
               {result.name}

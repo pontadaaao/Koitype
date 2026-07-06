@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { IconBell, IconChevronDown, IconMail, IconMenu2, IconX } from "@tabler/icons-react";
+import { IconChevronDown, IconMail, IconMenu2, IconX } from "@tabler/icons-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import SiteLogo from "@/components/SiteLogo";
 import HeaderNavTabs from "@/components/HeaderNavTabs";
@@ -10,6 +10,7 @@ import SiteSearch from "@/components/SiteSearch";
 import AppIcon from "@/components/AppIcon";
 import { localeFlags, localeLabels, locales, navItems, type Locale } from "@/lib/i18n";
 import { SITE_NAME } from "@/lib/site";
+import { getUnreadCount, NOTIFICATIONS_LS_KEY } from "@/app/notifications/data";
 
 interface SiteHeaderProps {
   backHref?: string;
@@ -118,6 +119,17 @@ export default function SiteHeader({
 }: SiteHeaderProps) {
   const { t } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const update = () => {
+      const lastVisited = localStorage.getItem(NOTIFICATIONS_LS_KEY);
+      setUnreadCount(getUnreadCount(lastVisited));
+    };
+    update();
+    window.addEventListener("notifications-visited", update);
+    return () => window.removeEventListener("notifications-visited", update);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -161,13 +173,19 @@ export default function SiteHeader({
               )}
               <Link
                 href="/notifications"
-                className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-pink-pale"
+                className="relative flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-pink-pale"
                 aria-label="お知らせ"
-                style={{ color: "#F97316" }}
               >
                 <span className="animate-bell-swing inline-flex">
-                  <IconBell size={22} stroke={1.75} />
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="#5C4033" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C10.9 2 10 2.9 10 4C10 4.04 10 4.08 10.01 4.12C7.1 4.82 5 7.47 5 10.5V17L3 19V20H21V19L19 17V10.5C19 7.47 16.9 4.82 13.99 4.12C14 4.08 14 4.04 14 4C14 2.9 13.1 2 12 2ZM10 21C10 22.1 10.9 23 12 23C13.1 23 14 22.1 14 21H10Z"/>
+                  </svg>
                 </span>
+                {unreadCount > 0 && (
+                  <span className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[9px] font-bold text-white">
+                    {unreadCount > 99 ? "99+" : unreadCount}
+                  </span>
+                )}
               </Link>
               <LanguageSwitcher compact />
               <Link

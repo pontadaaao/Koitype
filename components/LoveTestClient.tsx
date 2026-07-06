@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { LoveTest, LoveTestChoice } from "@/lib/love-tests";
+import { isNewLoveTest, type LoveTest, type LoveTestChoice } from "@/lib/love-tests";
 import LoveTestIcon from "@/components/LoveTestIcon";
 
 interface Props {
@@ -109,7 +109,7 @@ export default function LoveTestClient({ test, otherTests }: Props) {
   };
 
   return (
-    <div className="mx-auto max-w-lg px-4 pb-16">
+    <div className={`mx-auto px-4 pb-16 ${choice ? "max-w-2xl" : "max-w-lg"}`}>
 
       {choice === null ? (
         /* ── Question view ── */
@@ -234,7 +234,7 @@ export default function LoveTestClient({ test, otherTests }: Props) {
               {copied ? "コピーしました！" : "シェアする"}
             </button>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col gap-3 sm:flex-row">
               <button
                 type="button"
                 onClick={() => setSelected(null)}
@@ -250,7 +250,7 @@ export default function LoveTestClient({ test, otherTests }: Props) {
 
               <Link
                 href="/tests"
-                className="flex flex-1 items-center justify-center gap-1.5 rounded-2xl border-2 border-pink-200 py-3.5 text-sm font-bold text-sm transition-colors hover:bg-pink-50 active:scale-[0.98]"
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-2xl border-2 border-pink-200 py-3.5 text-sm font-bold transition-colors hover:bg-pink-50 active:scale-[0.98]"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4 text-pink-300">
                   <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
@@ -280,7 +280,14 @@ export default function LoveTestClient({ test, otherTests }: Props) {
                       <LoveTestIcon id={t.icon} color={t.color} className="h-5 w-5" />
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-bold" style={{ color: "#5C4033" }}>{t.title}</p>
+                      <p className="flex items-center gap-1.5 truncate text-sm font-bold" style={{ color: "#5C4033" }}>
+                        <span className="truncate">{t.title}</span>
+                        {isNewLoveTest(t) && (
+                          <span className="shrink-0 rounded-full bg-rose-500 px-1.5 py-0.5 text-[9px] font-bold text-white">
+                            NEW
+                          </span>
+                        )}
+                      </p>
                       <p className="text-[11px]" style={{ color: "#5C4033" }}>#{t.category}</p>
                     </div>
                     <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 shrink-0" style={{ color: "#F067A6" }}>
