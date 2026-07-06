@@ -99,7 +99,7 @@ export default function HomePageClient() {
                   const randomId = ids[Math.floor(Math.random() * ids.length)];
                   router.push(`/diagnosis/${randomId}`);
                 }}
-                className="inline-flex items-center gap-2 rounded-full border-2 border-purple-600/50 bg-cat-light/60 px-6 py-2.5 text-sm font-bold text-purple-700 shadow-sm transition-all duration-200 hover:scale-[1.04] hover:shadow-md active:scale-[0.97] sm:px-8 sm:py-3 sm:text-base"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-cat/50 bg-cat px-6 py-2.5 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:scale-[1.04] hover:shadow-md active:scale-[0.97] sm:px-8 sm:py-3 sm:text-base"
               >
                 <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
                   <path d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-2.01C4.045 12.547 2 10.178 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.678-2.045 5.048-3.885 6.71a22.049 22.049 0 01-3.744 2.692l-.019.01-.005.003h-.001a.739.739 0 01-.69.001l-.001-.001z" />
@@ -108,11 +108,11 @@ export default function HomePageClient() {
               </button>
               <a
                 href="/koi-mikuji/index.html"
-                className="inline-flex items-center gap-2 rounded-full border-2 border-accent/50 bg-accent/[0.05] px-6 py-2.5 text-sm font-bold text-accent shadow-sm transition-all duration-200 hover:scale-[1.04] hover:shadow-md active:scale-[0.97] sm:px-8 sm:py-3 sm:text-base"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-accent/50 bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:scale-[1.04] hover:shadow-md active:scale-[0.97] sm:px-8 sm:py-3 sm:text-base"
               >
                 <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
                   <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" fill="currentColor"/>
-                  <circle cx="7" cy="7" r="1.2" fill="white"/>
+                  <circle cx="7" cy="7" r="1.2" fill="#F067A6"/>
                 </svg>
                 恋みくじ
               </a>
