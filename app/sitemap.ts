@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_DEFAULT_URL } from "@/lib/site";
 import { diagnoses } from "@/lib/diagnoses";
 import { loveTests } from "@/lib/love-tests";
+import { staticColumns } from "@/lib/static-columns";
 import { supabase } from "@/lib/supabase";
 
 const base = SITE_DEFAULT_URL.replace(/\/$/, "");
@@ -57,7 +58,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: BUILD_DATE,
   }));
 
-  let columnEntries: MetadataRoute.Sitemap = [];
+  const columnSlugs = new Set<string>();
+  const columnEntries: MetadataRoute.Sitemap = [];
+
   try {
     const { data } = await supabase
       .from("columns")
@@ -66,15 +69,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .order("published_at", { ascending: false });
 
     if (data) {
-      columnEntries = data.map((col) => ({
-        url: `${base}/columns/${col.slug}`,
-        priority: 0.7,
-        changeFrequency: "monthly" as const,
-        lastModified: col.updated_at ? new Date(col.updated_at) : undefined,
-      }));
+      for (const col of data) {
+        columnSlugs.add(col.slug);
+        columnEntries.push({
+          url: `${base}/columns/${col.slug}`,
+          priority: 0.7,
+          changeFrequency: "monthly" as const,
+          lastModified: col.updated_at ? new Date(col.updated_at) : undefined,
+        });
+      }
     }
   } catch {
-    // Supabase unavailable at build time; column entries are skipped
+    // Supabase unavailable at build time; fall back to static columns only
+  }
+
+  // Statically bundled columns (not stored in Supabase) — dedupe by slug.
+  for (const col of staticColumns) {
+    if (columnSlugs.has(col.slug)) continue;
+    columnSlugs.add(col.slug);
+    columnEntries.push({
+      url: `${base}/columns/${col.slug}`,
+      priority: 0.7,
+      changeFrequency: "monthly" as const,
+      lastModified: col.publishedAt ? new Date(col.publishedAt) : undefined,
+    });
   }
 
   return [...staticEntries, ...diagnosisEntries, ...testEntries, ...columnEntries];
