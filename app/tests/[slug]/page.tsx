@@ -5,6 +5,8 @@ import SiteFooter from "@/components/SiteFooter";
 import LoveTestClient from "@/components/LoveTestClient";
 import { loveTests, getLoveTestBySlug } from "@/lib/love-tests";
 import LoveTestIcon from "@/components/LoveTestIcon";
+import QuizContent from "@/components/QuizContent";
+import { buildLoveTestContent } from "@/lib/quiz-content";
 import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
 interface Props {
@@ -114,6 +116,9 @@ export default function LoveTestPage({ params }: Props) {
           <div className="pt-6">
             <LoveTestClient test={test} otherTests={otherTests} />
           </div>
+
+          {/* SSR editorial content for crawlers & readers */}
+          <QuizContent {...buildLoveTestContent(test)} />
         </main>
       </div>
       <SiteFooter />

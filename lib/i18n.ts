@@ -142,6 +142,15 @@ const translations = {
     about: {
       title: "運営者情報",
       updated: "最終更新日：2026年6月3日",
+      intro:
+        "Koitype（コイタイプ）は、恋愛のタイプや相性を「診断」と「心理テスト」で気軽に楽しめる無料のWebメディアです。片思い中の方から、パートナーとの関係を見つめ直したい方まで、自分自身の恋愛の傾向を知るきっかけを提供しています。",
+      missionTitle: "運営方針",
+      mission:
+        "Koitypeで公開している診断・心理テスト・コラムは、すべてKoitype編集部が独自に企画・制作しています。恋愛心理の一般的な傾向をもとに、誰でも楽しみながら自己理解を深められるコンテンツづくりを心がけています。ユーザーの皆さまが安心して利用できるよう、内容は定期的に見直し・改善を行っています。",
+      contentTitle: "コンテンツについて",
+      contentNote:
+        "各診断・心理テストの結果は、恋愛心理の一般的な傾向を参考にした娯楽・自己理解を目的とするものであり、科学的・医学的な診断を行うものではありません。結果はひとつの参考としてお楽しみください。",
+      infoTitle: "サイト情報",
       siteName: "サイト名：Koitype",
       operator: "運営者：Koitype運営事務局",
       contactLabel: "お問い合わせ：",
@@ -264,6 +273,15 @@ const translations = {
     about: {
       title: "About",
       updated: "Last Updated: June 3, 2026",
+      intro:
+        "Koitype is a free web media where you can casually explore your love style and compatibility through quizzes and psychological tests. From those with a secret crush to those rethinking a current relationship, we help you discover your own tendencies in love.",
+      missionTitle: "Our Policy",
+      mission:
+        "All the quizzes, psychological tests, and columns on Koitype are planned and created independently by the Koitype editorial team. Based on general tendencies in relationship psychology, we aim to create content that anyone can enjoy while deepening their self-understanding. We regularly review and improve our content so that everyone can use it with peace of mind.",
+      contentTitle: "About Our Content",
+      contentNote:
+        "The results of each quiz and psychological test are intended for entertainment and self-understanding based on general tendencies in relationship psychology, and are not scientific or medical diagnoses. Please enjoy the results as one point of reference.",
+      infoTitle: "Site Information",
       siteName: "Site Name: Koitype",
       operator: "Operator: Koitype Operations Team",
       contactLabel: "Inquiries: ",
@@ -386,6 +404,15 @@ const translations = {
     about: {
       title: "운영자 정보",
       updated: "최종 업데이트: 2026년 6월 3일",
+      intro:
+        "Koitype는 연애 유형과 궁합을 '진단'과 '심리 테스트'로 가볍게 즐길 수 있는 무료 웹 미디어입니다. 짝사랑 중인 분부터 연인과의 관계를 다시 돌아보고 싶은 분까지, 자신의 연애 성향을 알 수 있는 계기를 제공합니다.",
+      missionTitle: "운영 방침",
+      mission:
+        "Koitype에 게시된 진단·심리 테스트·칼럼은 모두 Koitype 편집부가 독자적으로 기획·제작합니다. 연애 심리의 일반적인 경향을 바탕으로 누구나 즐기면서 자기 이해를 높일 수 있는 콘텐츠를 만들고자 합니다. 이용자 여러분이 안심하고 이용할 수 있도록 내용을 정기적으로 점검·개선하고 있습니다.",
+      contentTitle: "콘텐츠에 대하여",
+      contentNote:
+        "각 진단·심리 테스트의 결과는 연애 심리의 일반적인 경향을 참고한 오락·자기 이해를 목적으로 하며, 과학적·의학적 진단이 아닙니다. 결과는 하나의 참고로 즐겨 주세요.",
+      infoTitle: "사이트 정보",
       siteName: "사이트명: Koitype",
       operator: "운영자: Koitype 운영사무국",
       contactLabel: "문의: ",
@@ -508,6 +535,15 @@ const translations = {
     about: {
       title: "關於我們",
       updated: "最後更新日期：2026年6月3日",
+      intro:
+        "Koitype 是一個能透過「診斷」與「心理測驗」輕鬆了解戀愛類型與速配度的免費網路媒體。從單戀中的人到想重新審視與伴侶關係的人，我們提供了解自己戀愛傾向的契機。",
+      missionTitle: "營運方針",
+      mission:
+        "Koitype 上發布的診斷、心理測驗與專欄，全部由 Koitype 編輯部獨立企劃與製作。我們以戀愛心理的一般傾向為基礎，致力於打造任何人都能一邊享受一邊加深自我理解的內容。為了讓使用者安心使用，我們會定期檢視與改善內容。",
+      contentTitle: "關於內容",
+      contentNote:
+        "各項診斷與心理測驗的結果，是以戀愛心理的一般傾向為參考、以娛樂與自我理解為目的，並非科學或醫學上的診斷。請將結果作為一種參考來享受。",
+      infoTitle: "網站資訊",
       siteName: "網站名稱：Koitype",
       operator: "經營者：Koitype 營運事務局",
       contactLabel: "詢問：",
@@ -630,6 +666,15 @@ const translations = {
     about: {
       title: "关于我们",
       updated: "最后更新日期：2026年6月3日",
+      intro:
+        "Koitype 是一个可以通过“诊断”和“心理测试”轻松了解恋爱类型与契合度的免费网络媒体。从暗恋中的人到想重新审视与伴侣关系的人，我们提供了解自己恋爱倾向的契机。",
+      missionTitle: "运营方针",
+      mission:
+        "Koitype 上发布的诊断、心理测试与专栏，全部由 Koitype 编辑部独立策划与制作。我们以恋爱心理的一般倾向为基础，致力于打造任何人都能一边享受一边加深自我理解的内容。为了让用户安心使用，我们会定期检查与改善内容。",
+      contentTitle: "关于内容",
+      contentNote:
+        "各项诊断与心理测试的结果，是以恋爱心理的一般倾向为参考、以娱乐与自我理解为目的，并非科学或医学上的诊断。请将结果作为一种参考来享受。",
+      infoTitle: "网站信息",
       siteName: "网站名称：Koitype",
       operator: "经营者：Koitype 运营事务局",
       contactLabel: "咨询：",

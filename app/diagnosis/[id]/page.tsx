@@ -3,7 +3,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import DiagnosisClient from "@/components/DiagnosisClient";
+import SiteFooter from "@/components/SiteFooter";
+import QuizContent from "@/components/QuizContent";
 import { getDiagnosisById, getResultById } from "@/lib/diagnoses";
+import { buildDiagnosisContent } from "@/lib/quiz-content";
 import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
 interface DiagnosisPageProps {
@@ -71,7 +74,7 @@ export async function generateMetadata({
   };
 }
 
-export default function DiagnosisPage({ params }: DiagnosisPageProps) {
+export default function DiagnosisPage({ params, searchParams }: DiagnosisPageProps) {
   if (params.id === "dog-cat") {
     redirect("/diagnosis/dog-cat");
   }
@@ -120,6 +123,12 @@ export default function DiagnosisPage({ params }: DiagnosisPageProps) {
       >
         <DiagnosisClient diagnosis={diagnosis} />
       </Suspense>
+      {!searchParams?.result && (
+        <>
+          <QuizContent {...buildDiagnosisContent(diagnosis)} />
+          <SiteFooter />
+        </>
+      )}
     </>
   );
 }

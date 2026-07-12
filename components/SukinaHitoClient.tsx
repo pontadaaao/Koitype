@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
@@ -172,7 +172,7 @@ function ShareSection({ result }: { result: SukinaHitoResult }) {
   );
 }
 
-export default function SukinaHitoClient() {
+export default function SukinaHitoClient({ children }: { children?: ReactNode }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -505,6 +505,7 @@ export default function SukinaHitoClient() {
         )}
       </main>
 
+      {children}
       <SiteFooter />
     </div>
   );

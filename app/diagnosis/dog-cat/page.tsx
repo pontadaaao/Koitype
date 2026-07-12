@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import DogCatClient from "@/components/DogCatClient";
-import { getResultById } from "@/lib/dog-cat-diagnosis";
+import QuizContent from "@/components/QuizContent";
+import { getResultById, results } from "@/lib/dog-cat-diagnosis";
+import { buildDogCatContent } from "@/lib/quiz-content";
 import { siteTitle } from "@/lib/site";
 
 interface DogCatPageProps {
@@ -50,7 +52,7 @@ export async function generateMetadata({
   };
 }
 
-export default function DogCatPage() {
+export default function DogCatPage({ searchParams }: DogCatPageProps) {
   return (
     <Suspense
       fallback={
@@ -59,7 +61,11 @@ export default function DogCatPage() {
         </div>
       }
     >
-      <DogCatClient />
+      <DogCatClient>
+        {!searchParams?.result && (
+          <QuizContent {...buildDogCatContent(results)} />
+        )}
+      </DogCatClient>
     </Suspense>
   );
 }

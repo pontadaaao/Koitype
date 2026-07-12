@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import ProgressBar from "@/components/ProgressBar";
@@ -18,7 +18,7 @@ import type { DogCatResult } from "@/lib/types";
 
 type Screen = "intro" | "quiz" | "result";
 
-export default function DogCatClient() {
+export default function DogCatClient({ children }: { children?: ReactNode }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -183,6 +183,7 @@ export default function DogCatClient() {
           />
         )}
       </main>
+      {children}
       <SiteFooter />
     </div>
   );

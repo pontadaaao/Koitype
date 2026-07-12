@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
@@ -191,7 +191,7 @@ function ShareSection({ result }: { result: CatTypeResult }) {
 
 // ---- Main component ----
 
-export default function CatTypeClient() {
+export default function CatTypeClient({ children }: { children?: ReactNode }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -478,6 +478,7 @@ export default function CatTypeClient() {
         })()}
       </main>
 
+      {children}
       <SiteFooter />
     </div>
   );

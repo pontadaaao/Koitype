@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import CatTypeClient from "@/components/CatTypeClient";
-import { getCatResultById } from "@/lib/cat-type-diagnosis";
+import QuizContent from "@/components/QuizContent";
+import { getCatResultById, results } from "@/lib/cat-type-diagnosis";
+import { buildCatTypeContent } from "@/lib/quiz-content";
 import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
 interface CatTypePageProps {
@@ -70,7 +72,7 @@ export async function generateMetadata({
   };
 }
 
-export default function CatTypePage() {
+export default function CatTypePage({ searchParams }: CatTypePageProps) {
   return (
     <Suspense
       fallback={
@@ -79,7 +81,11 @@ export default function CatTypePage() {
         </div>
       }
     >
-      <CatTypeClient />
+      <CatTypeClient>
+        {!searchParams?.result && (
+          <QuizContent {...buildCatTypeContent(results)} />
+        )}
+      </CatTypeClient>
     </Suspense>
   );
 }

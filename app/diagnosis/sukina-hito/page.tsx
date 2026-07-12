@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import SukinaHitoClient from "@/components/SukinaHitoClient";
-import { getSukinaHitoResultById } from "@/lib/sukina-hito-diagnosis";
+import QuizContent from "@/components/QuizContent";
+import { getSukinaHitoResultById, results } from "@/lib/sukina-hito-diagnosis";
+import { buildSukinaHitoContent } from "@/lib/quiz-content";
 import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
 interface SukinaHitoPageProps {
@@ -70,7 +72,7 @@ export async function generateMetadata({
   };
 }
 
-export default function SukinaHitoPage() {
+export default function SukinaHitoPage({ searchParams }: SukinaHitoPageProps) {
   return (
     <Suspense
       fallback={
@@ -79,7 +81,11 @@ export default function SukinaHitoPage() {
         </div>
       }
     >
-      <SukinaHitoClient />
+      <SukinaHitoClient>
+        {!searchParams?.result && (
+          <QuizContent {...buildSukinaHitoContent(results)} />
+        )}
+      </SukinaHitoClient>
     </Suspense>
   );
 }

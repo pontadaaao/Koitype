@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import DogLoverClient from "@/components/DogLoverClient";
-import { getResultById } from "@/lib/dog-lover-diagnosis";
+import QuizContent from "@/components/QuizContent";
+import { getResultById, results } from "@/lib/dog-lover-diagnosis";
+import { buildDogLoverContent } from "@/lib/quiz-content";
 import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
 interface DogLoverPageProps {
@@ -67,7 +69,7 @@ export async function generateMetadata({
   };
 }
 
-export default function DogLoverPage() {
+export default function DogLoverPage({ searchParams }: DogLoverPageProps) {
   return (
     <Suspense
       fallback={
@@ -76,7 +78,11 @@ export default function DogLoverPage() {
         </div>
       }
     >
-      <DogLoverClient />
+      <DogLoverClient>
+        {!searchParams?.result && (
+          <QuizContent {...buildDogLoverContent(results)} />
+        )}
+      </DogLoverClient>
     </Suspense>
   );
 }
