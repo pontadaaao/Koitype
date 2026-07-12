@@ -47,6 +47,15 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return {
+      // Serve the standalone static 恋みくじ page at the clean /koi-mikuji URL
+      // (HTTP 200, no redirect) so it can be indexed with a self-referencing canonical.
+      beforeFiles: [
+        { source: "/koi-mikuji", destination: "/koi-mikuji/index.html" },
+      ],
+    };
+  },
   webpack: (config, { dev }) => {
     if (dev) {
       config.watchOptions = {
