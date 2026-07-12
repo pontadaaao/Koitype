@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import HomePageClient from "@/components/HomePageClient";
+import HomeContentIndex from "@/components/HomeContentIndex";
 import SiteFooter from "@/components/SiteFooter";
 import { SITE_DEFAULT_URL, SITE_DESCRIPTION, SITE_NAME, siteTitle } from "@/lib/site";
 
@@ -44,6 +45,7 @@ export default function HomePage({ searchParams }: HomePageProps) {
   return (
     <>
       <HomePageClient />
+      <HomeContentIndex />
       <SiteFooter />
     </>
   );

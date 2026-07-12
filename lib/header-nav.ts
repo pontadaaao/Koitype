@@ -26,7 +26,7 @@ export const headerNavTabs = [
   {
     id: "koi-mikuji",
     label: "恋みくじ",
-    href: "/koi-mikuji/index.html",
+    href: "/koi-mikuji",
     hash: "#koi-mikuji",
   },
   {

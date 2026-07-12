@@ -49,7 +49,7 @@ const staticPages: SearchItem[] = [
     id: "koi-mikuji",
     title: "恋みくじ",
     description: "今日の恋愛運を占う",
-    href: "/koi-mikuji/index.html",
+    href: "/koi-mikuji",
     category: "ページ",
     icon: "sparkle",
     keywords: ["みくじ", "占い", "運勢"],

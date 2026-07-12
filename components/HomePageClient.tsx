@@ -107,7 +107,7 @@ export default function HomePageClient() {
                 ランダム診断
               </button>
               <a
-                href="/koi-mikuji/index.html"
+                href="/koi-mikuji"
                 className="inline-flex items-center gap-2 rounded-full border-2 border-accent/50 bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:scale-[1.04] hover:shadow-md active:scale-[0.97] sm:px-8 sm:py-3 sm:text-base"
               >
                 <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
@@ -250,7 +250,7 @@ export default function HomePageClient() {
           <div className="mx-auto flex max-w-xl flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <a
               id="koi-mikuji"
-              href="/koi-mikuji/index.html"
+              href="/koi-mikuji"
               className="block transition-transform hover:scale-[1.03] active:scale-[0.97]"
             >
               <img
