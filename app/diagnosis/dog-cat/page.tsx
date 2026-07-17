@@ -4,7 +4,9 @@ import DogCatClient from "@/components/DogCatClient";
 import QuizContent from "@/components/QuizContent";
 import { getResultById, results } from "@/lib/dog-cat-diagnosis";
 import { buildDogCatContent } from "@/lib/quiz-content";
-import { siteTitle } from "@/lib/site";
+import { SITE_DEFAULT_URL, siteTitle } from "@/lib/site";
+
+const PAGE_URL = `${SITE_DEFAULT_URL}/diagnosis/dog-cat`;
 
 interface DogCatPageProps {
   searchParams: { result?: string; dogPct?: string };
@@ -17,6 +19,7 @@ export async function generateMetadata({
     title: siteTitle("犬系？猫系？恋愛スタイル診断"),
     description:
       "12の質問で、あなたの恋愛スタイルが犬系か猫系かを診断。バランスメーターで傾向をチェック。",
+    alternates: { canonical: PAGE_URL },
   };
 
   if (!searchParams?.result) {
@@ -37,6 +40,8 @@ export async function generateMetadata({
   return {
     title: siteTitle(`私の恋愛スタイルは「${result.name}」でした`),
     description: result.catch,
+    robots: { index: false, follow: false },
+    alternates: { canonical: PAGE_URL },
     openGraph: {
       title: `私の恋愛スタイルは「${result.name}」でした`,
       description: result.catch,

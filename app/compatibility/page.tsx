@@ -5,7 +5,9 @@ import {
   calcCompatibility,
   parseBirthdaysFromParams,
 } from "@/lib/compatibility";
-import { siteTitle } from "@/lib/site";
+import { SITE_DEFAULT_URL, siteTitle } from "@/lib/site";
+
+const PAGE_URL = `${SITE_DEFAULT_URL}/compatibility`;
 
 interface CompatibilityPageProps {
   searchParams: Record<string, string | string[] | undefined>;
@@ -28,6 +30,7 @@ export async function generateMetadata({
     title: siteTitle("誕生日でわかる ふたりの相性診断"),
     description:
       "生年月日だけでふたりの相性をチェック。星座と数秘術からスコアを算出します。",
+    alternates: { canonical: PAGE_URL },
   };
 
   const sp = toSearchParams(searchParams);
@@ -53,6 +56,8 @@ export async function generateMetadata({
   return {
     title,
     description: result.rank.catch,
+    robots: { index: false, follow: false },
+    alternates: { canonical: PAGE_URL },
     openGraph: {
       title,
       description: result.rank.catch,
