@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getSukinaHitoResultById } from "@/lib/sukina-hito-diagnosis";
 import { loadOgFont } from "@/lib/og-font";
+import { Heart } from "@/lib/og-layout";
 import { SITE_NAME } from "@/lib/site";
 
 export const runtime = "nodejs";
@@ -122,7 +123,7 @@ export default async function Image({ searchParams }: Props) {
             color: colors.accent,
           }}
         >
-          <span style={{ display: "flex" }}>♡</span>
+          <Heart size={24} color={colors.accent} />
           <span style={{ display: "flex" }}>{SITE_NAME}</span>
         </div>
 
@@ -234,6 +235,8 @@ export default async function Image({ searchParams }: Props) {
                   key={feat}
                   style={{
                     display: "flex",
+                    alignItems: "center",
+                    gap: 6,
                     background: `${colors.accent}15`,
                     color: colors.accent,
                     padding: "6px 16px",
@@ -243,7 +246,10 @@ export default async function Image({ searchParams }: Props) {
                     maxWidth: 400,
                   }}
                 >
-                  ♡ {feat.length > 22 ? feat.slice(0, 22) + "…" : feat}
+                  <Heart size={14} color={colors.accent} />
+                  <span style={{ display: "flex" }}>
+                    {feat.length > 22 ? feat.slice(0, 22) + "…" : feat}
+                  </span>
                 </div>
               ))}
             </div>
@@ -268,12 +274,15 @@ export default async function Image({ searchParams }: Props) {
           <div
             style={{
               display: "flex",
+              alignItems: "center",
+              gap: 6,
               fontSize: 18,
               color: colors.accent,
               fontWeight: 700,
             }}
           >
-            ♡ koitype.com
+            <Heart size={16} color={colors.accent} />
+            <span style={{ display: "flex" }}>koitype.com</span>
           </div>
           <div style={{ display: "flex", fontSize: 17, color: textSub }}>
             恋愛診断・心理テスト・恋みくじ

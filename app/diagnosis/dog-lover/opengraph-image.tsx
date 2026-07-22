@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getResultById } from "@/lib/dog-lover-diagnosis";
 import { loadOgFont } from "@/lib/og-font";
+import { Heart } from "@/lib/og-layout";
 import { SITE_NAME } from "@/lib/site";
 
 export const runtime = "nodejs";
@@ -71,7 +72,7 @@ export default async function Image({ searchParams }: Props) {
             fontWeight: 700,
           }}
         >
-          <span style={{ display: "flex" }}>♡</span>
+          <Heart size={24} color="#F067A6" />
           <span style={{ display: "flex" }}>{SITE_NAME}</span>
         </div>
 
@@ -155,7 +156,7 @@ export default async function Image({ searchParams }: Props) {
             gap: 6,
           }}
         >
-          <span style={{ display: "flex" }}>♡</span>
+          <Heart size={16} color="#F067A6" />
           <span style={{ display: "flex" }}>koitype.com で診断する</span>
         </div>
       </div>

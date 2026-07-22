@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { loadOgFont } from "@/lib/og-font";
+import { Heart, Sparkle } from "@/lib/og-layout";
 import { getLoveTestBySlug, loveTests } from "@/lib/love-tests";
 import { SITE_NAME } from "@/lib/site";
 
@@ -98,7 +99,7 @@ export default async function Image({ params }: Props) {
                 marginBottom: 6,
               }}
             >
-              <span style={{ display: "flex", fontSize: 32, color: accent, lineHeight: 1 }}>♡</span>
+              <Heart size={30} color={accent} />
               <span
                 style={{
                   display: "flex",
@@ -201,11 +202,11 @@ export default async function Image({ params }: Props) {
               opacity: 0.85,
             }}
           >
-            <span style={{ display: "flex", fontSize: 46, color: accent, lineHeight: 1 }}>♡</span>
-            <span style={{ display: "flex", fontSize: 22, color: purple, lineHeight: 1, marginLeft: 20 }}>✦</span>
-            <span style={{ display: "flex", fontSize: 34, color: "#FFB7D5", lineHeight: 1, marginLeft: -10 }}>♥</span>
-            <span style={{ display: "flex", fontSize: 18, color: accent, lineHeight: 1, marginLeft: 24 }}>✦</span>
-            <span style={{ display: "flex", fontSize: 28, color: purple, lineHeight: 1, marginLeft: 4 }}>♡</span>
+            <div style={{ display: "flex" }}><Heart size={44} color={accent} /></div>
+            <div style={{ display: "flex", marginLeft: 20 }}><Sparkle size={22} color={purple} /></div>
+            <div style={{ display: "flex", marginLeft: -10 }}><Heart size={32} color="#FFB7D5" /></div>
+            <div style={{ display: "flex", marginLeft: 24 }}><Sparkle size={18} color={accent} /></div>
+            <div style={{ display: "flex", marginLeft: 4 }}><Heart size={28} color={purple} /></div>
           </div>
         </div>
 
@@ -230,7 +231,7 @@ export default async function Image({ params }: Props) {
               fontWeight: 700,
             }}
           >
-            <span style={{ display: "flex" }}>♡</span>
+            <Heart size={16} color={accent} />
             <span style={{ display: "flex" }}>koitype.com</span>
           </div>
           <div style={{ display: "flex", fontSize: 17, color: purple }}>
