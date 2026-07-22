@@ -89,7 +89,7 @@ export default async function AdminColumnsPage() {
                 </Link>
                 {col.status === "published" && (
                   <Link
-                    href={`/columns/${col.slug}`}
+                    href={`/blog/${col.slug}`}
                     target="_blank"
                     className="rounded-lg border border-pink-light px-3 py-1.5 text-xs text-text-sub transition-colors hover:border-accent/40 hover:text-accent"
                   >

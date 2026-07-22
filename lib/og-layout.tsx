@@ -11,6 +11,26 @@ export type OgLayoutProps = {
   accent?: string;
 };
 
+/**
+ * 装飾用のハート/星は @vercel/og がフォント外グリフの動的DL(Googleフォント)を
+ * 試みてビルドが失敗し得るため、フォント非依存のインラインSVGで描画する。
+ */
+function Heart({ size, color }: { size: number; color: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} style={{ display: "flex" }}>
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    </svg>
+  );
+}
+
+function Sparkle({ size, color }: { size: number; color: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} style={{ display: "flex" }}>
+      <path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z" />
+    </svg>
+  );
+}
+
 export function OgLayout({
   title,
   subtitle,
@@ -103,16 +123,7 @@ export function OgLayout({
               marginBottom: 6,
             }}
           >
-            <span
-              style={{
-                display: "flex",
-                fontSize: 32,
-                color: accent,
-                lineHeight: 1,
-              }}
-            >
-              ♡
-            </span>
+            <Heart size={30} color={accent} />
             <span
               style={{
                 display: "flex",
@@ -248,11 +259,11 @@ export function OgLayout({
             opacity: 0.85,
           }}
         >
-          <span style={{ display: "flex", fontSize: 46, color: accent, lineHeight: 1 }}>♡</span>
-          <span style={{ display: "flex", fontSize: 22, color: purple, lineHeight: 1, marginLeft: 20 }}>✦</span>
-          <span style={{ display: "flex", fontSize: 34, color: "#FFB7D5", lineHeight: 1, marginLeft: -10 }}>♥</span>
-          <span style={{ display: "flex", fontSize: 18, color: accent, lineHeight: 1, marginLeft: 24 }}>✦</span>
-          <span style={{ display: "flex", fontSize: 28, color: purple, lineHeight: 1, marginLeft: 4 }}>♡</span>
+          <div style={{ display: "flex" }}><Heart size={44} color={accent} /></div>
+          <div style={{ display: "flex", marginLeft: 20 }}><Sparkle size={22} color={purple} /></div>
+          <div style={{ display: "flex", marginLeft: -10 }}><Heart size={32} color="#FFB7D5" /></div>
+          <div style={{ display: "flex", marginLeft: 24 }}><Sparkle size={18} color={accent} /></div>
+          <div style={{ display: "flex", marginLeft: 4 }}><Heart size={28} color={purple} /></div>
         </div>
       </div>
 
@@ -277,7 +288,7 @@ export function OgLayout({
             fontWeight: 700,
           }}
         >
-          <span style={{ display: "flex" }}>♡</span>
+          <Heart size={18} color={accent} />
           <span style={{ display: "flex" }}>koitype.com</span>
         </div>
         <div

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { IconChevronDown, IconMail, IconMenu2, IconX } from "@tabler/icons-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import SiteLogo from "@/components/SiteLogo";
@@ -21,7 +21,11 @@ interface SiteHeaderProps {
   solidBg?: boolean;
 }
 
-function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
+function LanguageSwitcher({
+  variant = "compact",
+}: {
+  variant?: "compact" | "inline" | "menu";
+}) {
   const { locale, setLocale, t } = useLanguage();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -35,7 +39,56 @@ function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
-  if (!compact) {
+  // メニュー用プルダウン（メニュー下端にあるため上方向に開く）
+  if (variant === "menu") {
+    return (
+      <div className="relative" ref={ref} role="group" aria-label={t.header.language}>
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="flex w-full items-center justify-between rounded-xl border border-pink-light bg-base px-3 py-2.5 text-sm text-text-main transition-colors hover:border-accent/40"
+          aria-expanded={open}
+          aria-label={t.header.language}
+        >
+          <span className="flex items-center gap-2">
+            <span className="text-base leading-none">{localeFlags[locale]}</span>
+            <span className="font-medium">{localeLabels[locale]}</span>
+          </span>
+          <IconChevronDown
+            size={16}
+            stroke={2}
+            className={`text-text-sub transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          />
+        </button>
+
+        {open && (
+          <div className="absolute inset-x-0 bottom-full mb-1.5 overflow-hidden rounded-2xl border border-pink-light bg-base shadow-lg">
+            {locales.map((code) => (
+              <button
+                key={code}
+                type="button"
+                onClick={() => {
+                  setLocale(code as Locale);
+                  setOpen(false);
+                }}
+                className={`flex w-full items-center gap-2.5 px-4 py-2.5 text-sm transition-colors ${
+                  locale === code
+                    ? "bg-pink-pale font-medium text-accent"
+                    : "text-text-main hover:bg-pink-pale/60"
+                }`}
+                aria-pressed={locale === code}
+              >
+                <span className="text-base leading-none">{localeFlags[code as Locale]}</span>
+                <span>{localeLabels[code as Locale]}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (variant === "inline") {
     return (
       <div className="space-y-1" role="group" aria-label={t.header.language}>
         <p className="text-xs font-medium uppercase tracking-wide text-text-sub">
@@ -187,7 +240,9 @@ export default function SiteHeader({
                   </span>
                 )}
               </Link>
-              <LanguageSwitcher compact />
+              <div className="hidden sm:block">
+                <LanguageSwitcher variant="compact" />
+              </div>
               <Link
                 href="/contact"
                 className="hidden items-center gap-1.5 rounded-full border border-pink-light px-3 py-1.5 text-sm text-text-sub transition-colors hover:border-accent/40 hover:text-accent sm:inline-flex"
@@ -241,20 +296,38 @@ export default function SiteHeader({
             <nav className="flex-1 overflow-y-auto px-3 py-4">
               <ul className="list-none space-y-1">
                 {navItems.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      onClick={() => setMenuOpen(false)}
-                      className="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-text-main transition-colors hover:text-accent"
-                    >
-                      <AppIcon
-                        name={item.icon}
-                        size={18}
-                        className="shrink-0 text-text-sub transition-colors group-hover:text-accent"
-                      />
-                      {t.nav[item.key]}
-                    </Link>
-                  </li>
+                  <Fragment key={item.href}>
+                    <li>
+                      <Link
+                        href={item.href}
+                        onClick={() => setMenuOpen(false)}
+                        className="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-text-main transition-colors hover:text-accent"
+                      >
+                        <AppIcon
+                          name={item.icon}
+                          size={18}
+                          className="shrink-0 text-text-sub transition-colors group-hover:text-accent"
+                        />
+                        {t.nav[item.key]}
+                      </Link>
+                    </li>
+                    {item.key === "home" && (
+                      <li>
+                        <Link
+                          href="/blog?favorites=1"
+                          onClick={() => setMenuOpen(false)}
+                          className="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-text-main transition-colors hover:text-accent"
+                        >
+                          <AppIcon
+                            name="star"
+                            size={18}
+                            className="shrink-0 text-text-sub transition-colors group-hover:text-accent"
+                          />
+                          {t.nav.favorites}
+                        </Link>
+                      </li>
+                    )}
+                  </Fragment>
                 ))}
                 {showBack && (
                   <li className="border-t border-pink-light pt-2 sm:hidden">
@@ -270,6 +343,9 @@ export default function SiteHeader({
               </ul>
             </nav>
 
+            <div className="mt-auto border-t border-pink-light px-4 py-4">
+              <LanguageSwitcher variant="menu" />
+            </div>
           </aside>
         </>
       )}

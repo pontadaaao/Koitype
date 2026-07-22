@@ -29,13 +29,14 @@ const translations = {
   ja: {
     nav: {
       home: "ホーム",
+      favorites: "お気に入り",
       loveType: "恋愛タイプ診断",
       compatibility: "相性診断",
-      log: "恋ログ",
       loveDiagnosis: "恋愛診断",
       psychoTest: "心理テスト",
       koiMikuji: "恋みくじ",
       columns: "恋愛コラム",
+      blog: "恋愛ブログ",
       contact: "お問い合わせ",
     },
     header: {
@@ -55,7 +56,6 @@ const translations = {
         all: "すべて",
         loveType: "恋愛タイプ診断",
         compatibility: "相性診断",
-        log: "恋ログ",
       },
       emptyCategory: "このカテゴリの診断は準備中です",
     },
@@ -63,7 +63,6 @@ const translations = {
       loveDiagnosis: { title: "恋愛診断", description: "あなたの恋愛タイプやスタイルがわかる診断一覧です。" },
       compatibility: { title: "相性診断", description: "生年月日からふたりの相性をチェックできます。" },
       koiMikuji: { title: "恋みくじ", description: "今日の恋愛運を、ひとつ引いてみましょう。" },
-      log: { title: "恋ログ", description: "みんなの恋バナを読んだり、自分の気持ちを書いてみよう。" },
     },
     navTabs: {
       top: "TOP",
@@ -71,8 +70,8 @@ const translations = {
       compatibility: "相性診断",
       shinriTest: "心理テスト",
       columns: "恋愛コラム",
+      blog: "恋愛ブログ",
       koiMikuji: "恋みくじ",
-      log: "恋ログ",
     },
     diagnosis: {
       start: "診断をはじめる",
@@ -160,13 +159,14 @@ const translations = {
   en: {
     nav: {
       home: "Home",
+      favorites: "Favorites",
       loveType: "Love Type Quiz",
       compatibility: "Compatibility Quiz",
-      log: "Love Log",
       loveDiagnosis: "Love Quiz",
       psychoTest: "Psych Test",
       koiMikuji: "Love Fortune",
       columns: "Column",
+      blog: "Love Blog",
       contact: "Contact",
     },
     header: {
@@ -186,7 +186,6 @@ const translations = {
         all: "All",
         loveType: "Love Type Quiz",
         compatibility: "Compatibility",
-        log: "Love Log",
       },
       emptyCategory: "Quizzes in this category are coming soon.",
     },
@@ -194,7 +193,6 @@ const translations = {
       loveDiagnosis: { title: "Love Quizzes", description: "Discover your love type and style." },
       compatibility: { title: "Compatibility Quiz", description: "Check your compatibility by birthday." },
       koiMikuji: { title: "Love Fortune", description: "Draw your love fortune for today." },
-      log: { title: "Love Log", description: "Read others' love stories or share your own." },
     },
     navTabs: {
       top: "TOP",
@@ -202,8 +200,8 @@ const translations = {
       compatibility: "Compatibility",
       shinriTest: "Psych Test",
       columns: "Column",
+      blog: "Love Blog",
       koiMikuji: "Fortune",
-      log: "Love Log",
     },
     diagnosis: {
       start: "Start Quiz",
@@ -291,13 +289,14 @@ const translations = {
   ko: {
     nav: {
       home: "홈",
+      favorites: "즐겨찾기",
       loveType: "연애 유형 진단",
       compatibility: "궁합 진단",
-      log: "연애 로그",
       loveDiagnosis: "연애 진단",
       psychoTest: "심리 테스트",
       koiMikuji: "연애 운세",
       columns: "칼럼",
+      blog: "연애 블로그",
       contact: "문의하기",
     },
     header: {
@@ -317,7 +316,6 @@ const translations = {
         all: "전체",
         loveType: "연애 유형 진단",
         compatibility: "궁합 진단",
-        log: "연애 로그",
       },
       emptyCategory: "이 카테고리의 진단은 준비 중입니다",
     },
@@ -325,7 +323,6 @@ const translations = {
       loveDiagnosis: { title: "연애 진단", description: "당신의 연애 유형과 스타일을 알아보세요." },
       compatibility: { title: "궁합 진단", description: "생년월일로 두 사람의 궁합을 확인해보세요." },
       koiMikuji: { title: "연애 운세", description: "오늘의 연애운을 뽑아보세요." },
-      log: { title: "연애 로그", description: "다른 사람의 연애 이야기를 읽거나 내 마음을 써보세요." },
     },
     navTabs: {
       top: "TOP",
@@ -333,8 +330,8 @@ const translations = {
       compatibility: "궁합",
       shinriTest: "심리 테스트",
       columns: "칼럼",
+      blog: "연애 블로그",
       koiMikuji: "운세",
-      log: "로그",
     },
     diagnosis: {
       start: "진단 시작",
@@ -422,13 +419,14 @@ const translations = {
   "zh-TW": {
     nav: {
       home: "首頁",
+      favorites: "收藏",
       loveType: "戀愛類型診斷",
       compatibility: "相性診斷",
-      log: "戀愛日記",
       loveDiagnosis: "戀愛診斷",
       psychoTest: "心理測驗",
       koiMikuji: "戀愛御籤",
       columns: "專欄",
+      blog: "戀愛部落格",
       contact: "聯絡我們",
     },
     header: {
@@ -448,7 +446,6 @@ const translations = {
         all: "全部",
         loveType: "戀愛類型診斷",
         compatibility: "相性診斷",
-        log: "戀愛日記",
       },
       emptyCategory: "此類別的診斷即將推出",
     },
@@ -456,7 +453,6 @@ const translations = {
       loveDiagnosis: { title: "戀愛診斷", description: "了解你的戀愛類型與風格。" },
       compatibility: { title: "相性診斷", description: "透過生日確認兩人的相性。" },
       koiMikuji: { title: "戀愛御籤", description: "抽一支今日戀愛運勢御籤。" },
-      log: { title: "戀愛日記", description: "閱讀大家的戀愛故事，或寫下自己的心情。" },
     },
     navTabs: {
       top: "TOP",
@@ -464,8 +460,8 @@ const translations = {
       compatibility: "相性",
       shinriTest: "心理測驗",
       columns: "專欄",
+      blog: "戀愛部落格",
       koiMikuji: "御籤",
-      log: "日記",
     },
     diagnosis: {
       start: "開始診斷",
@@ -553,13 +549,14 @@ const translations = {
   "zh-CN": {
     nav: {
       home: "首页",
+      favorites: "收藏",
       loveType: "恋爱类型诊断",
       compatibility: "相性诊断",
-      log: "恋爱日记",
       loveDiagnosis: "恋爱诊断",
       psychoTest: "心理测验",
       koiMikuji: "恋爱御签",
       columns: "专栏",
+      blog: "恋爱博客",
       contact: "联系我们",
     },
     header: {
@@ -579,7 +576,6 @@ const translations = {
         all: "全部",
         loveType: "恋爱类型诊断",
         compatibility: "相性诊断",
-        log: "恋爱日记",
       },
       emptyCategory: "此类别的诊断即将推出",
     },
@@ -587,7 +583,6 @@ const translations = {
       loveDiagnosis: { title: "恋爱诊断", description: "了解你的恋爱类型与风格。" },
       compatibility: { title: "相性诊断", description: "通过生日确认两人的相性。" },
       koiMikuji: { title: "恋爱御签", description: "抽一支今日恋爱运势御签。" },
-      log: { title: "恋爱日记", description: "阅读大家的恋爱故事，或写下自己的心情。" },
     },
     navTabs: {
       top: "TOP",
@@ -595,8 +590,8 @@ const translations = {
       compatibility: "相性",
       shinriTest: "心理测验",
       columns: "专栏",
+      blog: "恋爱博客",
       koiMikuji: "御签",
-      log: "日记",
     },
     diagnosis: {
       start: "开始诊断",
@@ -689,14 +684,13 @@ export function getTranslations(locale: Locale) {
 
 export const navItems: {
   href: string;
-  key: "home" | "loveType" | "compatibility" | "log" | "loveDiagnosis" | "psychoTest" | "koiMikuji" | "columns" | "contact";
+  key: "home" | "loveType" | "compatibility" | "loveDiagnosis" | "psychoTest" | "koiMikuji" | "columns" | "blog" | "contact";
   icon: IconKey;
 }[] = [
   { href: "/", key: "home", icon: "flower" },
   { href: "/love-diagnosis", key: "loveDiagnosis", icon: "heart" },
   { href: "/tests", key: "psychoTest", icon: "bulb" },
   { href: "/koi-mikuji", key: "koiMikuji", icon: "sparkle" },
-  { href: "/columns", key: "columns", icon: "clipboard" },
-  { href: "/log", key: "log", icon: "note" },
+  { href: "/blog", key: "blog", icon: "clipboard" },
   { href: "/contact", key: "contact", icon: "mail" },
 ];

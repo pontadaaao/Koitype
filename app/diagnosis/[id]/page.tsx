@@ -27,6 +27,15 @@ export async function generateMetadata({
   const diagnosisUrl = `${SITE_DEFAULT_URL}/diagnosis/${diagnosis.id}`;
 
   if (!searchParams?.result) {
+    const ogImages = diagnosis.thumbnail
+      ? [
+          {
+            url: `${SITE_DEFAULT_URL}${diagnosis.thumbnail}`,
+            alt: `${diagnosis.title} | ${SITE_NAME}`,
+          },
+        ]
+      : undefined;
+
     return {
       title: siteTitle(diagnosis.title),
       description: diagnosis.description,
@@ -36,11 +45,13 @@ export async function generateMetadata({
         description: diagnosis.description,
         url: diagnosisUrl,
         type: "website",
+        images: ogImages,
       },
       twitter: {
         card: "summary_large_image",
         title: `${diagnosis.title} | ${SITE_NAME}`,
         description: diagnosis.description,
+        images: ogImages,
       },
     };
   }

@@ -44,6 +44,8 @@ export const metadata: Metadata = {
     images: [OG_IMAGE],
   },
   alternates: { canonical: SITE_DEFAULT_URL },
+  // AdSenseサイト所有確認用メタタグ（<meta name="google-adsense-account">）
+  other: { "google-adsense-account": "ca-pub-4709100652775310" },
 };
 
 const jsonLdOrganization = {
@@ -84,6 +86,15 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
         />
+        {process.env.NODE_ENV === "production" && (
+          <Script
+            id="adsbygoogle-init"
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4709100652775310"
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
       </head>
       <body
         className={`${notoSans.variable} bg-base font-body text-text-main antialiased`}
@@ -91,15 +102,7 @@ export default function RootLayout({
         <LanguageProvider>{children}</LanguageProvider>
       </body>
       {process.env.NODE_ENV === "production" && (
-        <>
-          <GoogleAnalytics gaId="G-4F88R7GYT2" />
-          <Script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4709100652775310"
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
-        </>
+        <GoogleAnalytics gaId="G-4F88R7GYT2" />
       )}
     </html>
   );

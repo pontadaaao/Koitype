@@ -90,7 +90,7 @@ export default function NotFound() {
               {popularColumns.map((col) => (
                 <Link
                   key={col.slug}
-                  href={`/columns/${col.slug}`}
+                  href={`/blog/${col.slug}`}
                   className="flex items-center gap-3 rounded-2xl border border-pink-light bg-sub-bg px-4 py-3 transition-colors hover:border-accent/40 hover:bg-pink-pale/30"
                 >
                   <svg
@@ -112,7 +112,7 @@ export default function NotFound() {
               ))}
             </div>
             <Link
-              href="/columns"
+              href="/blog/category/column"
               className="mt-4 inline-block text-xs text-accent underline underline-offset-2"
             >
               コラム一覧をすべて見る

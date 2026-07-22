@@ -18,9 +18,9 @@ export const headerNavTabs = [
     hash: "",
   },
   {
-    id: "columns",
-    label: "恋愛コラム",
-    href: "/columns",
+    id: "blog",
+    label: "恋愛ブログ",
+    href: "/blog",
     hash: "",
   },
   {
@@ -28,12 +28,6 @@ export const headerNavTabs = [
     label: "恋みくじ",
     href: "/koi-mikuji",
     hash: "#koi-mikuji",
-  },
-  {
-    id: "log",
-    label: "恋ログ",
-    href: "/log",
-    hash: "#log",
   },
 ] as const;
 
@@ -51,7 +45,7 @@ export function isHeaderNavTabActive(
       return normalizedHash === "" || normalizedHash === "#top";
     }
     if (tabId === "shinri-test") return false;
-    if (tabId === "columns") return false;
+    if (tabId === "blog") return false;
     const tab = headerNavTabs.find((item) => item.id === tabId);
     return tab?.hash === normalizedHash;
   }
@@ -76,12 +70,8 @@ export function isHeaderNavTabActive(
     return pathname === "/tests" || pathname.startsWith("/tests/");
   }
 
-  if (tabId === "columns") {
-    return pathname === "/columns" || pathname.startsWith("/columns/");
-  }
-
-  if (tabId === "log") {
-    return pathname === "/log" || pathname.startsWith("/log/");
+  if (tabId === "blog") {
+    return pathname === "/blog" || pathname.startsWith("/blog/");
   }
 
   return false;

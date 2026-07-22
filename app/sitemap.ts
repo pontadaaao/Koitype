@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 import { SITE_DEFAULT_URL } from "@/lib/site";
 import { diagnoses } from "@/lib/diagnoses";
 import { loveTests } from "@/lib/love-tests";
-import { staticColumns } from "@/lib/static-columns";
-import { supabase } from "@/lib/supabase";
+import { BLOG_CATEGORY_SLUGS } from "@/lib/microcms";
+import { getBlogArticleSlugs } from "@/lib/blog-data";
 
 const base = SITE_DEFAULT_URL.replace(/\/$/, "");
 
@@ -17,8 +17,7 @@ const staticRoutes: { path: string; priority: number; changeFrequency: SitemapEn
   { path: "/tests", priority: 0.9, changeFrequency: "weekly", lastModified: BUILD_DATE },
   { path: "/compatibility", priority: 0.9, changeFrequency: "weekly", lastModified: BUILD_DATE },
   { path: "/koi-mikuji", priority: 0.8, changeFrequency: "daily", lastModified: BUILD_DATE },
-  { path: "/columns", priority: 0.8, changeFrequency: "daily", lastModified: BUILD_DATE },
-  { path: "/log", priority: 0.7, changeFrequency: "daily", lastModified: BUILD_DATE },
+  { path: "/blog", priority: 0.8, changeFrequency: "daily", lastModified: BUILD_DATE },
   { path: "/contact", priority: 0.5, changeFrequency: "monthly" },
   { path: "/about", priority: 0.4, changeFrequency: "monthly" },
   { path: "/privacy-policy", priority: 0.3, changeFrequency: "yearly" },
@@ -58,42 +57,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: BUILD_DATE,
   }));
 
-  const columnSlugs = new Set<string>();
-  const columnEntries: MetadataRoute.Sitemap = [];
+  // 恋愛ブログ: カテゴリー一覧 + 記事詳細（microCMS + 既存コラム統合）
+  // 旧 /columns/* は /blog/* へ 301 リダイレクトするため sitemap には含めない。
+  const blogEntries: MetadataRoute.Sitemap = BLOG_CATEGORY_SLUGS.map((slug) => ({
+    url: `${base}/blog/category/${slug}`,
+    priority: 0.6,
+    changeFrequency: "weekly" as const,
+    lastModified: BUILD_DATE,
+  }));
 
   try {
-    const { data } = await supabase
-      .from("columns")
-      .select("slug, updated_at")
-      .eq("status", "published")
-      .order("published_at", { ascending: false });
-
-    if (data) {
-      for (const col of data) {
-        columnSlugs.add(col.slug);
-        columnEntries.push({
-          url: `${base}/columns/${col.slug}`,
-          priority: 0.7,
-          changeFrequency: "monthly" as const,
-          lastModified: col.updated_at ? new Date(col.updated_at) : undefined,
-        });
-      }
+    const articles = await getBlogArticleSlugs();
+    for (const a of articles) {
+      blogEntries.push({
+        url: `${base}/blog/${a.slug}`,
+        priority: 0.7,
+        changeFrequency: "weekly" as const,
+        lastModified: a.revisedAt
+          ? new Date(a.revisedAt)
+          : a.publishedAt
+          ? new Date(a.publishedAt)
+          : undefined,
+      });
     }
   } catch {
-    // Supabase unavailable at build time; fall back to static columns only
+    // microCMS 未設定・取得失敗時はブログ記事を含めない
   }
 
-  // Statically bundled columns (not stored in Supabase) — dedupe by slug.
-  for (const col of staticColumns) {
-    if (columnSlugs.has(col.slug)) continue;
-    columnSlugs.add(col.slug);
-    columnEntries.push({
-      url: `${base}/columns/${col.slug}`,
-      priority: 0.7,
-      changeFrequency: "monthly" as const,
-      lastModified: col.publishedAt ? new Date(col.publishedAt) : undefined,
-    });
-  }
-
-  return [...staticEntries, ...diagnosisEntries, ...testEntries, ...columnEntries];
+  return [
+    ...staticEntries,
+    ...diagnosisEntries,
+    ...testEntries,
+    ...blogEntries,
+  ];
 }

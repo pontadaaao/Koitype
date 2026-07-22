@@ -20,6 +20,7 @@ import {
   IconPaw,
   IconRainbow,
   IconSparkles,
+  IconStar,
   IconStars,
   IconDiamond,
 } from "@tabler/icons-react";
@@ -43,6 +44,7 @@ const ICONS: Record<IconKey, TablerIcon> = {
   dog: IconDog,
   cat: IconCat,
   stars: IconStars,
+  star: IconStar,
   rainbow: IconRainbow,
   flame: IconFlame,
   handshake: IconHeartHandshake,

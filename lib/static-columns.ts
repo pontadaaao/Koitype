@@ -16,6 +16,7 @@ export const staticColumns: StaticColumn[] = [
     title: "職場恋愛を成功させるコツ｜周囲にバレない進め方と注意点",
     category: "恋愛テクニック",
     publishedAt: "2026-07-13",
+    eyecatchUrl: "/shokuba-renai-tips.png",
     seoDescription:
       "職場恋愛を成功させたい人へ。仕事への影響を抑える進め方、周囲に気づかれない配慮、二人のルールづくり、社内規定の確認まで、気をつけたいポイントを解説します。",
     content: `
@@ -51,6 +52,7 @@ export const staticColumns: StaticColumn[] = [
     title: "年の差恋愛を長続きさせるコツ｜価値観の違いとの向き合い方",
     category: "カップル",
     publishedAt: "2026-07-13",
+    eyecatchUrl: "/toshinosa-renai-tips.png",
     seoDescription:
       "年の差カップルが長続きするためのコツを解説。価値観や感覚の違いの受け入れ方、対等な関係の築き方、将来設計のすり合わせ、周囲の目との向き合い方までまとめました。",
     content: `
@@ -86,6 +88,7 @@ export const staticColumns: StaticColumn[] = [
     title: "好きかどうかわからないときの気持ちの確かめ方｜恋か情かを見分ける",
     category: "心理・性格",
     publishedAt: "2026-07-13",
+    eyecatchUrl: "/suki-kamo-tashikame-kata.png",
     seoDescription:
       "相手を好きかどうかわからない人へ。恋愛感情か情かを見分けるための気持ちの確かめ方や、自分の本音に気づくためのチェックポイントをわかりやすく解説します。",
     content: `
@@ -121,6 +124,7 @@ export const staticColumns: StaticColumn[] = [
     title: "恋人の親への挨拶で気をつけること｜服装・手土産・話し方のマナー",
     category: "婚活・結婚",
     publishedAt: "2026-07-13",
+    eyecatchUrl: "/koibito-oya-aisatsu.png",
     seoDescription:
       "恋人の親への挨拶を控えている人へ。好印象を与える服装や手土産の選び方、言葉遣い、当日の振る舞い、事前準備まで、緊張せず臨むためのマナーを解説します。",
     content: `
@@ -156,6 +160,7 @@ export const staticColumns: StaticColumn[] = [
     title: "告白されたときの返事の仕方｜OK・保留・お断りの伝え方",
     category: "告白・アプローチ",
     publishedAt: "2026-07-13",
+    eyecatchUrl: "/kokuhaku-sareta-henji.png",
     seoDescription:
       "告白されたときの返事の仕方を解説。OKするとき・保留にするとき・お断りするときの伝え方や、相手を傷つけない言葉選び、返事の後の接し方までわかりやすくまとめました。",
     content: `
@@ -191,6 +196,7 @@ export const staticColumns: StaticColumn[] = [
     title: "デートの誘い方｜自然に誘って断られにくくするコツ",
     category: "恋愛テクニック",
     publishedAt: "2026-07-13",
+    eyecatchUrl: "/date-sasoikata-tips.png",
     seoDescription:
       "気になる人をデートに誘いたい人へ。自然な誘い方や断られにくいタイミング、具体的な言い回し、断られたときの対応まで、成功率を上げるコツをわかりやすく解説します。",
     content: `
@@ -226,6 +232,7 @@ export const staticColumns: StaticColumn[] = [
     title: "ケンカした恋人と仲直りする方法｜こじらせないための伝え方",
     category: "カップル",
     publishedAt: "2026-07-13",
+    eyecatchUrl: "/kenka-nakanaori-tips.png",
     seoDescription:
       "恋人とケンカしてしまったときの仲直りの方法を解説。冷却時間の取り方、素直な謝り方、気持ちの伝え方、同じケンカを繰り返さないコツまでわかりやすくまとめました。",
     content: `
@@ -261,6 +268,7 @@ export const staticColumns: StaticColumn[] = [
     title: "「重い女」と思われないための恋愛の距離感｜連絡・束縛のバランス",
     category: "心理・性格",
     publishedAt: "2026-07-13",
+    eyecatchUrl: "/omoi-onna-kaihi-tips.png",
     seoDescription:
       "好きになると重くなってしまう人へ。「重い女」と思われないための連絡頻度や束縛のバランス、不安との向き合い方、程よい距離感の保ち方をわかりやすく解説します。",
     content: `
@@ -296,6 +304,7 @@ export const staticColumns: StaticColumn[] = [
     title: "両思いになる方法｜片思いを実らせるためのステップ",
     category: "片思い",
     publishedAt: "2026-07-13",
+    eyecatchUrl: "/ryoomoi-houhou.png",
     seoDescription:
       "片思いを両思いにしたい人へ。両思いになるためのステップと相手の脈ありサインの見極め方、距離の縮め方、告白のタイミングまでわかりやすく解説します。",
     content: `
@@ -331,6 +340,7 @@ export const staticColumns: StaticColumn[] = [
     title: "同棲を始める前に話し合っておきたいこと｜お金・家事・生活リズム",
     category: "婚活・結婚",
     publishedAt: "2026-07-13",
+    eyecatchUrl: "/dousei-mae-kimeru-koto.png",
     seoDescription:
       "同棲を始める前に決めておきたいことを解説。家賃や生活費の分担、家事のルール、生活リズムの違い、将来の方向性まで、後悔しないための話し合いポイントをまとめました。",
     content: `
@@ -366,6 +376,7 @@ export const staticColumns: StaticColumn[] = [
     title: "復縁を成功させる方法｜冷却期間の使い方と避けたいNG行動",
     category: "別れ・失恋",
     publishedAt: "2026-07-13",
+    eyecatchUrl: "/fukuen-seikou-houhou.png",
     seoDescription:
       "別れた相手と復縁したい人へ。復縁できる可能性の見極め方、冷却期間の過ごし方、連絡を再開するときのポイント、避けたいNG行動までわかりやすく解説します。",
     content: `
@@ -401,6 +412,7 @@ export const staticColumns: StaticColumn[] = [
     title: "マッチングアプリの初デートを成功させるコツ｜場所選び・会話・次につなげる方法",
     category: "恋愛テクニック",
     publishedAt: "2026-07-13",
+    eyecatchUrl: "/matching-app-first-date-tips.png",
     seoDescription:
       "マッチングアプリで知り合った相手との初デートを成功させるコツを解説。安心できる場所選び、盛り上がる会話、清潔感、次のデートにつなげる別れ際のポイントまでまとめました。",
     content: `
@@ -436,6 +448,7 @@ export const staticColumns: StaticColumn[] = [
     title: "遠距離恋愛を長続きさせる秘訣｜連絡・会う頻度・不安の乗り越え方",
     category: "カップル",
     publishedAt: "2026-07-13",
+    eyecatchUrl: "/enkyori-nagatsuzuki-tips.png",
     seoDescription:
       "遠距離恋愛を長続きさせるための秘訣を解説。連絡の頻度や会うペースの決め方、寂しさや不安の乗り越え方、将来の目標を共有する大切さまでわかりやすくまとめました。",
     content: `
@@ -471,6 +484,7 @@ export const staticColumns: StaticColumn[] = [
     title: "マッチングアプリで出会うコツ｜プロフィール・写真・メッセージのポイント",
     category: "恋愛テクニック",
     publishedAt: "2026-07-12",
+    eyecatchUrl: "/matching-app-deai-tips.png",
     seoDescription:
       "マッチングアプリでいい出会いを増やすためのコツを解説。プロフィール写真の選び方、自己紹介文の書き方、返信が続くメッセージのポイントまでわかりやすくまとめました。",
     content: `
@@ -505,6 +519,7 @@ export const staticColumns: StaticColumn[] = [
     title: "脈なしサインの見分け方｜脈ありとの違いと諦める前に確認したいこと",
     category: "心理・性格",
     publishedAt: "2026-07-11",
+    eyecatchUrl: "/myaku-nashi-sign.png",
     seoDescription:
       "好きな人の態度が脈なしかもと不安な人へ。脈なしサインの特徴と脈ありとの見分け方、諦める前に確認したいポイントをわかりやすく解説します。",
     content: `
@@ -536,6 +551,7 @@ export const staticColumns: StaticColumn[] = [
     title: "LINEで告白は成功する？メッセージでの伝え方と注意点",
     category: "告白・アプローチ",
     publishedAt: "2026-07-10",
+    eyecatchUrl: "/line-kokuhaku-tips.png",
     seoDescription:
       "LINEでの告白は成功するのか、成功率を上げる伝え方や送るタイミング、避けたい注意点を解説。対面が難しい人でも気持ちを伝えるコツがわかります。",
     content: `
@@ -567,6 +583,7 @@ export const staticColumns: StaticColumn[] = [
     title: "結婚を決める前に確認したい相手のポイント｜価値観・金銭感覚・将来設計",
     category: "婚活・結婚",
     publishedAt: "2026-07-09",
+    eyecatchUrl: "/kekkon-kimeru-point.png",
     seoDescription:
       "結婚を決める前にチェックしておきたい相手のポイントを解説。価値観・金銭感覚・将来設計・家族観など、後悔しないために確認したい項目をまとめました。",
     content: `
@@ -601,6 +618,7 @@ export const staticColumns: StaticColumn[] = [
     title: "元恋人を忘れる方法｜前を向くための心の整理術7つ",
     category: "別れ・失恋",
     publishedAt: "2026-07-08",
+    eyecatchUrl: "/motokare-wasureru-houhou.png",
     seoDescription:
       "元恋人が忘れられないとつらい人へ。前を向くための心の整理術を7つ紹介。無理なく気持ちを切り替え、新しい一歩を踏み出すためのヒントをまとめました。",
     content: `
@@ -637,6 +655,7 @@ export const staticColumns: StaticColumn[] = [
     title: "恋愛に自信がない人へ｜自己肯定感を高めて恋を楽しむコツ",
     category: "心理・性格",
     publishedAt: "2026-07-07",
+    eyecatchUrl: "/renai-jishin-tsukeru.png",
     seoDescription:
       "恋愛に自信が持てない人へ向けて、自己肯定感を高めて恋を楽しむためのコツを解説。自信のなさの原因と、無理なく前向きになれる考え方・習慣を紹介します。",
     content: `
@@ -671,6 +690,7 @@ export const staticColumns: StaticColumn[] = [
     title: "告白を成功させる5つのコツ｜失敗しないタイミングと伝え方",
     category: "告白・アプローチ",
     publishedAt: "2026-06-27",
+    eyecatchUrl: "/kokuhaku-seikou-5tips.png",
     seoDescription:
       "告白を成功させるために大切なタイミング・場所・言葉の選び方を5つのコツで解説。勇気を出す前に読んでおきたいポイントをまとめました。",
     content: `
@@ -706,6 +726,7 @@ export const staticColumns: StaticColumn[] = [
     title: "好きな人へのLINEで距離を縮めるコツ｜送り方・タイミング・話題",
     category: "片思い",
     publishedAt: "2026-06-26",
+    eyecatchUrl: "/suki-na-hito-line-timing.png",
     seoDescription:
       "好きな人とLINEで距離を縮めたい人必見。返信が来やすい送り方、最適なタイミング、盛り上がる話題の選び方をわかりやすく解説します。",
     content: `
@@ -741,6 +762,7 @@ export const staticColumns: StaticColumn[] = [
     title: "初デートを成功させる方法｜場所選び・会話・好印象を残すコツ",
     category: "恋愛テクニック",
     publishedAt: "2026-06-25",
+    eyecatchUrl: "/hatsu-date-seikou-tips.png",
     seoDescription:
       "初デートを成功させるための場所の選び方、会話のコツ、好印象を残すポイントを解説。次のデートにつながる初デートの作り方をまとめました。",
     content: `
@@ -775,6 +797,7 @@ export const staticColumns: StaticColumn[] = [
     title: "好きな人の心理を読み解く｜行動・言葉から気持ちを知る方法",
     category: "心理・性格",
     publishedAt: "2026-06-24",
+    eyecatchUrl: "/suki-na-hito-shinri.png",
     seoDescription:
       "好きな人が自分のことをどう思っているか気になる人へ。行動や言葉から相手の心理を読み解くヒントを心理学的な視点で解説します。",
     content: `
@@ -807,6 +830,7 @@ export const staticColumns: StaticColumn[] = [
     title: "彼氏・彼女ができる人の特徴10選｜モテる人が自然にやっていること",
     category: "恋愛テクニック",
     publishedAt: "2026-06-23",
+    eyecatchUrl: "/kareshi-kanojo-dekiru-hito-tokuchou.png",
     seoDescription:
       "恋人ができる人には共通する特徴があります。モテる人が無意識にやっている習慣や考え方を10個紹介。自分磨きのヒントにしてください。",
     content: `
@@ -852,6 +876,7 @@ export const staticColumns: StaticColumn[] = [
     title: "マンネリを打破する方法｜カップルがときめきを取り戻す7つのアイデア",
     category: "カップル",
     publishedAt: "2026-06-22",
+    eyecatchUrl: "/manneri-dasshutsu-tips.png",
     seoDescription:
       "付き合いが長くなってマンネリを感じているカップルへ。ときめきを取り戻すための7つの具体的なアイデアを紹介します。",
     content: `
@@ -888,6 +913,7 @@ export const staticColumns: StaticColumn[] = [
     title: "別れを決める前に考えたい5つのこと｜後悔しない選択をするために",
     category: "別れ・失恋",
     publishedAt: "2026-06-21",
+    eyecatchUrl: "/wakare-mae-kangaeru-koto.png",
     seoDescription:
       "別れようか悩んでいる人へ。後悔しない選択をするために、別れを決める前に立ち止まって考えたい5つの大切なポイントを解説します。",
     content: `
@@ -921,6 +947,7 @@ export const staticColumns: StaticColumn[] = [
     title: "遠距離恋愛を続けるコツ｜すれ違いを防いで絆を深める方法",
     category: "カップル",
     publishedAt: "2026-06-20",
+    eyecatchUrl: "/enskyori-renai-tips.png",
     seoDescription:
       "遠距離恋愛は難しいけれど続けられる。すれ違いを防ぐための連絡のとり方・会う頻度・信頼の築き方など、長続きのコツをまとめました。",
     content: `
@@ -956,6 +983,7 @@ export const staticColumns: StaticColumn[] = [
     title: "婚活を成功させるコツ｜出会いから交際までスムーズに進む方法",
     category: "婚活・結婚",
     publishedAt: "2026-06-19",
+    eyecatchUrl: "/konkatsu-seikou-tips.png",
     seoDescription:
       "婚活をうまく進めるためのポイントを解説。プロフィールの作り方、デートでの印象づくり、交際につなげるための考え方をまとめました。",
     content: `
@@ -987,6 +1015,7 @@ export const staticColumns: StaticColumn[] = [
     title: "自分磨きで恋愛力を上げる方法｜内面・外見・メンタルを整えるコツ",
     category: "恋愛テクニック",
     publishedAt: "2026-06-17",
+    eyecatchUrl: "/jibunmigaki-renai-up.png",
     seoDescription:
       "恋愛力を高めるための自分磨きのコツを解説。外見の清潔感、内面の充実、メンタルの安定など、モテる人が実践していることをまとめました。",
     content: `
@@ -1022,6 +1051,7 @@ export const staticColumns: StaticColumn[] = [
     title: "片思いの相手に好かれる5つのアプローチ術",
     category: "片思い",
     publishedAt: "2026-06-10",
+    eyecatchUrl: "/kataomoi-approach.png",
     seoDescription:
       "片思いを両思いに変えるための、自然で効果的なアプローチ方法を5つ紹介します。焦らずに距離を縮めるコツを解説。",
     content: `
@@ -1050,6 +1080,7 @@ export const staticColumns: StaticColumn[] = [
     title: "カップルが長続きする秘訣７選",
     category: "カップル",
     publishedAt: "2026-06-18",
+    eyecatchUrl: "/couple-long-lasting-tips.png",
     seoDescription:
       "付き合い始めのラブラブな関係を長く保つための秘訣を7つ紹介。マンネリを防ぎ、二人の絆を深めるヒントがつまっています。",
     content: `
@@ -1084,6 +1115,7 @@ export const staticColumns: StaticColumn[] = [
     title: "好きな人が脈ありか見分ける方法【男女共通】本気サイン20選！",
     category: "片思い",
     publishedAt: "2026-06-28",
+    eyecatchUrl: "/suki-na-hito-myari-sign-20.png",
     seoDescription:
       "好きな人が脈ありかどうか悩んでいませんか？男女共通で見られる本気サインを20個紹介。複数当てはまるほど、相手の好意がある可能性が高くなります。",
     content: `
@@ -1208,6 +1240,7 @@ export const staticColumns: StaticColumn[] = [
     title: "長続きするカップルの特徴10選｜ずっと仲良しでいられる秘訣とは？",
     category: "カップル",
     publishedAt: "2026-06-28",
+    eyecatchUrl: "/nagatsuzuku-couple-tokuchou-10.png",
     seoDescription:
       "長続きするカップルに共通する習慣や考え方を10個紹介。感謝・信頼・思いやりなど、何年経っても仲良しでいられる秘訣をまとめました。",
     content: `
@@ -1286,6 +1319,7 @@ export const staticColumns: StaticColumn[] = [
     title: "失恋から立ち直るための3ステップ",
     category: "別れ・失恋",
     publishedAt: "2026-06-25",
+    eyecatchUrl: "/recover-from-heartbreak.png",
     seoDescription:
       "失恋の痛みから早く立ち直るための3つのステップを紹介。悲しみを否定せず、自分のペースで前に進むための方法を解説します。",
     content: `

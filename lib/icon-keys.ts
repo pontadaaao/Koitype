@@ -9,6 +9,7 @@ export type IconKey =
   | "dog"
   | "cat"
   | "stars"
+  | "star"
   | "rainbow"
   | "flame"
   | "handshake"

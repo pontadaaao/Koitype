@@ -23,6 +23,9 @@ export default function SiteFooter() {
             <li>
               <Link href="/contact">{t.footer.contact}</Link>
             </li>
+            <li>
+              <Link href="/sitemap">{t.footer.sitemap}</Link>
+            </li>
           </ul>
         </nav>
         <div className="ft__copyright">

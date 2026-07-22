@@ -64,7 +64,7 @@ export default function ColumnForm({ initialValues, columnId, mode }: ColumnForm
       ...(status ? { status } : {}),
     };
 
-    const url = mode === "new" ? "/api/admin/columns" : `/api/admin/columns/${columnId}`;
+    const url = mode === "new" ? "/api/admin/columns" : `/api/admin/blog/${columnId}`;
     const method = mode === "new" ? "POST" : "PUT";
 
     const res = await fetch(url, {
@@ -82,7 +82,7 @@ export default function ColumnForm({ initialValues, columnId, mode }: ColumnForm
     }
 
     if (mode === "new") {
-      router.push(`/admin/columns/edit/${data.column.id}`);
+      router.push(`/admin/blog/edit/${data.column.id}`);
     } else {
       setSuccess("保存しました");
       if (status) set("status", status);
@@ -129,7 +129,7 @@ export default function ColumnForm({ initialValues, columnId, mode }: ColumnForm
           スラッグ（URL）<span className="text-accent">*</span>
         </label>
         <div className="mt-1.5 flex items-center gap-2">
-          <span className="shrink-0 text-xs text-text-sub">/columns/</span>
+          <span className="shrink-0 text-xs text-text-sub">/blog/</span>
           <input
             type="text"
             value={values.slug}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
 import HomeSectionHeading from "@/components/sections/HomeSectionHeading";
@@ -10,7 +11,6 @@ import DiagnosisSlider from "@/components/DiagnosisSlider";
 import LoveTestIcon from "@/components/LoveTestIcon";
 import { useLanguage } from "@/components/LanguageProvider";
 import { loveTests, isNewLoveTest, type LoveTest } from "@/lib/love-tests";
-import { staticColumns } from "@/lib/static-columns";
 import { diagnoses } from "@/lib/diagnoses";
 
 const CARD_STYLES = [
@@ -21,12 +21,18 @@ const CARD_STYLES = [
 
 const HERO_TEXT = "今日の恋、1分でわかる♡";
 
-const sortedColumns = staticColumns
-  .slice()
-  .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-  .slice(0, 6);
+/** TOPの恋愛ブログに表示する新着記事カード（サーバーから受け取る）。 */
+export interface HomeBlogCard {
+  slug: string;
+  title: string;
+  eyecatchUrl: string | null;
+}
 
-export default function HomePageClient() {
+export default function HomePageClient({
+  latestColumns,
+}: {
+  latestColumns: HomeBlogCard[];
+}) {
   const { t } = useLanguage();
   const router = useRouter();
   const [shinriTests, setShinriTests] = useState<LoveTest[]>([]);
@@ -197,51 +203,42 @@ export default function HomePageClient() {
 
         <section className="pb-16">
           <HomeSectionHeading
-            title="恋愛コラム"
-            subtitle="Column"
+            title="恋愛ブログ"
+            subtitle="Blog"
             description="恋愛のヒントなどを記事にしてお届け"
             titleClassName="text-accent"
             subtitleClassName="text-accent/70"
             className="mt-6 sm:mt-8"
           />
-          <div className="overflow-hidden rounded-2xl border border-pink-light/60 bg-white lg:grid lg:grid-cols-2">
-            {sortedColumns.map((col, i) => {
-              const isLastMobile = i === sortedColumns.length - 1;
-              const isLeftCol = i % 2 === 0;
-              const isLastRow = i >= sortedColumns.length - 2;
-              return (
-                <Link
-                  key={col.slug}
-                  href={`/columns/${col.slug}`}
-                  className={[
-                    "group flex items-center justify-between px-4 py-4 transition-colors hover:bg-pink-pale/30",
-                    !isLastMobile ? "border-b border-pink-light/60" : "",
-                    "lg:border-b-0",
-                    !isLastRow ? "lg:border-b lg:border-pink-light/60" : "",
-                    isLeftCol ? "lg:border-r lg:border-pink-light/60" : "",
-                  ].join(" ")}
-                >
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="mr-3 h-4 w-4 shrink-0 text-accent/60">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                  </svg>
-                  <div className="min-w-0 flex-1">
-                    <h2 className="font-heading text-sm font-bold leading-snug transition-colors group-hover:text-accent" style={{ color: "#5C4033" }}>
-                      {col.title}
-                    </h2>
-                    <span className="mt-1 inline-block rounded-full bg-pink-pale px-2 py-0.5 text-[10px] font-medium text-accent">
-                      {col.category}
-                    </span>
-                  </div>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="ml-3 h-4 w-4 shrink-0 text-text-sub/40 transition-colors group-hover:text-accent">
-                    <path d="M9 18l6-6-6-6" />
-                  </svg>
-                </Link>
-              );
-            })}
+          <div className="grid grid-cols-2 gap-3 sm:gap-4">
+            {latestColumns.map((col) => (
+              <Link
+                key={col.slug}
+                href={`/blog/${col.slug}`}
+                className="group flex flex-col overflow-hidden rounded-2xl border border-pink-light/60 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
+              >
+                <div className="relative aspect-[16/9] w-full overflow-hidden bg-pink-pale">
+                  {col.eyecatchUrl && (
+                    <Image
+                      src={col.eyecatchUrl}
+                      alt={col.title}
+                      fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 40vw, 33vw"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  )}
+                </div>
+                <div className="flex flex-1 flex-col p-3 sm:p-4">
+                  <h2 className="line-clamp-2 font-heading text-xs font-bold leading-snug transition-colors group-hover:text-accent sm:text-sm" style={{ color: "#5C4033" }}>
+                    {col.title}
+                  </h2>
+                </div>
+              </Link>
+            ))}
           </div>
           <div className="mt-3 text-right">
-            <Link href="/columns" className="text-xs font-medium text-accent hover:underline">
-              コラムをもっと見る →
+            <Link href="/blog" className="text-xs font-medium text-accent hover:underline">
+              恋愛ブログをもっと見る →
             </Link>
           </div>
         </section>
@@ -259,17 +256,45 @@ export default function HomePageClient() {
                 className="h-auto w-full max-w-[320px] sm:max-w-[280px]"
               />
             </a>
-            <a
-              id="log"
-              href="/log"
-              className="block transition-transform hover:scale-[1.03] active:scale-[0.97]"
-            >
-              <img
-                src="/koilog.png"
-                alt="恋ログをみる！"
-                className="h-auto w-full max-w-[320px] sm:max-w-[280px]"
-              />
-            </a>
+          </div>
+        </section>
+
+        <section className="pb-16">
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex items-center gap-4">
+              <a
+                href="https://x.com/pipiiipi39?s=11&t=ZYE4VPx6GhRZ7hm-WI2FyQ"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X（旧Twitter）"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-pink-light bg-white text-accent shadow-sm transition-colors hover:border-accent/40 hover:bg-pink-pale/40"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="h-5 w-5"
+                  aria-hidden="true"
+                >
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" />
+                </svg>
+              </a>
+              <a
+                href="https://www.tiktok.com/@koi_type?_r=1&_t=ZS-98C3VjNunnY"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-pink-light bg-white text-accent shadow-sm transition-colors hover:border-accent/40 hover:bg-pink-pale/40"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="h-5 w-5"
+                  aria-hidden="true"
+                >
+                  <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07Z" />
+                </svg>
+              </a>
+            </div>
           </div>
         </section>
       </main>

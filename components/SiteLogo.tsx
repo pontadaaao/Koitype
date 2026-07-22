@@ -15,7 +15,7 @@ export default function SiteLogo({
 }: SiteLogoProps) {
   return (
     <span
-      className={`relative inline-block h-9 w-[78px] shrink-0 sm:h-10 sm:w-[86px] ${className}`}
+      className={`relative inline-block h-11 w-[95px] shrink-0 sm:h-12 sm:w-[104px] ${className}`}
       style={{ aspectRatio: `${LOGO_WIDTH} / ${LOGO_HEIGHT}` }}
     >
       <Image
@@ -25,7 +25,7 @@ export default function SiteLogo({
         className="object-contain object-left"
         priority={priority}
         unoptimized
-        sizes="86px"
+        sizes="104px"
       />
     </span>
   );

@@ -18,7 +18,6 @@ const mainPages = [
   { href: "/tests", label: "心理テスト" },
   { href: "/compatibility", label: "相性診断" },
   { href: "/koi-mikuji", label: "恋みくじ" },
-  { href: "/log", label: "恋ログ" },
 ];
 
 const infopages = [

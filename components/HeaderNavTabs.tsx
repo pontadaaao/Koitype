@@ -15,8 +15,8 @@ const NAV_TAB_KEY: Record<string, keyof ReturnType<typeof import("@/lib/i18n").g
   "love-diagnosis": "loveDiagnosis",
   "shinri-test": "shinriTest",
   columns: "columns",
+  blog: "blog",
   "koi-mikuji": "koiMikuji",
-  log: "log",
 };
 
 export default function HeaderNavTabs() {

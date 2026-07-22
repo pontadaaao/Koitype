@@ -8,7 +8,7 @@ import type { DogLoverResult, DogCatResult } from "@/lib/types";
 const COMMON_RELATED: QuizRelatedLink[] = [
   { href: "/love-diagnosis", label: "恋愛診断一覧" },
   { href: "/tests", label: "恋愛心理テスト" },
-  { href: "/columns", label: "恋愛コラム" },
+  { href: "/blog/category/column", label: "恋愛コラム" },
 ];
 
 function baseFaq(title: string, timeAnswer: string, mechanism: string) {

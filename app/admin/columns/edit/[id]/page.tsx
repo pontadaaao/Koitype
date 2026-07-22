@@ -37,7 +37,7 @@ export default async function AdminColumnEditPage({ params }: EditPageProps) {
         </h1>
         {column.status === "published" && (
           <Link
-            href={`/columns/${column.slug}`}
+            href={`/blog/${column.slug}`}
             target="_blank"
             className="rounded-full border border-pink-light px-3 py-0.5 text-xs text-text-sub transition-colors hover:border-accent/40 hover:text-accent"
           >

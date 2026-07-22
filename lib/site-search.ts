@@ -21,7 +21,7 @@ const staticPages: SearchItem[] = [
   {
     id: "home",
     title: "ホーム",
-    description: "診断一覧・恋ログ",
+    description: "診断一覧",
     href: "/",
     category: "ページ",
     icon: "flower",
@@ -53,24 +53,6 @@ const staticPages: SearchItem[] = [
     category: "ページ",
     icon: "sparkle",
     keywords: ["みくじ", "占い", "運勢"],
-  },
-  {
-    id: "log",
-    title: "恋ログ",
-    description: "みんなの恋愛体験を読む・投稿する",
-    href: "/log",
-    category: "ページ",
-    icon: "note",
-    keywords: ["ログ", "投稿", "相談", "体験"],
-  },
-  {
-    id: "log-new",
-    title: "恋ログに投稿",
-    description: "名前・内容・カテゴリーで投稿",
-    href: "/log/new",
-    category: "ページ",
-    icon: "message",
-    keywords: ["投稿", "書く", "新規"],
   },
 ];
 

@@ -14,7 +14,7 @@ const securityHeaders = [
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://www.googletagmanager.com https://www.google-analytics.com https://adservice.google.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
-      "img-src 'self' data: blob: https://*.supabase.co https://*.supabase.in https://pagead2.googlesyndication.com",
+      "img-src 'self' data: blob: https://*.supabase.co https://*.supabase.in https://images.microcms-assets.io https://pagead2.googlesyndication.com",
       "frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com",
       "connect-src 'self' https://*.supabase.co https://*.supabase.in https://www.google-analytics.com https://formspree.io",
       "media-src 'self'",
@@ -37,6 +37,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "**.supabase.in",
       },
+      {
+        protocol: "https",
+        hostname: "images.microcms-assets.io",
+      },
     ],
   },
   async headers() {
@@ -44,6 +48,17 @@ const nextConfig = {
       {
         source: "/(.*)",
         headers: securityHeaders,
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      // 恋愛コラムは恋愛ブログに一本化。旧URLは 301 で /blog へ集約。
+      { source: "/columns", destination: "/blog", permanent: true },
+      {
+        source: "/columns/:slug",
+        destination: "/blog/:slug",
+        permanent: true,
       },
     ];
   },

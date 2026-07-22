@@ -4,7 +4,7 @@ export type Category = "恋愛タイプ診断" | "相性診断";
 
 export type DiagnosisTag = "恋愛タイプ" | "闇系" | "ネタ系" | "モテ系" | "心理テスト" | "キャラ系";
 
-export type HomeFilter = "すべて" | Category | "恋ログ";
+export type HomeFilter = "すべて" | Category;
 
 export interface Question {
   id: number;
