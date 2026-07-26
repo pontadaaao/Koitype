@@ -45,6 +45,14 @@ export async function getRecommendedArticles(
   return microcms.filter((a) => a.recommended).slice(0, limit);
 }
 
+/** 指定タグを持つ記事を新着順で取得。 */
+export async function getBlogArticlesByTag(
+  tag: string
+): Promise<BlogArticle[]> {
+  const all = await getBlogArticles();
+  return all.filter((a) => a.tags.includes(tag));
+}
+
 /** slug で1記事を本文込みで取得。microCMS → コラムの順。無ければ null。 */
 export async function getBlogArticleBySlug(
   slug: string
