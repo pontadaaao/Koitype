@@ -1,6 +1,5 @@
 import { diagnoses } from "@/lib/diagnoses";
 import { loveTests } from "@/lib/love-tests";
-import { staticColumns } from "@/lib/static-columns";
 
 export type SpecialCategory = "launch";
 export type ContentCategory = "love-diagnosis" | "psychology-test" | "love-column";
@@ -20,11 +19,18 @@ export const specialEntries: NotificationEntry[] = [
 export type RawEntry = { date: string; category: NotificationCategory; title: string };
 export type AggregatedItem = { key: string; date: string; category: NotificationCategory; titles: string[] };
 
+/**
+ * 恋愛ブログ記事（microCMS + Supabase + static を統合）由来のお知らせ材料。
+ * ブログはサーバー専用データのため、/api/notifications 経由でクライアントに渡す。
+ */
+export type BlogNotifEntry = { date: string; title: string };
+
 function toDisplayDate(iso: string): string {
   return iso.replace(/-/g, ".");
 }
 
-export function buildAllEntries(): RawEntry[] {
+/** コード内データ（リリース・診断・心理テスト）由来のお知らせ。クライアントで即時利用可。 */
+export function buildStaticEntries(): RawEntry[] {
   return [
     ...specialEntries,
     ...diagnoses
@@ -33,11 +39,14 @@ export function buildAllEntries(): RawEntry[] {
     ...loveTests
       .filter((t) => t.publishedAt)
       .map((t) => ({ date: toDisplayDate(t.publishedAt!), category: "psychology-test" as const, title: t.title })),
-    ...staticColumns.map((c) => ({
-      date: toDisplayDate(c.publishedAt),
-      category: "love-column" as const,
-      title: c.title,
-    })),
+  ];
+}
+
+/** コード内データ + 恋愛ブログ（API取得）を統合した全お知らせ材料。 */
+export function buildAllEntries(blog: BlogNotifEntry[] = []): RawEntry[] {
+  return [
+    ...buildStaticEntries(),
+    ...blog.map((b) => ({ date: b.date, category: "love-column" as const, title: b.title })),
   ];
 }
 
@@ -57,11 +66,13 @@ export function aggregate(entries: RawEntry[]): AggregatedItem[] {
 
 export const NOTIFICATIONS_LS_KEY = "koitype_notifications_last_visited";
 
-// lastVisited: YYYY-MM-DD 形式の文字列（localStorage から取得）
-export function getUnreadCount(lastVisited: string | null): number {
-  const all = aggregate(buildAllEntries());
-  if (!lastVisited) return all.length;
+/**
+ * 集計済みお知らせリストから未読件数を算出。
+ * lastVisited: YYYY-MM-DD 形式（localStorage）。null なら全件未読。
+ */
+export function getUnreadCount(items: AggregatedItem[], lastVisited: string | null): number {
+  if (!lastVisited) return items.length;
   // display date は YYYY.MM.DD なので変換して比較
   const lastDisplay = lastVisited.replace(/-/g, ".");
-  return all.filter((item) => item.date > lastDisplay).length;
+  return items.filter((item) => item.date > lastDisplay).length;
 }

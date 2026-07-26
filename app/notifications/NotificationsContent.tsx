@@ -14,6 +14,7 @@ import {
   buildAllEntries,
   aggregate,
   NOTIFICATIONS_LS_KEY,
+  type BlogNotifEntry,
   type NotificationCategory,
 } from "./data";
 
@@ -39,7 +40,7 @@ const categoryConfig: Record<NotificationCategory, { label: string; icon: React.
     bg: "bg-purple-50",
   },
   "love-column": {
-    label: "恋愛コラム",
+    label: "恋愛ブログ",
     icon: IconNotes,
     color: "text-orange-400",
     bg: "bg-orange-50",
@@ -55,13 +56,30 @@ function buildTitle(item: ReturnType<typeof aggregate>[number]): string {
 
 export default function NotificationsContent() {
   const [page, setPage] = useState(1);
-  const all = aggregate(buildAllEntries());
+  const [blog, setBlog] = useState<BlogNotifEntry[]>([]);
 
+  // 訪問時点で既読化（ベルのカウントをリセット）
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
     localStorage.setItem(NOTIFICATIONS_LS_KEY, today);
     window.dispatchEvent(new Event("notifications-visited"));
   }, []);
+
+  // 恋愛ブログの新着を取得して一覧に反映
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/notifications")
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled && Array.isArray(data?.blog)) setBlog(data.blog as BlogNotifEntry[]);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const all = aggregate(buildAllEntries(blog));
   const totalPages = Math.ceil(all.length / PAGE_SIZE);
   const items = all.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 

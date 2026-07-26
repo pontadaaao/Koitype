@@ -10,7 +10,13 @@ import SiteSearch from "@/components/SiteSearch";
 import AppIcon from "@/components/AppIcon";
 import { localeFlags, localeLabels, locales, navItems, type Locale } from "@/lib/i18n";
 import { SITE_NAME } from "@/lib/site";
-import { getUnreadCount, NOTIFICATIONS_LS_KEY } from "@/app/notifications/data";
+import {
+  aggregate,
+  buildAllEntries,
+  getUnreadCount,
+  NOTIFICATIONS_LS_KEY,
+  type BlogNotifEntry,
+} from "@/app/notifications/data";
 
 interface SiteHeaderProps {
   backHref?: string;
@@ -175,13 +181,30 @@ export default function SiteHeader({
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
-    const update = () => {
+    let cancelled = false;
+    let blogEntries: BlogNotifEntry[] = [];
+    const recompute = () => {
       const lastVisited = localStorage.getItem(NOTIFICATIONS_LS_KEY);
-      setUnreadCount(getUnreadCount(lastVisited));
+      const items = aggregate(buildAllEntries(blogEntries));
+      setUnreadCount(getUnreadCount(items, lastVisited));
     };
-    update();
-    window.addEventListener("notifications-visited", update);
-    return () => window.removeEventListener("notifications-visited", update);
+    // まずコード内データ（診断・心理テスト等）で即時算出
+    recompute();
+    // 恋愛ブログの新着を取り込んで再算出
+    fetch("/api/notifications")
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled && Array.isArray(data?.blog)) {
+          blogEntries = data.blog as BlogNotifEntry[];
+          recompute();
+        }
+      })
+      .catch(() => {});
+    window.addEventListener("notifications-visited", recompute);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("notifications-visited", recompute);
+    };
   }, []);
 
   useEffect(() => {
