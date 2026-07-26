@@ -10,11 +10,6 @@ import {
   getFavorites,
 } from "@/components/blog/favorites";
 import type { BlogCardData } from "@/components/blog/types";
-import {
-  BLOG_CATEGORY_SLUGS,
-  BLOG_CATEGORY_LABEL,
-  type BlogCategorySlug,
-} from "@/lib/microcms";
 
 interface PopularItem {
   article: BlogCardData;
@@ -28,7 +23,27 @@ interface BlogListClientProps {
 }
 
 const PAGE_SIZE = 10;
-type CategoryFilter = "all" | BlogCategorySlug;
+
+// 検索欄の下に並ぶフィルターチップ。
+// 「恋愛コラム」はカテゴリで、それ以外は microCMS のカテゴリ名（タグ）で絞り込む。
+// タグを増やしたい場合はここに追記する（microCMS のカテゴリ名と完全一致させる）。
+const TAG_FILTERS = ["実体験", "あるある", "スポット"];
+
+interface FilterDef {
+  key: string;
+  label: string;
+}
+const FILTERS: FilterDef[] = [
+  { key: "all", label: "すべて" },
+  { key: "column", label: "恋愛コラム" },
+  ...TAG_FILTERS.map((t) => ({ key: `tag:${t}`, label: t })),
+];
+
+function matchesFilter(a: BlogCardData, key: string): boolean {
+  if (key === "column") return a.categorySlug === "column";
+  if (key.startsWith("tag:")) return a.tags.includes(key.slice(4));
+  return true; // "all"
+}
 
 /** 検索用に正規化（小文字化・全角/半角スペースを吸収）。 */
 function normalize(text: string): string {
@@ -44,7 +59,7 @@ export default function BlogListClient({
   popular,
 }: BlogListClientProps) {
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState<CategoryFilter>("all");
+  const [activeFilter, setActiveFilter] = useState<string>("all");
   const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [page, setPage] = useState(1);
@@ -71,14 +86,14 @@ export default function BlogListClient({
   // フィルタ・検索の変更時は1ページ目に戻す
   useEffect(() => {
     setPage(1);
-  }, [query, category, favoritesOnly]);
+  }, [query, activeFilter, favoritesOnly]);
 
   const filtered = useMemo(() => {
     const tokens = normalize(query).split(" ").filter(Boolean);
     const favSet = new Set(favorites);
 
     return articles.filter((a) => {
-      if (category !== "all" && a.categorySlug !== category) return false;
+      if (!matchesFilter(a, activeFilter)) return false;
       if (favoritesOnly && !favSet.has(a.slug)) return false;
       if (tokens.length > 0) {
         const haystack = normalize(
@@ -88,7 +103,7 @@ export default function BlogListClient({
       }
       return true;
     });
-  }, [articles, query, category, favoritesOnly, favorites]);
+  }, [articles, query, activeFilter, favoritesOnly, favorites]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
@@ -224,21 +239,15 @@ export default function BlogListClient({
         </div>
       </div>
 
-      {/* カテゴリー切り替え */}
+      {/* カテゴリー / タグ 切り替え */}
       <div className="mb-6 flex flex-wrap items-center gap-2">
-        <FilterChip
-          active={category === "all"}
-          onClick={() => setCategory("all")}
-        >
-          すべて
-        </FilterChip>
-        {BLOG_CATEGORY_SLUGS.map((slug) => (
+        {FILTERS.map((f) => (
           <FilterChip
-            key={slug}
-            active={category === slug}
-            onClick={() => setCategory(slug)}
+            key={f.key}
+            active={activeFilter === f.key}
+            onClick={() => setActiveFilter(f.key)}
           >
-            {BLOG_CATEGORY_LABEL[slug]}
+            {f.label}
           </FilterChip>
         ))}
       </div>
