@@ -72,6 +72,22 @@ export function categoryLabel(slug: BlogCategorySlug | null): string {
   return BLOG_CATEGORY_LABEL[slug];
 }
 
+/**
+ * category フィールドから表示用の名前を取り出す（例: "実際の体験談"）。
+ * 参照オブジェクト / 文字列 / 配列いずれにも対応。無ければ null。
+ */
+export function extractCategoryName(raw: unknown): string | null {
+  if (!raw) return null;
+  let value: unknown = raw;
+  if (Array.isArray(value)) value = value[0];
+  if (value && typeof value === "object") {
+    const obj = value as Record<string, unknown>;
+    const v = obj.name ?? obj.label ?? obj.value;
+    return typeof v === "string" && v.trim() ? v.trim() : null;
+  }
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
 // ---- 型定義 ----------------------------------------------------------------
 
 /** microCMS の画像フィールド。 */
@@ -223,9 +239,20 @@ function detectRecommended(raw: RawBlogArticle, tags: string[]): boolean {
 
 /** 生データを正規化。slug が無いものは id をフォールバックに使う。 */
 function normalizeArticle(raw: RawBlogArticle): BlogArticle {
-  const categorySlug = normalizeCategory(raw.category);
+  // microCMS の記事はすべて「恋愛ブログ」カテゴリに属する。
+  // ただし category に "恋愛コラム" 等が明示されていればそちらを優先。
+  const knownSlug = normalizeCategory(raw.category);
+  const categorySlug: BlogCategorySlug = knownSlug ?? "blog";
   const contentHtml = raw.content ?? "";
-  const tags = normalizeTags(raw.tags);
+
+  // 参照カテゴリの名前（例: "実際の体験談"）はタグとして保持（検索・関連記事に活用）
+  const baseTags = normalizeTags(raw.tags);
+  const catName = extractCategoryName(raw.category);
+  const tags =
+    catName && !(catName in LABEL_TO_SLUG) && !baseTags.includes(catName)
+      ? [catName, ...baseTags]
+      : baseTags;
+
   return {
     id: raw.id,
     slug: (raw.slug && raw.slug.trim()) || raw.id,
