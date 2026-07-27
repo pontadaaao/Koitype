@@ -27,7 +27,7 @@ const PAGE_SIZE = 10;
 // 検索欄の下に並ぶフィルターチップ。
 // 「恋愛コラム」はカテゴリで、それ以外は microCMS のカテゴリ名（タグ）で絞り込む。
 // タグを増やしたい場合はここに追記する（microCMS のカテゴリ名と完全一致させる）。
-const TAG_FILTERS = ["実体験", "あるある", "スポット"];
+const TAG_FILTERS = ["実体験", "恋愛あるある", "恋愛スポット"];
 
 interface FilterDef {
   key: string;
@@ -239,8 +239,8 @@ export default function BlogListClient({
         </div>
       </div>
 
-      {/* カテゴリー / タグ 切り替え */}
-      <div className="mb-6 flex flex-wrap items-center gap-2">
+      {/* カテゴリー / タグ 切り替え（横スクロール） */}
+      <div className="mb-6 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {FILTERS.map((f) => (
           <FilterChip
             key={f.key}
@@ -316,7 +316,7 @@ function FilterChip({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
+      className={`shrink-0 whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
         active
           ? "bg-accent text-white shadow-sm"
           : "bg-white text-text-sub border border-pink-light hover:border-accent/50 hover:text-accent"
