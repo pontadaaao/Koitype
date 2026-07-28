@@ -5,9 +5,13 @@ import Image from "next/image";
 import FavoriteButton from "@/components/blog/FavoriteButton";
 import type { BlogCardData } from "@/components/blog/types";
 
+// microCMS のカテゴリ名ごとの色。未定義のカテゴリはピンクで表示。
 const CATEGORY_PILL: Record<string, string> = {
-  column: "bg-fuchsia-100 text-fuchsia-700",
-  blog: "bg-violet-100 text-violet-700",
+  恋愛コラム: "bg-fuchsia-100 text-fuchsia-700",
+  実際の体験談: "bg-rose-100 text-rose-700",
+  恋愛あるある: "bg-amber-100 text-amber-700",
+  恋愛スポット: "bg-sky-100 text-sky-700",
+  恋愛ブログ: "bg-violet-100 text-violet-700",
 };
 
 function formatDate(iso: string): string {
@@ -19,9 +23,8 @@ function formatDate(iso: string): string {
 
 /** 恋愛ブログの記事カード。1列（スマホ）〜複数列（PC）のグリッドで使用。 */
 export default function ArticleCard({ article }: { article: BlogCardData }) {
-  const pill = article.categorySlug
-    ? CATEGORY_PILL[article.categorySlug] ?? "bg-pink-100 text-pink-700"
-    : "bg-gray-100 text-gray-600";
+  const pill =
+    CATEGORY_PILL[article.categoryName] ?? "bg-pink-100 text-pink-700";
 
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-pink-light/70 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md">
@@ -67,7 +70,7 @@ export default function ArticleCard({ article }: { article: BlogCardData }) {
             <span
               className={`shrink-0 rounded-full px-2 py-0.5 font-medium ${pill}`}
             >
-              {article.categoryLabel}
+              {article.categoryName}
             </span>
             {formatDate(article.publishedAt) && (
               <time dateTime={article.publishedAt}>

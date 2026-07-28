@@ -11,6 +11,8 @@ export interface BlogCardData {
   eyecatchHeight: number | null;
   categorySlug: BlogCategorySlug | null;
   categoryLabel: string;
+  /** microCMS で設定された具体的なカテゴリ名（例: 実際の体験談）。 */
+  categoryName: string;
   tags: string[];
   recommended: boolean;
   publishedAt: string;

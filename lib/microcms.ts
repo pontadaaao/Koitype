@@ -128,6 +128,8 @@ export interface BlogArticle {
   eyecatch: MicroCmsImage | null;
   categorySlug: BlogCategorySlug | null;
   categoryLabel: string;
+  /** microCMS で設定された具体的なカテゴリ名（例: 実際の体験談）。一覧サムネで表示。 */
+  categoryName: string;
   /** 生の本文HTML（未サニタイズ）。表示には sanitizedContent を使う。 */
   contentHtml: string;
   excerpt: string;
@@ -260,6 +262,7 @@ function normalizeArticle(raw: RawBlogArticle): BlogArticle {
     eyecatch: raw.eyecatch && raw.eyecatch.url ? raw.eyecatch : null,
     categorySlug,
     categoryLabel: categoryLabel(categorySlug),
+    categoryName: catName ?? categoryLabel(categorySlug),
     contentHtml,
     excerpt: resolveExcerpt(raw),
     metaTitle: raw.metaTitle?.trim() || null,
@@ -369,6 +372,7 @@ export function toCardData(a: BlogArticle) {
     eyecatchHeight: a.eyecatch?.height ?? null,
     categorySlug: a.categorySlug,
     categoryLabel: a.categoryLabel,
+    categoryName: a.categoryName,
     tags: a.tags,
     recommended: a.recommended,
     publishedAt: a.publishedAt,
