@@ -16,6 +16,7 @@ import {
   getColumnArticles,
   getColumnArticleBySlug,
 } from "@/lib/blog-columns";
+import { withHashtags } from "@/lib/blog-hashtags";
 
 function sortByPublishedDesc(a: BlogArticle, b: BlogArticle): number {
   return (
@@ -31,7 +32,7 @@ export async function getBlogArticles(): Promise<BlogArticle[]> {
   ]);
   const seen = new Set(microcms.map((a) => a.slug));
   const merged = [...microcms, ...columns.filter((a) => !seen.has(a.slug))];
-  return merged.sort(sortByPublishedDesc);
+  return merged.map(withHashtags).sort(sortByPublishedDesc);
 }
 
 /**
@@ -42,7 +43,10 @@ export async function getRecommendedArticles(
   limit = 5
 ): Promise<BlogArticle[]> {
   const microcms = await getMicrocmsArticles();
-  return microcms.filter((a) => a.recommended).slice(0, limit);
+  return microcms
+    .filter((a) => a.recommended)
+    .slice(0, limit)
+    .map(withHashtags);
 }
 
 /** 指定タグを持つ記事を新着順で取得。 */
@@ -58,8 +62,9 @@ export async function getBlogArticleBySlug(
   slug: string
 ): Promise<BlogArticle | null> {
   const fromCms = await getMicrocmsArticleBySlug(slug);
-  if (fromCms) return fromCms;
-  return getColumnArticleBySlug(slug);
+  if (fromCms) return withHashtags(fromCms);
+  const fromColumn = await getColumnArticleBySlug(slug);
+  return fromColumn ? withHashtags(fromColumn) : null;
 }
 
 /** カテゴリー別。column は既存コラムを含む。 */

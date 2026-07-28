@@ -304,18 +304,23 @@ export default async function BlogDetailPage({ params }: DetailPageProps) {
           dangerouslySetInnerHTML={{ __html: contentWithIds }}
         />
 
-        {/* タグ（クリックで同じタグの記事一覧へ） */}
+        {/* ハッシュタグ（クリックで同じタグの記事一覧へ） */}
         {article.tags.length > 0 && (
-          <div className="mt-8 flex flex-wrap gap-2">
-            {article.tags.map((tag) => (
-              <Link
-                key={tag}
-                href={`/blog/tag/${encodeURIComponent(tag)}`}
-                className="rounded-full bg-pink-pale px-3 py-1 text-xs text-accent transition-colors hover:bg-accent hover:text-white"
-              >
-                #{tag}
-              </Link>
-            ))}
+          <div className="mt-8 border-t border-pink-light/60 pt-6">
+            <h2 className="mb-2.5 text-xs font-bold text-text-sub">
+              ハッシュタグ
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {article.tags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/blog/tag/${encodeURIComponent(tag)}`}
+                  className="rounded-full bg-pink-pale px-3 py-1 text-xs text-accent transition-colors hover:bg-accent hover:text-white"
+                >
+                  #{tag}
+                </Link>
+              ))}
+            </div>
           </div>
         )}
 
