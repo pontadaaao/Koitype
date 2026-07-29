@@ -6,22 +6,39 @@ import { loveTests, isNewLoveTest } from "@/lib/love-tests";
 import LoveTestIcon from "@/components/LoveTestIcon";
 import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: siteTitle("恋愛心理テスト"),
-  description: "あなたの恋愛タイプや本音がわかる無料の心理テストを集めました。1問で診断できる恋愛心理テスト多数。",
-  alternates: { canonical: `${SITE_DEFAULT_URL}/tests` },
-  openGraph: {
-    title: `恋愛心理テスト | ${SITE_NAME}`,
-    description: "あなたの恋愛タイプや本音がわかる無料の心理テスト多数。",
-    url: `${SITE_DEFAULT_URL}/tests`,
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `恋愛心理テスト | ${SITE_NAME}`,
-    description: "あなたの恋愛タイプや本音がわかる無料の心理テスト多数。",
-  },
-};
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}): Promise<Metadata> {
+  const raw = parseInt(searchParams.page ?? "1", 10);
+  const page = Number.isNaN(raw) || raw < 1 ? 1 : raw;
+  // 1ページ目は /tests を正規に。2ページ目以降は自己canonical＋noindex
+  // （薄い一覧ページの重複インデックスを避ける。リンクは follow で辿る）
+  const canonical =
+    page > 1
+      ? `${SITE_DEFAULT_URL}/tests?page=${page}`
+      : `${SITE_DEFAULT_URL}/tests`;
+
+  return {
+    title: siteTitle("恋愛心理テスト"),
+    description:
+      "あなたの恋愛タイプや本音がわかる無料の心理テストを集めました。1問で診断できる恋愛心理テスト多数。",
+    alternates: { canonical },
+    ...(page > 1 ? { robots: { index: false, follow: true } } : {}),
+    openGraph: {
+      title: `恋愛心理テスト | ${SITE_NAME}`,
+      description: "あなたの恋愛タイプや本音がわかる無料の心理テスト多数。",
+      url: `${SITE_DEFAULT_URL}/tests`,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `恋愛心理テスト | ${SITE_NAME}`,
+      description: "あなたの恋愛タイプや本音がわかる無料の心理テスト多数。",
+    },
+  };
+}
 
 const CARD_STYLES = [
   { bg: "linear-gradient(145deg, #fff0f5, #ffe4f0)", border: "#ffd6e7", accent: "#F067A6" },
