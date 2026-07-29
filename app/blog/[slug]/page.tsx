@@ -13,7 +13,11 @@ import {
   stripHtml,
   type BlogArticle,
 } from "@/lib/microcms";
-import { getBlogArticles, getBlogArticleBySlug } from "@/lib/blog-data";
+import {
+  getBlogArticles,
+  getBlogArticleBySlug,
+  getBlogArticleSlugs,
+} from "@/lib/blog-data";
 import { extractHeadings, injectHeadingIds } from "@/lib/sanitize-html";
 import { siteTitle, SITE_DEFAULT_URL, SITE_NAME } from "@/lib/site";
 
@@ -22,6 +26,13 @@ interface DetailPageProps {
 }
 
 export const revalidate = 60;
+
+// 記事ページをビルド時に事前生成（SSG）して遷移を高速化する。
+// ビルド後に追加された記事は dynamicParams（既定 true）でオンデマンド生成。
+export async function generateStaticParams() {
+  const slugs = await getBlogArticleSlugs();
+  return slugs.map(({ slug }) => ({ slug }));
+}
 
 const CATEGORY_PILL: Record<string, string> = {
   column: "bg-fuchsia-100 text-fuchsia-700",
@@ -120,10 +131,12 @@ function pickRelated(current: BlogArticle, all: BlogArticle[]): BlogArticle[] {
 }
 
 export default async function BlogDetailPage({ params }: DetailPageProps) {
-  const article = await getBlogArticleBySlug(params.slug);
+  // 記事本体と全記事（関連・前後用）を並列取得して遷移時の待ち時間を短縮
+  const [article, all] = await Promise.all([
+    getBlogArticleBySlug(params.slug),
+    getBlogArticles(),
+  ]);
   if (!article) notFound();
-
-  const all = await getBlogArticles();
   const url = `${SITE_DEFAULT_URL}/blog/${article.slug}`;
   const pill = article.categorySlug
     ? CATEGORY_PILL[article.categorySlug] ?? "bg-pink-100 text-pink-700"
