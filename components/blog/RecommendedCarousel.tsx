@@ -57,7 +57,6 @@ export default function RecommendedCarousel({
               >
                 {a.title}
               </h3>
-              <span className="mt-2 text-[11px] text-log-hint">{a.categoryName}</span>
             </div>
           </Link>
         ))}
