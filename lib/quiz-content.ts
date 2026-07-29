@@ -11,23 +11,39 @@ const COMMON_RELATED: QuizRelatedLink[] = [
   { href: "/blog/category/column", label: "恋愛コラム" },
 ];
 
-function baseFaq(title: string, timeAnswer: string, mechanism: string) {
+function baseFaq(
+  title: string,
+  names: string[],
+  timeAnswer: string,
+  mechanism: string,
+) {
+  const typeList = names.length
+    ? `「${names.slice(0, 4).join("」「")}」${names.length > 4 ? "など" : ""}の${names.length}タイプ`
+    : "複数のタイプ";
   return [
     {
+      q: `${title}では何がわかりますか？`,
+      a: `${title}では、あなたが${typeList}のどれに当てはまるかがわかります。タイプごとに恋愛傾向や特徴、アドバイスまで解説するので、自分の恋愛のクセを知るヒントになります。`,
+    },
+    {
       q: `${title}は無料で診断できますか？`,
-      a: "はい。会員登録やアプリのインストールは不要で、何度でも無料で診断できます。",
+      a: `はい。${title}は会員登録もアプリのインストールも不要で、何度でも無料で診断できます。`,
     },
     {
       q: "診断にはどのくらい時間がかかりますか？",
       a: timeAnswer,
     },
     {
-      q: "診断結果はシェアできますか？",
-      a: "はい。結果画面からX（旧Twitter）やLINEなどのSNSにそのままシェアできます。",
+      q: `${title}の結果は当たりますか？`,
+      a: `${title}は恋愛心理の一般的な傾向をもとにした診断で、医学的・科学的なものではありません。当たる・当たらないというより、自分の恋愛を見つめ直すきっかけとして気軽に楽しんでください。`,
     },
     {
       q: `${title}はどんな仕組みですか？`,
       a: mechanism,
+    },
+    {
+      q: "診断結果はシェアできますか？",
+      a: `はい。結果画面から、${title}の結果をXやLINEなどのSNSにそのままシェアできます。友だちと結果を見せ合うのも楽しみ方のひとつです。`,
     },
   ];
 }
@@ -60,6 +76,7 @@ export function buildDiagnosisContent(diagnosis: Diagnosis): QuizContentProps {
     types,
     faq: baseFaq(
       diagnosis.title,
+      names,
       `全${diagnosis.questionCount}問で、約${diagnosis.durationMinutes}分で完了します。スキマ時間に気軽に楽しめます。`,
       `恋愛心理の傾向をもとに、選んだ回答からあなたを${typeCount}タイプのいずれかに分類する診断です。結果は娯楽としてお楽しみください。`,
     ),
@@ -91,6 +108,7 @@ export function buildLoveTestContent(test: LoveTest): QuizContentProps {
     types,
     faq: baseFaq(
       test.title,
+      names,
       "質問は1問だけなので、10秒ほどですぐに診断できます。",
       `選んだ回答をもとに、あなたを${typeCount}タイプのいずれかに分類する恋愛心理テストです。結果は娯楽としてお楽しみください。`,
     ),
@@ -125,6 +143,7 @@ export function buildCatTypeContent(
     types,
     faq: baseFaq(
       title,
+      names,
       "全8問で、約1〜2分で完了します。",
       `恋愛での価値観や距離感の傾向から、あなたを${names.length}タイプのいずれかに分類する診断です。結果は娯楽としてお楽しみください。`,
     ),
@@ -161,6 +180,7 @@ export function buildSukinaHitoContent(
     types,
     faq: baseFaq(
       title,
+      names,
       "数問に答えるだけで、1分ほどで完了します。",
       `回答の傾向から、相手が抱いている印象を${names.length}タイプのいずれかに分類する診断です。結果は娯楽としてお楽しみください。`,
     ),
@@ -196,6 +216,7 @@ export function buildDogLoverContent(results: DogLoverResult[]): QuizContentProp
     types,
     faq: baseFaq(
       title,
+      names,
       "数問に答えるだけで、1〜2分で完了します。",
       `恋愛での愛情表現の傾向から、あなたを${names.length}タイプのいずれかに分類する診断です。結果は娯楽としてお楽しみください。`,
     ),
@@ -232,6 +253,7 @@ export function buildDogCatContent(results: DogCatResult[]): QuizContentProps {
     types,
     faq: baseFaq(
       title,
+      names,
       "数問に答えるだけで、1〜2分で完了します。",
       "恋愛での行動や価値観の傾向から、犬系・猫系のタイプに分類する診断です。結果は娯楽としてお楽しみください。",
     ),
