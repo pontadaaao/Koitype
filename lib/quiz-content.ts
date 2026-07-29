@@ -11,6 +11,19 @@ const COMMON_RELATED: QuizRelatedLink[] = [
   { href: "/blog/category/column", label: "恋愛コラム" },
 ];
 
+/** タイトル等を種にした安定ハッシュ（導入文のバリエーション選択用）。 */
+function seedFrom(str: string): number {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
+  return h;
+}
+
+/** seed に応じて配列から1つ選ぶ（負のseedでも安全・ページごとに安定）。 */
+function pick<T>(seed: number, arr: T[]): T {
+  const i = ((Math.trunc(seed) % arr.length) + arr.length) % arr.length;
+  return arr[i];
+}
+
 function baseFaq(
   title: string,
   names: string[],
@@ -70,7 +83,16 @@ export function buildDiagnosisContent(diagnosis: Diagnosis): QuizContentProps {
     aboutHeading: `${diagnosis.title}とは？`,
     intro: [
       diagnosis.description,
-      `${diagnosis.title}は登録不要・完全無料。全${diagnosis.questionCount}問、約${diagnosis.durationMinutes}分で診断できます。結果は「${names.join("」「")}」の${typeCount}タイプに分かれ、それぞれの恋愛傾向・特徴・アドバイスまで詳しく解説します。`,
+      pick(seedFrom(diagnosis.title), [
+        `${diagnosis.title}では、あなたの回答から恋愛傾向を読み解き、「${names.join("」「")}」の${typeCount}タイプのいずれかを判定します。`,
+        `選んだ答えのパターンから、あなたが「${names.join("」「")}」という${typeCount}タイプのどれに近いかを${diagnosis.title}が診断します。`,
+        `${diagnosis.title}は、質問への答えをもとに、あなたを「${names.join("」「")}」の${typeCount}タイプに分類する恋愛診断です。`,
+      ]),
+      pick(seedFrom(diagnosis.title) >>> 3, [
+        `全${diagnosis.questionCount}問・約${diagnosis.durationMinutes}分、登録不要で何度でも無料。結果ではタイプごとの性格や恋愛のクセ、アドバイスまで詳しく紹介します。`,
+        `所要時間は約${diagnosis.durationMinutes}分（全${diagnosis.questionCount}問）。アプリ不要・無料で、結果画面では各タイプの特徴や相性、恋愛のヒントまで読めます。`,
+        `質問は全${diagnosis.questionCount}問、約${diagnosis.durationMinutes}分で完了します。無料・登録不要で、診断後はあなたのタイプの詳しい解説とアドバイスをチェックできます。`,
+      ]),
     ],
     typesHeading: `${diagnosis.title}でわかる${typeCount}つのタイプ`,
     types,
@@ -102,7 +124,16 @@ export function buildLoveTestContent(test: LoveTest): QuizContentProps {
     aboutHeading: `${test.title}とは？`,
     intro: [
       test.description,
-      `「${test.question}」という質問に答えるだけで、「${names.join("」「")}」の${typeCount}タイプを診断します。登録不要・無料で何度でも楽しめる恋愛心理テストです。`,
+      pick(seedFrom(test.title), [
+        `「${test.question}」に答えるだけで、あなたが「${names.join("」「")}」の${typeCount}タイプのどれかがわかります。`,
+        `${test.title}は、質問「${test.question}」への答えから、「${names.join("」「")}」の${typeCount}タイプを診断します。`,
+        `シンプルな質問「${test.question}」に答えると、「${names.join("」「")}」の${typeCount}タイプからあなたのタイプを判定します。`,
+      ]),
+      pick(seedFrom(test.title) >>> 3, [
+        "登録不要・無料で、10秒ほどで結果がわかる恋愛心理テストです。",
+        "アプリのインストールも登録も不要。ちょっとした空き時間に、無料で気軽に楽しめます。",
+        "質問はたった1問。何度でも無料で試せる、手軽な恋愛心理テストです。",
+      ]),
     ],
     typesHeading: `診断でわかる${typeCount}タイプ`,
     types,
