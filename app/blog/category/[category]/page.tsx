@@ -18,6 +18,14 @@ interface CategoryPageProps {
   params: { category: string };
 }
 
+// 各カテゴリーページ固有の説明文（重複判定対策・独自コンテンツ）
+const CATEGORY_DESCRIPTION: Record<BlogCategorySlug, string> = {
+  column:
+    "恋愛コラムでは、片思い・カップル・別れ・婚活・恋愛心理まで、恋のあらゆる悩みに役立つ実用的な記事をお届けします。今日から使えるテクニックやヒントを、テーマ別にわかりやすくまとめました。気になるタイトルから、あなたの恋のヒントを見つけてください。",
+  blog:
+    "恋愛ブログでは、リアルな体験談や恋愛あるある、デートで使えるスポット情報など、読んで共感できる読み物をお届けします。等身大の恋のエピソードを通して、日々の恋愛のヒントやちょっとした勇気が見つかるはずです。",
+};
+
 function isValidCategory(value: string): value is BlogCategorySlug {
   return (BLOG_CATEGORY_SLUGS as string[]).includes(value);
 }
@@ -136,11 +144,14 @@ export default async function BlogCategoryPage({ params }: CategoryPageProps) {
         </div>
 
         <h1
-          className="mb-6 font-heading text-xl font-bold sm:text-2xl"
+          className="mb-2 font-heading text-xl font-bold sm:text-2xl"
           style={{ color: "#5C4033" }}
         >
           {label}
         </h1>
+        <p className="mb-6 text-sm leading-relaxed text-text-sub">
+          {CATEGORY_DESCRIPTION[category]}
+        </p>
 
         {cards.length > 0 ? (
           <BlogCategoryList articles={cards} />
