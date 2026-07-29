@@ -18,7 +18,7 @@ const staticRoutes: { path: string; priority: number; changeFrequency: SitemapEn
   { path: "/compatibility", priority: 0.9, changeFrequency: "weekly", lastModified: BUILD_DATE },
   { path: "/koi-mikuji", priority: 0.8, changeFrequency: "daily", lastModified: BUILD_DATE },
   { path: "/blog", priority: 0.8, changeFrequency: "daily", lastModified: BUILD_DATE },
-  { path: "/contact", priority: 0.5, changeFrequency: "monthly" },
+  // /contact は noindex のため sitemap から除外
   { path: "/about", priority: 0.4, changeFrequency: "monthly" },
   { path: "/privacy-policy", priority: 0.3, changeFrequency: "yearly" },
   { path: "/terms", priority: 0.3, changeFrequency: "yearly" },

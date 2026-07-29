@@ -7,6 +7,8 @@ import ContactPageContent from "./ContactPageContent";
 export const metadata: Metadata = {
   title: siteTitle("お問い合わせ"),
   description: `${SITE_NAME}へのお問い合わせフォームです。ご意見・ご要望・不具合報告などお気軽にご連絡ください。`,
+  // 内容の薄いフォームページのため検索インデックス対象外にする（リンクは追う）
+  robots: { index: false, follow: true },
   alternates: { canonical: `${SITE_DEFAULT_URL}/contact` },
   openGraph: {
     title: `お問い合わせ | ${SITE_NAME}`,
