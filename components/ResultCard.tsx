@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import type { DiagnosisResult } from "@/lib/types";
 import { useLanguage } from "@/components/LanguageProvider";
+import RelatedBlogArticles from "@/components/RelatedBlogArticles";
 
 interface ResultCardProps {
   result: DiagnosisResult;
@@ -407,6 +408,21 @@ export default function ResultCard({ result }: ResultCardProps) {
           </p>
         </section>
       )}
+
+      {/* この結果におすすめの恋愛ブログ記事（回遊導線） */}
+      <RelatedBlogArticles
+        matchText={[
+          result.name,
+          result.desc,
+          result.detail,
+          result.advice,
+          result.prescription,
+          ...(result.tags ?? []),
+          ...(result.aru ?? []),
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      />
     </div>
   );
 }

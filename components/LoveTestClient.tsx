@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { isNewLoveTest, type LoveTest, type LoveTestChoice } from "@/lib/love-tests";
 import LoveTestIcon from "@/components/LoveTestIcon";
+import RelatedBlogArticles from "@/components/RelatedBlogArticles";
 
 interface Props {
   test: LoveTest;
@@ -259,6 +260,18 @@ export default function LoveTestClient({ test, otherTests }: Props) {
               </Link>
             </div>
           </div>
+
+          {/* この結果におすすめの恋愛ブログ記事（回遊導線） */}
+          <RelatedBlogArticles
+            matchText={[
+              choice.resultTitle,
+              choice.catchCopy,
+              choice.resultDescription,
+              choice.advice,
+            ]
+              .filter(Boolean)
+              .join(" ")}
+          />
 
           {/* Other tests */}
           {otherTests.length > 0 && (
