@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   IconBell,
   IconClipboardHeart,
@@ -9,6 +10,7 @@ import {
   IconRocket,
   IconChevronLeft,
   IconChevronRight,
+  IconChevronDown,
 } from "@tabler/icons-react";
 import {
   buildAllEntries,
@@ -47,16 +49,42 @@ const categoryConfig: Record<NotificationCategory, { label: string; icon: React.
   },
 };
 
-function buildTitle(item: ReturnType<typeof aggregate>[number]): string {
+type AggItem = ReturnType<typeof aggregate>[number];
+
+function summaryText(item: AggItem): string {
   const cfg = categoryConfig[item.category];
-  if (item.category === "launch") return item.titles[0];
-  if (item.titles.length === 1) return `「${item.titles[0]}」を追加しました`;
-  return `${cfg.label}を${item.titles.length}件追加しました`;
+  if (item.category === "launch") return item.items[0].title;
+  if (item.items.length === 1) return `「${item.items[0].title}」を追加しました`;
+  return `${cfg.label}を${item.items.length}件追加しました`;
+}
+
+/** カテゴリーチップ + 日付。 */
+function Meta({ item }: { item: AggItem }) {
+  const cfg = categoryConfig[item.category];
+  const Icon = cfg.icon;
+  return (
+    <div className="mb-2 flex flex-wrap items-center gap-2">
+      <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${cfg.color} ${cfg.bg}`}>
+        <Icon size={13} stroke={2} />
+        {cfg.label}
+      </span>
+      <time className="text-xs text-text-sub">{item.date}</time>
+    </div>
+  );
 }
 
 export default function NotificationsContent() {
   const [page, setPage] = useState(1);
   const [blog, setBlog] = useState<BlogNotifEntry[]>([]);
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+
+  const toggleExpanded = (key: string) =>
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
 
   // 訪問時点で既読化（ベルのカウントをリセット）
   useEffect(() => {
@@ -104,21 +132,72 @@ export default function NotificationsContent() {
         <>
           <ul className="list-none space-y-4">
             {items.map((item) => {
-              const cfg = categoryConfig[item.category];
-              const Icon = cfg.icon;
+              const isBatch = item.items.length > 1;
+              const single = item.items.length === 1 ? item.items[0] : null;
+              const open = expanded.has(item.key);
               return (
                 <li
                   key={item.key}
                   className="rounded-2xl border border-pink-light bg-white px-5 py-4 shadow-sm transition-shadow hover:shadow-md"
                 >
-                  <div className="mb-2 flex flex-wrap items-center gap-2">
-                    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${cfg.color} ${cfg.bg}`}>
-                      <Icon size={13} stroke={2} />
-                      {cfg.label}
-                    </span>
-                    <time className="text-xs text-text-sub">{item.date}</time>
-                  </div>
-                  <p className="font-semibold text-text-main">{buildTitle(item)}</p>
+                  {isBatch ? (
+                    <>
+                      {/* 押すと個別の更新リストを展開 */}
+                      <button
+                        type="button"
+                        onClick={() => toggleExpanded(item.key)}
+                        aria-expanded={open}
+                        className="w-full text-left"
+                      >
+                        <Meta item={item} />
+                        <p className="flex items-center justify-between gap-2 font-semibold text-text-main">
+                          <span>{summaryText(item)}</span>
+                          <IconChevronDown
+                            size={18}
+                            stroke={2}
+                            className={`shrink-0 text-text-sub transition-transform ${open ? "rotate-180" : ""}`}
+                          />
+                        </p>
+                      </button>
+
+                      {open && (
+                        <ul className="mt-3 list-none space-y-1 border-t border-pink-light/60 pt-3">
+                          {item.items.map((it, i) =>
+                            it.href ? (
+                              <li key={i}>
+                                <Link
+                                  href={it.href}
+                                  className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-text-main transition-colors hover:bg-pink-pale/50 hover:text-accent"
+                                >
+                                  <span className="text-accent">・</span>
+                                  <span className="min-w-0 flex-1 truncate">{it.title}</span>
+                                  <IconChevronRight size={14} stroke={2} className="shrink-0 text-text-sub/50" />
+                                </Link>
+                              </li>
+                            ) : (
+                              <li key={i} className="flex items-center gap-2 px-2 py-1.5 text-sm text-text-main">
+                                <span className="text-accent">・</span>
+                                <span className="min-w-0 flex-1 truncate">{it.title}</span>
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      )}
+                    </>
+                  ) : single?.href ? (
+                    <Link href={single.href} className="block transition-colors hover:text-accent">
+                      <Meta item={item} />
+                      <p className="flex items-center justify-between gap-2 font-semibold text-text-main">
+                        <span>{summaryText(item)}</span>
+                        <IconChevronRight size={16} stroke={2} className="shrink-0 text-text-sub/50" />
+                      </p>
+                    </Link>
+                  ) : (
+                    <>
+                      <Meta item={item} />
+                      <p className="font-semibold text-text-main">{summaryText(item)}</p>
+                    </>
+                  )}
                 </li>
               );
             })}

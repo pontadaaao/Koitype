@@ -9,6 +9,8 @@ export type NotificationEntry = {
   date: string; // YYYY.MM.DD
   category: NotificationCategory;
   title: string;
+  /** 該当コンテンツへのリンク（あれば一覧の個別項目がリンクになる）。 */
+  href?: string;
 };
 
 // リリースや特別なお知らせはここに追加
@@ -16,14 +18,26 @@ export const specialEntries: NotificationEntry[] = [
   { date: "2026.07.02", category: "launch", title: "Koitypeをリリースしました" },
 ];
 
-export type RawEntry = { date: string; category: NotificationCategory; title: string };
-export type AggregatedItem = { key: string; date: string; category: NotificationCategory; titles: string[] };
+export type RawEntry = {
+  date: string;
+  category: NotificationCategory;
+  title: string;
+  href?: string;
+};
+/** 集計されたお知らせに含まれる個別の更新項目。 */
+export type NotifItem = { title: string; href?: string };
+export type AggregatedItem = {
+  key: string;
+  date: string;
+  category: NotificationCategory;
+  items: NotifItem[];
+};
 
 /**
  * 恋愛ブログ記事（microCMS + Supabase + static を統合）由来のお知らせ材料。
  * ブログはサーバー専用データのため、/api/notifications 経由でクライアントに渡す。
  */
-export type BlogNotifEntry = { date: string; title: string };
+export type BlogNotifEntry = { date: string; title: string; slug?: string };
 
 function toDisplayDate(iso: string): string {
   return iso.replace(/-/g, ".");
@@ -35,10 +49,10 @@ export function buildStaticEntries(): RawEntry[] {
     ...specialEntries,
     ...diagnoses
       .filter((d) => d.publishedAt)
-      .map((d) => ({ date: toDisplayDate(d.publishedAt!), category: "love-diagnosis" as const, title: d.title })),
+      .map((d) => ({ date: toDisplayDate(d.publishedAt!), category: "love-diagnosis" as const, title: d.title, href: `/diagnosis/${d.id}` })),
     ...loveTests
       .filter((t) => t.publishedAt)
-      .map((t) => ({ date: toDisplayDate(t.publishedAt!), category: "psychology-test" as const, title: t.title })),
+      .map((t) => ({ date: toDisplayDate(t.publishedAt!), category: "psychology-test" as const, title: t.title, href: `/tests/${t.slug}` })),
   ];
 }
 
@@ -46,7 +60,12 @@ export function buildStaticEntries(): RawEntry[] {
 export function buildAllEntries(blog: BlogNotifEntry[] = []): RawEntry[] {
   return [
     ...buildStaticEntries(),
-    ...blog.map((b) => ({ date: b.date, category: "love-column" as const, title: b.title })),
+    ...blog.map((b) => ({
+      date: b.date,
+      category: "love-column" as const,
+      title: b.title,
+      href: b.slug ? `/blog/${b.slug}` : undefined,
+    })),
   ];
 }
 
@@ -54,11 +73,12 @@ export function aggregate(entries: RawEntry[]): AggregatedItem[] {
   const map = new Map<string, AggregatedItem>();
   for (const e of entries) {
     const key = `${e.date}__${e.category}`;
+    const notifItem: NotifItem = { title: e.title, href: e.href };
     const existing = map.get(key);
     if (existing) {
-      existing.titles.push(e.title);
+      existing.items.push(notifItem);
     } else {
-      map.set(key, { key, date: e.date, category: e.category, titles: [e.title] });
+      map.set(key, { key, date: e.date, category: e.category, items: [notifItem] });
     }
   }
   return Array.from(map.values()).sort((a, b) => b.date.localeCompare(a.date));

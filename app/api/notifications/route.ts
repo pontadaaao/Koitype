@@ -12,6 +12,7 @@ export async function GET() {
       .map((a) => ({
         date: (a.publishedAt ?? "").slice(0, 10).replace(/-/g, "."),
         title: a.title,
+        slug: a.slug,
       }))
       .filter((b) => /^\d{4}\.\d{2}\.\d{2}$/.test(b.date));
     return NextResponse.json({ blog });
