@@ -27,7 +27,7 @@ const PAGE_SIZE = 10;
 // 検索欄の下に並ぶフィルターチップ。
 // 「恋愛コラム」はカテゴリで、それ以外は microCMS のカテゴリ名（タグ）で絞り込む。
 // タグを増やしたい場合はここに追記する（microCMS のカテゴリ名と完全一致させる）。
-const TAG_FILTERS = ["実際の体験談", "恋愛あるある", "恋愛スポット"];
+const TAG_FILTERS = ["恋愛小説", "実際の体験談", "恋愛あるある", "恋愛スポット"];
 
 interface FilterDef {
   key: string;
