@@ -19,6 +19,8 @@ import {
   getBlogArticleSlugs,
 } from "@/lib/blog-data";
 import { extractHeadings, injectHeadingIds } from "@/lib/sanitize-html";
+import { pickDiagnosesForArticle } from "@/lib/blog-cross-links";
+import DiagnosisCallout from "@/components/blog/DiagnosisCallout";
 import { siteTitle, SITE_DEFAULT_URL, SITE_NAME } from "@/lib/site";
 
 interface DetailPageProps {
@@ -315,6 +317,11 @@ export default async function BlogDetailPage({ params }: DetailPageProps) {
         <article
           className="blog-body mt-8"
           dangerouslySetInnerHTML={{ __html: contentWithIds }}
+        />
+
+        {/* 診断への導線（回遊の輪） */}
+        <DiagnosisCallout
+          items={pickDiagnosesForArticle(article.tags, article.title, 2)}
         />
 
         {/* ハッシュタグ（クリックで同じタグの記事一覧へ） */}
