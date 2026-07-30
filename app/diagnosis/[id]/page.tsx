@@ -36,13 +36,15 @@ export async function generateMetadata({
         ]
       : undefined;
 
+    const metaDescription = diagnosis.seoDescription ?? diagnosis.description;
+
     return {
       title: siteTitle(diagnosis.title),
-      description: diagnosis.description,
+      description: metaDescription,
       alternates: { canonical: diagnosisUrl },
       openGraph: {
         title: `${diagnosis.title} | ${SITE_NAME}`,
-        description: diagnosis.description,
+        description: metaDescription,
         url: diagnosisUrl,
         type: "website",
         images: ogImages,
@@ -50,7 +52,7 @@ export async function generateMetadata({
       twitter: {
         card: "summary_large_image",
         title: `${diagnosis.title} | ${SITE_NAME}`,
-        description: diagnosis.description,
+        description: metaDescription,
         images: ogImages,
       },
     };

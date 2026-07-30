@@ -236,6 +236,12 @@ export default function ResultCard({ result }: ResultCardProps) {
             </h1>
           )}
 
+          {result.catchCopy && (
+            <p className="mx-auto mt-3 max-w-md text-sm font-medium italic leading-relaxed text-white/90 sm:text-base">
+              {result.catchCopy}
+            </p>
+          )}
+
         </div>
         <WaveDown fill="#00B7CE" />
       </section>

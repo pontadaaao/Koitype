@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import ProgressBar from "@/components/ProgressBar";
@@ -36,6 +36,10 @@ export default function DiagnosisClient({ diagnosis }: DiagnosisClientProps) {
   const [started, setStarted] = useState(
     shouldAutoStart || initialResult !== null
   );
+  // 連打で同じ質問が二重に進んだり、戻るが二重に効いたりしないようにする同期ロック。
+  // isVisible は再描画を経てから更新されるため、同一tick内の連打では
+  // state だけのガードだと間に合わないことがある（ref で即座にロック）。
+  const isTransitioningRef = useRef(false);
 
   useEffect(() => {
     if (!resultIdFromUrl) {
@@ -60,7 +64,8 @@ export default function DiagnosisClient({ diagnosis }: DiagnosisClientProps) {
 
   const handleSelect = useCallback(
     (choiceIndex: number) => {
-      if (!isVisible) return;
+      if (isTransitioningRef.current) return;
+      isTransitioningRef.current = true;
 
       const newAnswers = [...answers, choiceIndex];
       setAnswers(newAnswers);
@@ -72,6 +77,7 @@ export default function DiagnosisClient({ diagnosis }: DiagnosisClientProps) {
           `/diagnosis/${diagnosis.id}?result=${calculated.id}`,
           { scroll: false }
         );
+        isTransitioningRef.current = false;
         return;
       }
 
@@ -79,19 +85,22 @@ export default function DiagnosisClient({ diagnosis }: DiagnosisClientProps) {
       setTimeout(() => {
         setCurrentStep((prev) => prev + 1);
         setIsVisible(true);
+        isTransitioningRef.current = false;
       }, 200);
     },
-    [answers, diagnosis, isVisible, router]
+    [answers, diagnosis, router]
   );
 
   const handleBack = () => {
-    if (currentStep === 0 || !isVisible) return;
+    if (currentStep === 0 || isTransitioningRef.current) return;
+    isTransitioningRef.current = true;
 
     setIsVisible(false);
     setTimeout(() => {
       setCurrentStep((prev) => prev - 1);
       setAnswers((prev) => prev.slice(0, -1));
       setIsVisible(true);
+      isTransitioningRef.current = false;
     }, 200);
   };
 

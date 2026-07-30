@@ -36,9 +36,26 @@ export default function ShareButtons({
     `/diagnosis/${diagnosisId}?${shareParams.toString()}`
   );
 
-  const shareText = isDogCatResult(result)
-    ? `私の恋愛スタイルは「${result.name}」でした\n犬系${dogPct ?? 0}% / 猫系${catPct ?? 0}%\n${result.tags.map((t) => "#" + t).join(" ")} #恋愛診断 ${SITE_TAG}`
-    : `私の恋愛スタイルは「${result.name}」でした\n${result.tags.map((t) => "#" + t).join(" ")} #恋愛診断 ${SITE_TAG}`;
+  // 小悪魔診断は小悪魔度を含む専用シェア文にする。
+  const koakumaPct =
+    diagnosisId === "koakuma" && !isDogCatResult(result)
+      ? result.parameters?.find((p) => p.label === "小悪魔度")?.value
+      : undefined;
+
+  // 天邪鬼診断は天邪鬼度を含む専用シェア文にする。
+  const amanojakuPct =
+    diagnosisId === "amanojaku" && !isDogCatResult(result)
+      ? result.parameters?.find((p) => p.label === "天邪鬼度")?.value
+      : undefined;
+
+  const shareText =
+    koakumaPct !== undefined
+      ? `私の診断結果は「${result.name}」でした♡\n小悪魔度は${koakumaPct}％！\nあなたはどの小悪魔タイプ？\n#小悪魔診断 #恋愛診断 #こいらぼ`
+      : amanojakuPct !== undefined
+        ? `私の診断結果は「${result.name}」でした♡\n天邪鬼度は${amanojakuPct}％！\n好きな人に素直になれない理由がバレるかも？\n#天邪鬼診断 #恋愛診断 #こいらぼ`
+        : isDogCatResult(result)
+        ? `私の恋愛スタイルは「${result.name}」でした\n犬系${dogPct ?? 0}% / 猫系${catPct ?? 0}%\n${result.tags.map((t) => "#" + t).join(" ")} #恋愛診断 ${SITE_TAG}`
+        : `私の恋愛スタイルは「${result.name}」でした\n${result.tags.map((t) => "#" + t).join(" ")} #恋愛診断 ${SITE_TAG}`;
 
   const showToast = (message: string) => {
     setToast(message);

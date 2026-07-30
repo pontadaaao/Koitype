@@ -18,6 +18,8 @@ export interface DiagnosisResult {
   name: string;
   tags: string[];
   desc: string;
+  /** 結果タイトル直下に表示するキャッチコピー（任意）。 */
+  catchCopy?: string;
   detail?: string;
   detailTitle?: string;
   advice?: string;
@@ -45,6 +47,14 @@ export interface Diagnosis {
   href?: string;
   thumbnail?: string;
   publishedAt?: string; // YYYY-MM-DD — set when added to show in notifications
+  /** メタディスクリプション上書き（任意）。未指定時は description を使用。 */
+  seoDescription?: string;
+  /**
+   * 同点時の tie-break 方式（任意）。
+   * "last" = 後半の質問で最後に選択したアルファベットを優先。
+   * 未指定時は従来どおり最小indexを優先。
+   */
+  tieBreak?: "last";
   questions: Question[];
   results: DiagnosisResult[];
 }
