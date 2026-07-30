@@ -17,6 +17,10 @@ import {
   NOTIFICATIONS_LS_KEY,
   type BlogNotifEntry,
 } from "@/app/notifications/data";
+import {
+  FAVORITES_CHANGED_EVENT,
+  getFavorites,
+} from "@/components/blog/favorites";
 
 interface SiteHeaderProps {
   backHref?: string;
@@ -179,6 +183,7 @@ export default function SiteHeader({
   const { t } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [favCount, setFavCount] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -204,6 +209,18 @@ export default function SiteHeader({
     return () => {
       cancelled = true;
       window.removeEventListener("notifications-visited", recompute);
+    };
+  }, []);
+
+  // お気に入り登録件数（localStorage）を同期
+  useEffect(() => {
+    const sync = () => setFavCount(getFavorites().length);
+    sync();
+    window.addEventListener(FAVORITES_CHANGED_EVENT, sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener(FAVORITES_CHANGED_EVENT, sync);
+      window.removeEventListener("storage", sync);
     };
   }, []);
 
@@ -265,16 +282,20 @@ export default function SiteHeader({
               </Link>
               <Link
                 href="/blog?favorites=1"
-                className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-pink-pale"
-                aria-label={t.nav.favorites}
+                className="relative flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-pink-pale"
+                aria-label={
+                  favCount > 0
+                    ? `${t.nav.favorites}（${favCount}件）`
+                    : t.nav.favorites
+                }
                 title={t.nav.favorites}
               >
                 <svg
                   width="22"
                   height="22"
                   viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#5C4033"
+                  fill={favCount > 0 ? "#F067A6" : "none"}
+                  stroke={favCount > 0 ? "#F067A6" : "#5C4033"}
                   strokeWidth="1.8"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -282,6 +303,11 @@ export default function SiteHeader({
                 >
                   <path d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.8l-5.8 3.05 1.11-6.46-4.7-4.58 6.49-.94z" />
                 </svg>
+                {favCount > 0 && (
+                  <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[9px] font-bold text-white">
+                    {favCount > 99 ? "99+" : favCount}
+                  </span>
+                )}
               </Link>
               <div className="hidden sm:block">
                 <LanguageSwitcher variant="compact" />
