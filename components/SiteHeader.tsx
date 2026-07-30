@@ -263,6 +263,26 @@ export default function SiteHeader({
                   </span>
                 )}
               </Link>
+              <Link
+                href="/blog?favorites=1"
+                className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-pink-pale"
+                aria-label={t.nav.favorites}
+                title={t.nav.favorites}
+              >
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#5C4033"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.8l-5.8 3.05 1.11-6.46-4.7-4.58 6.49-.94z" />
+                </svg>
+              </Link>
               <div className="hidden sm:block">
                 <LanguageSwitcher variant="compact" />
               </div>
