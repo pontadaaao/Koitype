@@ -60,6 +60,20 @@ const nextConfig = {
         destination: "/blog/:slug",
         permanent: true,
       },
+      // トップの旧クエリ(?category=...)はエッジでリダイレクト。
+      // これによりトップページ本体は searchParams 非依存で静的化でき、遷移が高速になる。
+      {
+        source: "/",
+        has: [{ type: "query", key: "category", value: "love-type" }],
+        destination: "/love-diagnosis",
+        permanent: false,
+      },
+      {
+        source: "/",
+        has: [{ type: "query", key: "category", value: "compatibility" }],
+        destination: "/compatibility",
+        permanent: false,
+      },
     ];
   },
   async rewrites() {
