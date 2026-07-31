@@ -8,7 +8,7 @@ import type { BlogCardData } from "@/components/blog/types";
 // microCMS のカテゴリ名ごとの色。未定義のカテゴリはピンクで表示。
 const CATEGORY_PILL: Record<string, string> = {
   恋愛コラム: "bg-fuchsia-100 text-fuchsia-700",
-  実際の体験談: "bg-rose-100 text-rose-700",
+  "実話・体験談": "bg-rose-100 text-rose-700",
   恋愛あるある: "bg-amber-100 text-amber-700",
   恋愛スポット: "bg-sky-100 text-sky-700",
   恋愛ブログ: "bg-violet-100 text-violet-700",

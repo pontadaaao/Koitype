@@ -29,7 +29,7 @@ const PAGE_SIZE = 10;
 // tag は microCMS のカテゴリ名と完全一致させる。label はチップ表示用の文言
 // （tag と異なる文言にしたい場合はここで上書きできる）。
 const TAG_FILTERS: { tag: string; label: string }[] = [
-  { tag: "実際の体験談", label: "実話・体験談" },
+  { tag: "実話・体験談", label: "実話・体験談" },
   { tag: "恋愛あるある", label: "恋愛あるある" },
   { tag: "恋愛スポット", label: "恋愛スポット" },
 ];
