@@ -40,8 +40,8 @@ interface FilterDef {
 }
 const FILTERS: FilterDef[] = [
   { key: "all", label: "すべて" },
-  { key: "column", label: "恋愛コラム" },
   ...TAG_FILTERS.map(({ tag, label }) => ({ key: `tag:${tag}`, label })),
+  { key: "column", label: "恋愛コラム" },
 ];
 
 function matchesFilter(a: BlogCardData, key: string): boolean {
