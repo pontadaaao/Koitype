@@ -26,8 +26,13 @@ const PAGE_SIZE = 10;
 
 // 検索欄の下に並ぶフィルターチップ。
 // 「恋愛コラム」はカテゴリで、それ以外は microCMS のカテゴリ名（タグ）で絞り込む。
-// タグを増やしたい場合はここに追記する（microCMS のカテゴリ名と完全一致させる）。
-const TAG_FILTERS = ["恋愛小説", "実際の体験談", "恋愛あるある", "恋愛スポット"];
+// tag は microCMS のカテゴリ名と完全一致させる。label はチップ表示用の文言
+// （tag と異なる文言にしたい場合はここで上書きできる）。
+const TAG_FILTERS: { tag: string; label: string }[] = [
+  { tag: "実際の体験談", label: "実話・体験談" },
+  { tag: "恋愛あるある", label: "恋愛あるある" },
+  { tag: "恋愛スポット", label: "恋愛スポット" },
+];
 
 interface FilterDef {
   key: string;
@@ -36,7 +41,7 @@ interface FilterDef {
 const FILTERS: FilterDef[] = [
   { key: "all", label: "すべて" },
   { key: "column", label: "恋愛コラム" },
-  ...TAG_FILTERS.map((t) => ({ key: `tag:${t}`, label: t })),
+  ...TAG_FILTERS.map(({ tag, label }) => ({ key: `tag:${tag}`, label })),
 ];
 
 function matchesFilter(a: BlogCardData, key: string): boolean {
