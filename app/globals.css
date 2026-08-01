@@ -117,11 +117,21 @@
   }
 
   .ticker-track {
-    animation: tickerScroll 18s linear infinite;
+    animation: tickerScroll var(--ticker-duration, 18s) linear infinite;
   }
 
-  .group:hover .ticker-track {
-    animation-play-state: paused;
+  /* ホバー時の一時停止はマウス操作のできる端末のみ。
+     スマホのタップは :hover が残留しやすく、止まったままに見えるため対象外にする。 */
+  @media (hover: hover) and (pointer: fine) {
+    .group:hover .ticker-track {
+      animation-play-state: paused;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+      animation: none;
+    }
   }
 }
 
