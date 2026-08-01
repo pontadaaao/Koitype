@@ -110,6 +110,19 @@
     transform-origin: top center;
     display: inline-block;
   }
+
+  @keyframes tickerScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .ticker-track {
+    animation: tickerScroll 18s linear infinite;
+  }
+
+  .group:hover .ticker-track {
+    animation-play-state: paused;
+  }
 }
 
 /* プライバシーポリシー・フッター */

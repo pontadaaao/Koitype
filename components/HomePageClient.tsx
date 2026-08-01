@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
+import UpdatesTicker from "@/components/UpdatesTicker";
 import HomeSectionHeading from "@/components/sections/HomeSectionHeading";
 import LoveDiagnosisSection from "@/components/sections/LoveDiagnosisSection";
 import DiagnosisSlider from "@/components/DiagnosisSlider";
@@ -82,13 +83,8 @@ export default function HomePageClient({
           id="love-diagnosis"
           className="scroll-mt-52 pb-16 pt-4 first:border-t-0 sm:pt-6"
         >
-          <div className="mb-6 mt-4 text-center sm:mb-8 sm:mt-6">
-            <span className="mb-2 inline-flex items-center gap-1 rounded-full bg-accent/10 px-3 py-1 text-[11px] font-bold tracking-wide text-accent">
-              <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
-                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a2 2 0 002-2H8a2 2 0 002 2z"/>
-              </svg>
-              【随時更新】最新情報はベルアイコンをクリック！
-            </span>
+          <div className="mb-6 mt-4 flex flex-col items-center text-center sm:mb-8 sm:mt-6">
+            <UpdatesTicker />
             <p className="mt-3 font-heading text-lg font-black leading-snug tracking-wider sm:mt-4 sm:text-xl md:text-2xl lg:text-3xl" style={{ color: "#5C4033" }}>
               {typedText}
               <span
