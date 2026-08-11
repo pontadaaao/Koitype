@@ -33,6 +33,7 @@ export async function generateMetadata({
   return {
     title: siteTitle(`#${tag}`),
     description,
+    robots: { index: false },
     alternates: { canonical: url },
     openGraph: {
       title: `#${tag} | ${SITE_NAME}`,
