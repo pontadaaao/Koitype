@@ -214,6 +214,17 @@ export default function CatTypeClient() {
   const [resultVisible, setResultVisible] = useState(!!initialResult);
 
   useEffect(() => {
+    // ?start=1 を URL から削除（クエリパラメータのバリエーションを減らす）
+    if (shouldAutoStart && typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      if (url.searchParams.has("start")) {
+        url.searchParams.delete("start");
+        router.replace(url.pathname + url.search);
+      }
+    }
+  }, [shouldAutoStart, router]);
+
+  useEffect(() => {
     if (resultIdFromUrl) {
       const urlResult = getCatResultById(resultIdFromUrl);
       if (urlResult) {
