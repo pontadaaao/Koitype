@@ -74,6 +74,19 @@ const nextConfig = {
         destination: "/compatibility",
         permanent: false,
       },
+      // ?start=1 を削除（すべての診断・テストページ）
+      {
+        source: "/diagnosis/:id",
+        has: [{ type: "query", key: "start" }],
+        destination: "/diagnosis/:id",
+        permanent: true,
+      },
+      {
+        source: "/tests/:slug",
+        has: [{ type: "query", key: "start" }],
+        destination: "/tests/:slug",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
