@@ -7,7 +7,7 @@ import { buildDogLoverContent } from "@/lib/quiz-content";
 import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
 interface DogLoverPageProps {
-  searchParams: { result?: string };
+  searchParams: { result?: string; start?: string };
 }
 
 const PAGE_DESCRIPTION =

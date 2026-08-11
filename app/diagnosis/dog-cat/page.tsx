@@ -9,7 +9,7 @@ import { SITE_DEFAULT_URL, siteTitle } from "@/lib/site";
 const PAGE_URL = `${SITE_DEFAULT_URL}/diagnosis/dog-cat`;
 
 interface DogCatPageProps {
-  searchParams: { result?: string; dogPct?: string };
+  searchParams: { result?: string; dogPct?: string; start?: string };
 }
 
 export async function generateMetadata({

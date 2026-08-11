@@ -11,7 +11,7 @@ import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
 interface DiagnosisPageProps {
   params: { id: string };
-  searchParams: { result?: string };
+  searchParams: { result?: string; start?: string };
 }
 
 export async function generateMetadata({
