@@ -13,12 +13,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const raw = parseInt(searchParams.page ?? "1", 10);
   const page = Number.isNaN(raw) || raw < 1 ? 1 : raw;
-  // 1ページ目は /tests を正規に。2ページ目以降は自己canonical＋noindex
-  // （薄い一覧ページの重複インデックスを避ける。リンクは follow で辿る）
-  const canonical =
-    page > 1
-      ? `${SITE_DEFAULT_URL}/tests?page=${page}`
-      : `${SITE_DEFAULT_URL}/tests`;
+  // すべてのページネーションは 1ページ目を正規URLに統一
+  // 2ページ目以降は noindex + rel="next"/"prev" で Google に構造を明示
+  const canonical = `${SITE_DEFAULT_URL}/tests`;
 
   return {
     title: siteTitle("恋愛心理テスト"),
