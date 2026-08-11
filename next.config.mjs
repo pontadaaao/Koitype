@@ -54,11 +54,11 @@ const nextConfig = {
   async redirects() {
     return [
       // 恋愛コラムは恋愛ブログに一本化。旧URLは 301 で /blog へ集約。
-      { source: "/columns", destination: "/blog", permanent: true },
+      { source: "/columns", destination: "/blog", statusCode: 301 },
       {
         source: "/columns/:slug",
         destination: "/blog/:slug",
-        permanent: true,
+        statusCode: 301,
       },
       // トップの旧クエリ(?category=...)はエッジでリダイレクト。
       // これによりトップページ本体は searchParams 非依存で静的化でき、遷移が高速になる。
@@ -79,20 +79,20 @@ const nextConfig = {
         source: "/diagnosis/:id",
         has: [{ type: "query", key: "start" }],
         destination: "/diagnosis/:id",
-        permanent: true,
+        statusCode: 301,
       },
       {
         source: "/tests/:slug",
         has: [{ type: "query", key: "start" }],
         destination: "/tests/:slug",
-        permanent: true,
+        statusCode: 301,
       },
       // www → non-www リダイレクト（SEO 正規化）
       {
         source: "/:path*",
         has: [{ type: "host", value: "www.koitype.com" }],
         destination: "https://koitype.com/:path*",
-        permanent: true,
+        statusCode: 301,
       },
     ];
   },
