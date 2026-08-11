@@ -87,6 +87,31 @@ const nextConfig = {
         destination: "/tests/:slug",
         statusCode: 301,
       },
+      // ?start=1 を削除（固定ルート診断ページ）
+      {
+        source: "/diagnosis/dog-cat",
+        has: [{ type: "query", key: "start" }],
+        destination: "/diagnosis/dog-cat",
+        statusCode: 301,
+      },
+      {
+        source: "/diagnosis/cat-type",
+        has: [{ type: "query", key: "start" }],
+        destination: "/diagnosis/cat-type",
+        statusCode: 301,
+      },
+      {
+        source: "/diagnosis/dog-lover",
+        has: [{ type: "query", key: "start" }],
+        destination: "/diagnosis/dog-lover",
+        statusCode: 301,
+      },
+      {
+        source: "/diagnosis/sukina-hito",
+        has: [{ type: "query", key: "start" }],
+        destination: "/diagnosis/sukina-hito",
+        statusCode: 301,
+      },
       // www → non-www リダイレクト（SEO 正規化）
       {
         source: "/:path*",
