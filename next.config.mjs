@@ -87,6 +87,13 @@ const nextConfig = {
         destination: "/tests/:slug",
         permanent: true,
       },
+      // www → non-www リダイレクト（SEO 正規化）
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.koitype.com" }],
+        destination: "https://koitype.com/:path*",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
