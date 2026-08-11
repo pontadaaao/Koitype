@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import ProgressBar from "@/components/ProgressBar";
@@ -34,7 +34,7 @@ function toResultCard(r: DogLoverResult): DiagnosisResult {
   };
 }
 
-export default function DogLoverClient({ children }: { children?: ReactNode }) {
+export default function DogLoverClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t } = useLanguage();
@@ -194,7 +194,6 @@ export default function DogLoverClient({ children }: { children?: ReactNode }) {
         )}
       </main>
 
-      {children}
       <SiteFooter />
     </div>
   );

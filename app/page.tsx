@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import HomePageClient from "@/components/HomePageClient";
 import SiteFooter from "@/components/SiteFooter";
 import { getBlogArticles } from "@/lib/blog-data";
+import { diagnoses } from "@/lib/diagnoses";
+import { loveTests } from "@/lib/love-tests";
 import { SITE_DEFAULT_URL, SITE_DESCRIPTION, SITE_NAME, siteTitle } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -23,13 +26,9 @@ export const metadata: Metadata = {
   },
 };
 
-// 新着記事を反映するため ISR（60秒ごとに再生成）
-// ※ 旧クエリ(?category=love-type / compatibility)は next.config の redirects で処理し、
-//   ここでは searchParams を参照しない（＝トップページを静的化して遷移を高速化）。
 export const revalidate = 60;
 
 export default async function HomePage() {
-  // 恋愛ブログ（microCMS + Supabase + static）の新着6件。追加すると自動で反映される。
   const articles = await getBlogArticles();
   const latestColumns = articles.slice(0, 6).map((a) => ({
     slug: a.slug,
@@ -40,6 +39,24 @@ export default async function HomePage() {
   return (
     <>
       <HomePageClient latestColumns={latestColumns} />
+
+      {/* SSR: キャッシュ用の内部リンク一覧（Googleクローラー向け） */}
+      <nav className="hidden">
+        <h2>恋愛診断一覧</h2>
+        {diagnoses.map((d) => (
+          <Link key={d.id} href={`/diagnosis/${d.id}`}>
+            {d.title}
+          </Link>
+        ))}
+
+        <h2>恋愛心理テスト</h2>
+        {loveTests.map((t) => (
+          <Link key={t.slug} href={`/tests/${t.slug}`}>
+            {t.title}
+          </Link>
+        ))}
+      </nav>
+
       <SiteFooter />
     </>
   );
