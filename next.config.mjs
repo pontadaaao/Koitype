@@ -112,6 +112,12 @@ const nextConfig = {
         destination: "/diagnosis/sukina-hito",
         statusCode: 301,
       },
+      {
+        source: "/diagnosis/love-ponkotsu",
+        has: [{ type: "query", key: "start" }],
+        destination: "/diagnosis/love-ponkotsu",
+        statusCode: 301,
+      },
       // www → non-www リダイレクト（SEO 正規化）
       {
         source: "/:path*",
