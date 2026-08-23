@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import SukinaHitoClient from "@/components/SukinaHitoClient";
 import QuizContent from "@/components/QuizContent";
@@ -74,11 +73,6 @@ export async function generateMetadata({
 }
 
 export default function SukinaHitoPage({ searchParams }: SukinaHitoPageProps) {
-  // ?start=1 を含むリクエストをリダイレクト（インデックスのバリエーション削減）
-  if (searchParams.start === "1") {
-    redirect(`/diagnosis/sukina-hito${searchParams.result ? `?result=${searchParams.result}` : ""}`);
-  }
-
   return (
     <>
       {!searchParams?.result && (

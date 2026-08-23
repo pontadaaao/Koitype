@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import DogCatClient from "@/components/DogCatClient";
 import QuizContent from "@/components/QuizContent";
@@ -59,14 +58,6 @@ export async function generateMetadata({
 }
 
 export default function DogCatPage({ searchParams }: DogCatPageProps) {
-  // ?start=1 を含むリクエストをリダイレクト（インデックスのバリエーション削減）
-  if (searchParams.start === "1") {
-    const params = new URLSearchParams();
-    if (searchParams.result) params.set("result", searchParams.result);
-    if (searchParams.dogPct) params.set("dogPct", searchParams.dogPct);
-    redirect(`/diagnosis/dog-cat${params.toString() ? `?${params.toString()}` : ""}`);
-  }
-
   return (
     <>
       {!searchParams?.result && (

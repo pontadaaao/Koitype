@@ -88,11 +88,6 @@ export async function generateMetadata({
 }
 
 export default function DiagnosisPage({ params, searchParams }: DiagnosisPageProps) {
-  // ?start=1 を含むリクエストをリダイレクト（インデックスのバリエーション削減）
-  if (searchParams.start === "1") {
-    redirect(`/diagnosis/${params.id}${searchParams.result ? `?result=${searchParams.result}` : ""}`);
-  }
-
   if (params.id === "dog-cat") {
     redirect("/diagnosis/dog-cat");
   }

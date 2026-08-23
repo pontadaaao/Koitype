@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import CatTypeClient from "@/components/CatTypeClient";
 import QuizContent from "@/components/QuizContent";
@@ -74,11 +73,6 @@ export async function generateMetadata({
 }
 
 export default function CatTypePage({ searchParams }: CatTypePageProps) {
-  // ?start=1 を含むリクエストをリダイレクト（インデックスのバリエーション削減）
-  if (searchParams.start === "1") {
-    redirect(`/diagnosis/cat-type${searchParams.result ? `?result=${searchParams.result}` : ""}`);
-  }
-
   return (
     <>
       {!searchParams?.result && (
