@@ -19,7 +19,7 @@ export default function SiteLogo({
       style={{ aspectRatio: `${LOGO_WIDTH} / ${LOGO_HEIGHT}` }}
     >
       <Image
-        src="/logo.png"
+        src="/header_logo.png"
         alt={`${SITE_NAME} Logo`}
         fill
         className="object-contain object-left"
