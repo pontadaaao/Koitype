@@ -74,50 +74,8 @@ const nextConfig = {
         destination: "/compatibility",
         permanent: false,
       },
-      // ?start=1 を削除（すべての診断・テストページ）
-      {
-        source: "/diagnosis/:id",
-        has: [{ type: "query", key: "start" }],
-        destination: "/diagnosis/:id",
-        statusCode: 301,
-      },
-      {
-        source: "/tests/:slug",
-        has: [{ type: "query", key: "start" }],
-        destination: "/tests/:slug",
-        statusCode: 301,
-      },
-      // ?start=1 を削除（固定ルート診断ページ）
-      {
-        source: "/diagnosis/dog-cat",
-        has: [{ type: "query", key: "start" }],
-        destination: "/diagnosis/dog-cat",
-        statusCode: 301,
-      },
-      {
-        source: "/diagnosis/cat-type",
-        has: [{ type: "query", key: "start" }],
-        destination: "/diagnosis/cat-type",
-        statusCode: 301,
-      },
-      {
-        source: "/diagnosis/dog-lover",
-        has: [{ type: "query", key: "start" }],
-        destination: "/diagnosis/dog-lover",
-        statusCode: 301,
-      },
-      {
-        source: "/diagnosis/sukina-hito",
-        has: [{ type: "query", key: "start" }],
-        destination: "/diagnosis/sukina-hito",
-        statusCode: 301,
-      },
-      {
-        source: "/diagnosis/love-ponkotsu",
-        has: [{ type: "query", key: "start" }],
-        destination: "/diagnosis/love-ponkotsu",
-        statusCode: 301,
-      },
+      // ?start=1 はクライアント側の useEffect で削除されるため、サーバー側のリダイレクトは不要
+      // ?start=1 はクライアント側の useEffect で削除されるため、サーバー側のリダイレクトは不要
       // www → non-www リダイレクト（SEO 正規化）
       {
         source: "/:path*",
