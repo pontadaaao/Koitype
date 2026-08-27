@@ -48,7 +48,6 @@ export async function generateMetadata({
     return {
       title: siteTitle(DEFAULT_TITLE),
       description: DEFAULT_DESC,
-      alternates: { canonical: PAGE_URL },
       robots: { index: false, follow: true },
     };
   }

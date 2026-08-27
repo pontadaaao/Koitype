@@ -45,7 +45,6 @@ export async function generateMetadata({
     return {
       title: siteTitle("恋愛犬タイプ診断"),
       description: PAGE_DESCRIPTION,
-      alternates: { canonical: pageUrl },
       robots: { index: false, follow: true },
     };
   }

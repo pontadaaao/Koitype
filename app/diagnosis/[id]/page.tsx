@@ -66,7 +66,6 @@ export async function generateMetadata({
     return {
       title: siteTitle(diagnosis.title),
       description: diagnosis.description,
-      alternates: { canonical: diagnosisUrl },
       robots: { index: false, follow: true },
     };
   }
@@ -91,14 +90,6 @@ export async function generateMetadata({
 }
 
 export default function DiagnosisPage({ params, searchParams }: DiagnosisPageProps) {
-  if (params.id === "dog-cat") {
-    redirect("/diagnosis/dog-cat");
-  }
-
-  if (params.id === "compatibility") {
-    redirect("/compatibility");
-  }
-
   const diagnosis = getDiagnosisById(params.id);
 
   if (!diagnosis || diagnosis.questions.length === 0) {

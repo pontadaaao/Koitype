@@ -44,7 +44,6 @@ export async function generateMetadata({
     title: siteTitle(`私の恋愛スタイルは「${result.name}」でした`),
     description: result.catch,
     robots: { index: false, follow: false },
-    alternates: { canonical: PAGE_URL },
     openGraph: {
       title: `私の恋愛スタイルは「${result.name}」でした`,
       description: result.catch,
