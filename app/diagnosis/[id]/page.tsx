@@ -25,6 +25,7 @@ export async function generateMetadata({
   }
 
   const diagnosisUrl = `${SITE_DEFAULT_URL}/diagnosis/${diagnosis.id}`;
+  const hasParams = searchParams?.result || searchParams?.start;
 
   if (!searchParams?.result) {
     const ogImages = diagnosis.thumbnail
@@ -42,6 +43,7 @@ export async function generateMetadata({
       title: siteTitle(diagnosis.title),
       description: metaDescription,
       alternates: { canonical: diagnosisUrl },
+      ...(hasParams ? { robots: { index: false, follow: true } } : {}),
       openGraph: {
         title: `${diagnosis.title} | ${SITE_NAME}`,
         description: metaDescription,
@@ -65,6 +67,7 @@ export async function generateMetadata({
       title: siteTitle(diagnosis.title),
       description: diagnosis.description,
       alternates: { canonical: diagnosisUrl },
+      robots: { index: false, follow: true },
     };
   }
 

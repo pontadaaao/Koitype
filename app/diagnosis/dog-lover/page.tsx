@@ -17,12 +17,14 @@ export async function generateMetadata({
   searchParams,
 }: DogLoverPageProps): Promise<Metadata> {
   const pageUrl = `${SITE_DEFAULT_URL}/diagnosis/dog-lover`;
+  const hasParams = searchParams?.result || searchParams?.start;
 
   if (!searchParams?.result) {
     return {
       title: siteTitle("恋愛犬タイプ診断"),
       description: PAGE_DESCRIPTION,
       alternates: { canonical: pageUrl },
+      ...(hasParams ? { robots: { index: false, follow: true } } : {}),
       openGraph: {
         title: `恋愛犬タイプ診断 | ${SITE_NAME}`,
         description: PAGE_DESCRIPTION,
@@ -44,6 +46,7 @@ export async function generateMetadata({
       title: siteTitle("恋愛犬タイプ診断"),
       description: PAGE_DESCRIPTION,
       alternates: { canonical: pageUrl },
+      robots: { index: false, follow: true },
     };
   }
 

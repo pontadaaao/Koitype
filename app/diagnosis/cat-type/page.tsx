@@ -18,11 +18,14 @@ const PAGE_URL = `${SITE_DEFAULT_URL}/diagnosis/cat-type`;
 export async function generateMetadata({
   searchParams,
 }: CatTypePageProps): Promise<Metadata> {
+  const hasParams = searchParams?.result || searchParams?.start;
+
   if (!searchParams?.result) {
     return {
       title: siteTitle(DEFAULT_TITLE),
       description: DEFAULT_DESC,
       alternates: { canonical: PAGE_URL },
+      ...(hasParams ? { robots: { index: false, follow: true } } : {}),
       openGraph: {
         title: `${DEFAULT_TITLE} | ${SITE_NAME}`,
         description: DEFAULT_DESC,
@@ -46,6 +49,7 @@ export async function generateMetadata({
       title: siteTitle(DEFAULT_TITLE),
       description: DEFAULT_DESC,
       alternates: { canonical: PAGE_URL },
+      robots: { index: false, follow: true },
     };
   }
 
