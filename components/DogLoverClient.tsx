@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useAutoStart } from "@/lib/use-auto-start";
 import ProgressBar from "@/components/ProgressBar";
 import QuestionStep from "@/components/QuestionStep";
 import ResultCard from "@/components/ResultCard";
@@ -40,7 +41,7 @@ export default function DogLoverClient() {
   const { t } = useLanguage();
 
   const resultIdFromUrl = searchParams.get("result");
-  const shouldAutoStart = searchParams.get("start") === "1";
+  const shouldAutoStart = useAutoStart();
   const initialResult = resultIdFromUrl ? (getResultById(resultIdFromUrl) ?? null) : null;
 
   const [screen, setScreen] = useState<Screen>(() => {
@@ -52,17 +53,6 @@ export default function DogLoverClient() {
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<DogLoverResult | null>(initialResult);
   const [isVisible, setIsVisible] = useState(true);
-
-  useEffect(() => {
-    // ?start=1 を URL から削除（クエリパラメータのバリエーションを減らす）
-    if (shouldAutoStart && typeof window !== "undefined") {
-      const url = new URL(window.location.href);
-      if (url.searchParams.has("start")) {
-        url.searchParams.delete("start");
-        router.replace(url.pathname + url.search);
-      }
-    }
-  }, [shouldAutoStart, router]);
 
   useEffect(() => {
     if (resultIdFromUrl) {
@@ -127,7 +117,7 @@ export default function DogLoverClient() {
     setAnswers([]);
     setResult(null);
     setIsVisible(true);
-    router.replace("/diagnosis/dog-lover?start=1", { scroll: false });
+    router.replace("/diagnosis/dog-lover", { scroll: false });
   };
 
   return (

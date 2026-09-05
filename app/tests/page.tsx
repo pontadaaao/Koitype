@@ -6,33 +6,50 @@ import { loveTests, isNewLoveTest } from "@/lib/love-tests";
 import LoveTestIcon from "@/components/LoveTestIcon";
 import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
+const PER_PAGE = 10;
+
 export async function generateMetadata({
   searchParams,
 }: {
   searchParams: { page?: string };
 }): Promise<Metadata> {
   const raw = parseInt(searchParams.page ?? "1", 10);
-  const page = Number.isNaN(raw) || raw < 1 ? 1 : raw;
-  // すべてのページネーションは 1ページ目を正規URLに統一
-  // 2ページ目以降は noindex + rel="next"/"prev" で Google に構造を明示
-  const canonical = `${SITE_DEFAULT_URL}/tests`;
+  const totalPages = Math.ceil(loveTests.length / PER_PAGE);
+  const page = Math.min(
+    Math.max(Number.isNaN(raw) ? 1 : raw, 1),
+    Math.max(totalPages, 1)
+  );
+
+  // ページネーションは「自分自身」を正規URLにする（Google の推奨）。
+  // 以前は 2ページ目以降を canonical=/tests + noindex にしていたが、
+  // 正規化と noindex を同時に出すと矛盾したシグナルになり、
+  // さらに 2ページ目以降からしか辿れない心理テスト詳細ページが
+  // 「検出 - インデックス未登録」のまま放置される原因になっていた。
+  const canonical =
+    page > 1
+      ? `${SITE_DEFAULT_URL}/tests?page=${page}`
+      : `${SITE_DEFAULT_URL}/tests`;
+
+  const title = page > 1 ? `恋愛心理テスト（${page}ページ目）` : "恋愛心理テスト";
+  const description =
+    page > 1
+      ? `あなたの恋愛タイプや本音がわかる無料の心理テスト一覧（${page}/${totalPages}ページ）。1問で診断できる恋愛心理テストを${loveTests.length}種類掲載しています。`
+      : `あなたの恋愛タイプや本音がわかる無料の心理テストを${loveTests.length}種類集めました。1問で診断できる恋愛心理テスト多数。`;
 
   return {
-    title: siteTitle("恋愛心理テスト"),
-    description:
-      "あなたの恋愛タイプや本音がわかる無料の心理テストを集めました。1問で診断できる恋愛心理テスト多数。",
+    title: siteTitle(title),
+    description,
     alternates: { canonical },
-    ...(page > 1 ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
-      title: `恋愛心理テスト | ${SITE_NAME}`,
-      description: "あなたの恋愛タイプや本音がわかる無料の心理テスト多数。",
-      url: `${SITE_DEFAULT_URL}/tests`,
+      title: `${title} | ${SITE_NAME}`,
+      description,
+      url: canonical,
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title: `恋愛心理テスト | ${SITE_NAME}`,
-      description: "あなたの恋愛タイプや本音がわかる無料の心理テスト多数。",
+      title: `${title} | ${SITE_NAME}`,
+      description,
     },
   };
 }
@@ -41,8 +58,6 @@ const CARD_STYLES = [
   { bg: "linear-gradient(145deg, #fff0f5, #ffe4f0)", border: "#ffd6e7", accent: "#F067A6" },
   { bg: "linear-gradient(145deg, #f5f0ff, #ede4fd)", border: "#e0d4f7", accent: "#9B6FD4" },
 ];
-
-const PER_PAGE = 10;
 
 function getPageNumbers(currentPage: number, totalPages: number): (number | "…")[] {
   if (totalPages <= 3) {

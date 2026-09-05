@@ -7,7 +7,7 @@ import { buildDogLoverContent } from "@/lib/quiz-content";
 import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
 interface DogLoverPageProps {
-  searchParams: { result?: string; start?: string };
+  searchParams: { result?: string };
 }
 
 const PAGE_DESCRIPTION =
@@ -17,14 +17,12 @@ export async function generateMetadata({
   searchParams,
 }: DogLoverPageProps): Promise<Metadata> {
   const pageUrl = `${SITE_DEFAULT_URL}/diagnosis/dog-lover`;
-  const hasParams = searchParams?.result || searchParams?.start;
 
   if (!searchParams?.result) {
     return {
       title: siteTitle("恋愛犬タイプ診断"),
       description: PAGE_DESCRIPTION,
       alternates: { canonical: pageUrl },
-      ...(hasParams ? { robots: { index: false, follow: true } } : {}),
       openGraph: {
         title: `恋愛犬タイプ診断 | ${SITE_NAME}`,
         description: PAGE_DESCRIPTION,

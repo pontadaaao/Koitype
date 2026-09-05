@@ -23,7 +23,7 @@ export interface CrossLinkItem {
 
 const CANDIDATES: CrossLinkItem[] = [
   ...diagnoses.map((d) => ({
-    href: `/diagnosis/${d.id}?start=1`,
+    href: `/diagnosis/${d.id}#start`,
     title: d.title,
     description: d.description,
     thumbnail: d.thumbnail ?? null,

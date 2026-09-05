@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useAutoStart } from "@/lib/use-auto-start";
 import BirthdayForm, { type BirthdayInput } from "@/components/BirthdayForm";
 import ResultView from "@/components/ResultView";
 import {
@@ -36,7 +37,7 @@ export default function CompatibilitySection({
   const [partner, setPartner] = useState<BirthdayInput>(emptyBirthday());
   const [result, setResult] = useState<CompatibilityResult | null>(null);
 
-  const shouldAutoStart = !embedded && searchParams.get("start") === "1";
+  const shouldAutoStart = useAutoStart() && !embedded;
 
   const restoreFromUrl = useCallback(() => {
     const birthdays = parseBirthdaysFromParams(searchParams);
@@ -103,10 +104,7 @@ export default function CompatibilitySection({
     setPartner(emptyBirthday());
 
     if (!embedded) {
-      router.replace(
-        shouldAutoStart ? "/compatibility?start=1" : "/compatibility",
-        { scroll: false }
-      );
+      router.replace("/compatibility", { scroll: false });
     }
   };
 

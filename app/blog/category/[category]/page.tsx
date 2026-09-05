@@ -31,6 +31,10 @@ function isValidCategory(value: string): value is BlogCategorySlug {
 }
 
 export const revalidate = 60;
+// カテゴリーは column / blog の 2 種類で固定。未知のスラッグを
+// オンデマンド生成させると 200 + notFound 描画（ソフト404）になるため、
+// generateStaticParams 以外は 404 にする。
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return BLOG_CATEGORY_SLUGS.map((category) => ({ category }));

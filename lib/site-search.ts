@@ -14,7 +14,8 @@ export interface SearchItem {
 
 function diagnosisHref(diagnosis: Diagnosis): string {
   const base = diagnosis.href ?? `/diagnosis/${diagnosis.id}`;
-  return base.includes("?") ? `${base}&start=1` : `${base}?start=1`;
+  // クローラーに別URLとして拾われないよう、開始フラグはハッシュで渡す
+  return `${base}#start`;
 }
 
 const staticPages: SearchItem[] = [

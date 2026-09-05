@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useAutoStart } from "@/lib/use-auto-start";
 import ProgressBar from "@/components/ProgressBar";
 import QuestionStep from "@/components/QuestionStep";
 import ResultSummary from "@/components/ResultSummary";
@@ -24,7 +25,7 @@ export default function DogCatClient() {
 
   const resultIdFromUrl = searchParams.get("result");
   const dogPctFromUrl = searchParams.get("dogPct");
-  const shouldAutoStart = searchParams.get("start") === "1";
+  const shouldAutoStart = useAutoStart();
   const initialResult = resultIdFromUrl
     ? getResultById(resultIdFromUrl) ?? null
     : null;
@@ -48,17 +49,6 @@ export default function DogCatClient() {
     initialResult ? 100 - initialDogPct : 0
   );
   const [isVisible, setIsVisible] = useState(true);
-
-  useEffect(() => {
-    // ?start=1 を URL から削除（クエリパラメータのバリエーションを減らす）
-    if (shouldAutoStart && typeof window !== "undefined") {
-      const url = new URL(window.location.href);
-      if (url.searchParams.has("start")) {
-        url.searchParams.delete("start");
-        router.replace(url.pathname + url.search);
-      }
-    }
-  }, [shouldAutoStart, router]);
 
   useEffect(() => {
     if (resultIdFromUrl) {
@@ -138,7 +128,7 @@ export default function DogCatClient() {
     setDogPct(0);
     setCatPct(0);
     setIsVisible(true);
-    router.replace("/diagnosis/dog-cat?start=1", { scroll: false });
+    router.replace("/diagnosis/dog-cat", { scroll: false });
   };
 
   return (

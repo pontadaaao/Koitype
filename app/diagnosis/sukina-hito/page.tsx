@@ -7,7 +7,7 @@ import { buildSukinaHitoContent } from "@/lib/quiz-content";
 import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
 interface SukinaHitoPageProps {
-  searchParams: { result?: string; start?: string };
+  searchParams: { result?: string };
 }
 
 const DEFAULT_TITLE = "好きな人から見たあなた診断｜相手から見えている私の印象【無料】";
@@ -18,14 +18,12 @@ const PAGE_URL = `${SITE_DEFAULT_URL}/diagnosis/sukina-hito`;
 export async function generateMetadata({
   searchParams,
 }: SukinaHitoPageProps): Promise<Metadata> {
-  const hasParams = searchParams?.result || searchParams?.start;
 
   if (!searchParams?.result) {
     return {
       title: siteTitle(DEFAULT_TITLE),
       description: DEFAULT_DESC,
       alternates: { canonical: PAGE_URL },
-      ...(hasParams ? { robots: { index: false, follow: true } } : {}),
       openGraph: {
         title: `${DEFAULT_TITLE} | ${SITE_NAME}`,
         description: DEFAULT_DESC,

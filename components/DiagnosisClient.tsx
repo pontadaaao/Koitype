@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useAutoStart } from "@/lib/use-auto-start";
 import ProgressBar from "@/components/ProgressBar";
 import AppIcon from "@/components/AppIcon";
 import QuestionStep from "@/components/QuestionStep";
@@ -24,7 +25,7 @@ export default function DiagnosisClient({ diagnosis }: DiagnosisClientProps) {
   const { t } = useLanguage();
 
   const resultIdFromUrl = searchParams.get("result");
-  const shouldAutoStart = searchParams.get("start") === "1";
+  const shouldAutoStart = useAutoStart();
   const initialResult = resultIdFromUrl
     ? getResultById(diagnosis.id, resultIdFromUrl) ?? null
     : null;
@@ -40,17 +41,6 @@ export default function DiagnosisClient({ diagnosis }: DiagnosisClientProps) {
   // isVisible は再描画を経てから更新されるため、同一tick内の連打では
   // state だけのガードだと間に合わないことがある（ref で即座にロック）。
   const isTransitioningRef = useRef(false);
-
-  useEffect(() => {
-    // ?start=1 を URL から削除（クエリパラメータのバリエーションを減らす）
-    if (shouldAutoStart && typeof window !== "undefined") {
-      const url = new URL(window.location.href);
-      if (url.searchParams.has("start")) {
-        url.searchParams.delete("start");
-        router.replace(url.pathname + url.search);
-      }
-    }
-  }, [shouldAutoStart, router]);
 
   useEffect(() => {
     if (!resultIdFromUrl) {
@@ -121,7 +111,7 @@ export default function DiagnosisClient({ diagnosis }: DiagnosisClientProps) {
     setAnswers([]);
     setResult(null);
     setIsVisible(true);
-    router.replace(`/diagnosis/${diagnosis.id}?start=1`, { scroll: false });
+    router.replace(`/diagnosis/${diagnosis.id}`, { scroll: false });
   };
 
   return (

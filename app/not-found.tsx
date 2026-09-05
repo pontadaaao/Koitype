@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
-import { SITE_DEFAULT_URL } from "@/lib/site";
 import { staticColumns } from "@/lib/static-columns";
 
 export const metadata: Metadata = {
   title: "ページが見つかりません | Koitype",
   description: "お探しのページは見つかりませんでした。",
   robots: { index: false, follow: false },
-  alternates: { canonical: `${SITE_DEFAULT_URL}/404` },
+  // 404 ページに canonical は付けない（存在しない /404 を正規URLとして
+  //  申告してしまうため）
 };
 
 const popularDiagnoses = [

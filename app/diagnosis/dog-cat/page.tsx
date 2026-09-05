@@ -9,20 +9,18 @@ import { SITE_DEFAULT_URL, siteTitle } from "@/lib/site";
 const PAGE_URL = `${SITE_DEFAULT_URL}/diagnosis/dog-cat`;
 
 interface DogCatPageProps {
-  searchParams: { result?: string; dogPct?: string; start?: string };
+  searchParams: { result?: string; dogPct?: string };
 }
 
 export async function generateMetadata({
   searchParams,
 }: DogCatPageProps): Promise<Metadata> {
-  const hasParams = searchParams?.result || searchParams?.dogPct || searchParams?.start;
 
   const defaultMeta: Metadata = {
     title: siteTitle("犬系？猫系？恋愛スタイル診断"),
     description:
       "12の質問で、あなたの恋愛スタイルが犬系か猫系かを診断。バランスメーターで傾向をチェック。",
     alternates: { canonical: PAGE_URL },
-    ...(hasParams ? { robots: { index: false, follow: true } } : {}),
   };
 
   if (!searchParams?.result) {

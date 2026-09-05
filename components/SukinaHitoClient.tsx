@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useAutoStart } from "@/lib/use-auto-start";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import ProgressBar from "@/components/ProgressBar";
@@ -177,7 +178,7 @@ export default function SukinaHitoClient() {
   const searchParams = useSearchParams();
 
   const resultIdFromUrl = searchParams.get("result");
-  const shouldAutoStart = searchParams.get("start") === "1";
+  const shouldAutoStart = useAutoStart();
 
   const initialResult = resultIdFromUrl
     ? (getSukinaHitoResultById(resultIdFromUrl) ?? null)
@@ -193,17 +194,6 @@ export default function SukinaHitoClient() {
   const [result, setResult] = useState<SukinaHitoResult | null>(initialResult);
   const [isVisible, setIsVisible] = useState(true);
   const [resultVisible, setResultVisible] = useState(!!initialResult);
-
-  useEffect(() => {
-    // ?start=1 を URL から削除（クエリパラメータのバリエーションを減らす）
-    if (shouldAutoStart && typeof window !== "undefined") {
-      const url = new URL(window.location.href);
-      if (url.searchParams.has("start")) {
-        url.searchParams.delete("start");
-        router.replace(url.pathname + url.search);
-      }
-    }
-  }, [shouldAutoStart, router]);
 
   useEffect(() => {
     if (resultIdFromUrl) {
@@ -275,7 +265,7 @@ export default function SukinaHitoClient() {
     setResult(null);
     setIsVisible(true);
     setResultVisible(false);
-    router.replace("/diagnosis/sukina-hito?start=1", { scroll: false });
+    router.replace("/diagnosis/sukina-hito", { scroll: false });
   };
 
   const colors =

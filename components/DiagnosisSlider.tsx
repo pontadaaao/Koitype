@@ -25,7 +25,8 @@ function trackClick(id: string) {
 
 function diagnosisHref(d: Diagnosis): string {
   const base = d.href ?? `/diagnosis/${d.id}`;
-  return base.includes("?") ? `${base}&start=1` : `${base}?start=1`;
+  // クローラーに別URLとして拾われないよう、開始フラグはハッシュで渡す
+  return `${base}#start`;
 }
 
 export default function DiagnosisSlider() {

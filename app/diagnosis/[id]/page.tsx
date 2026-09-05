@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import DiagnosisClient from "@/components/DiagnosisClient";
 import SiteFooter from "@/components/SiteFooter";
@@ -11,7 +10,7 @@ import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
 interface DiagnosisPageProps {
   params: { id: string };
-  searchParams: { result?: string; start?: string };
+  searchParams: { result?: string };
 }
 
 export async function generateMetadata({
@@ -21,11 +20,10 @@ export async function generateMetadata({
   const diagnosis = getDiagnosisById(params.id);
 
   if (!diagnosis) {
-    return { title: siteTitle("恋愛診断") };
+    return { title: siteTitle("恋愛診断"), robots: { index: false, follow: false } };
   }
 
   const diagnosisUrl = `${SITE_DEFAULT_URL}/diagnosis/${diagnosis.id}`;
-  const hasParams = searchParams?.result || searchParams?.start;
 
   if (!searchParams?.result) {
     const ogImages = diagnosis.thumbnail
@@ -43,7 +41,6 @@ export async function generateMetadata({
       title: siteTitle(diagnosis.title),
       description: metaDescription,
       alternates: { canonical: diagnosisUrl },
-      ...(hasParams ? { robots: { index: false, follow: true } } : {}),
       openGraph: {
         title: `${diagnosis.title} | ${SITE_NAME}`,
         description: metaDescription,
@@ -92,17 +89,11 @@ export async function generateMetadata({
 export default function DiagnosisPage({ params, searchParams }: DiagnosisPageProps) {
   const diagnosis = getDiagnosisById(params.id);
 
+  // 存在しない診断IDは 404 を返す。
+  // 以前は 200 で「見つかりませんでした」を描画していたため、
+  // 任意の /diagnosis/xxx が薄い 200 ページになりソフト404の温床だった。
   if (!diagnosis || diagnosis.questions.length === 0) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-base px-4">
-        <div className="text-center">
-          <p className="text-text-sub">診断が見つかりませんでした</p>
-          <Link href="/" className="mt-4 inline-block text-accent underline">
-            ホームに戻る
-          </Link>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
   const breadcrumbJsonLd = {

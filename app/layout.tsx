@@ -17,7 +17,9 @@ const OG_IMAGE = `${SITE_DEFAULT_URL}/og-default.png`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_DEFAULT_URL),
-  title: { default: siteTitle(), template: `%s | ${SITE_NAME}` },
+  // 各ページは siteTitle() ですでに「| Koitype」を付けているため、
+  // ここで template を重ねると <title> が「… | Koitype | Koitype」になる。
+  title: { default: siteTitle(), template: "%s" },
   description: SITE_DESCRIPTION,
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   icons: {
@@ -43,7 +45,9 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [OG_IMAGE],
   },
-  alternates: { canonical: SITE_DEFAULT_URL },
+  // ルートに canonical を置くと、自分で alternates を返さないページ
+  // （診断結果ページなど）がトップページの canonical を継承してしまい、
+  // Google に「トップの重複」と判定される。canonical は各ページで指定する。
   // AdSenseサイト所有確認用メタタグ（<meta name="google-adsense-account">）
   other: { "google-adsense-account": "ca-pub-4709100652775310" },
 };
@@ -63,11 +67,6 @@ const jsonLdWebSite = {
   name: SITE_NAME,
   url: SITE_DEFAULT_URL,
   description: SITE_DESCRIPTION,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: { "@type": "EntryPoint", urlTemplate: `${SITE_DEFAULT_URL}/?q={search_term_string}` },
-    "query-input": "required name=search_term_string",
-  },
 };
 
 export default function RootLayout({

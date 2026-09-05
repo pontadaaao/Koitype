@@ -9,6 +9,12 @@
       "autoPort": true
     },
     {
+      "name": "koitype-prod-verify",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["next", "start", "-p", "3200"],
+      "port": 3200
+    },
+    {
       "name": "koitype-blog-verify",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["next", "dev", "-p", "3100"],

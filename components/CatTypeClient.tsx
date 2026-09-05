@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useAutoStart } from "@/lib/use-auto-start";
 import Image from "next/image";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
@@ -20,7 +21,6 @@ import { SITE_TAG, siteUrl } from "@/lib/site";
 type Screen = "intro" | "quiz" | "result";
 
 const CHOICE_LABELS = ["A", "B", "C", "D"] as const;
-
 
 // ---- Layout helpers (matching ResultCard pattern) ----
 
@@ -196,7 +196,7 @@ export default function CatTypeClient() {
   const searchParams = useSearchParams();
 
   const resultIdFromUrl = searchParams.get("result");
-  const shouldAutoStart = searchParams.get("start") === "1";
+  const shouldAutoStart = useAutoStart();
 
   const initialResult = resultIdFromUrl
     ? getCatResultById(resultIdFromUrl) ?? null
@@ -212,17 +212,6 @@ export default function CatTypeClient() {
   const [result, setResult] = useState<CatTypeResult | null>(initialResult);
   const [isVisible, setIsVisible] = useState(true);
   const [resultVisible, setResultVisible] = useState(!!initialResult);
-
-  useEffect(() => {
-    // ?start=1 を URL から削除（クエリパラメータのバリエーションを減らす）
-    if (shouldAutoStart && typeof window !== "undefined") {
-      const url = new URL(window.location.href);
-      if (url.searchParams.has("start")) {
-        url.searchParams.delete("start");
-        router.replace(url.pathname + url.search);
-      }
-    }
-  }, [shouldAutoStart, router]);
 
   useEffect(() => {
     if (resultIdFromUrl) {
@@ -294,7 +283,7 @@ export default function CatTypeClient() {
     setResult(null);
     setIsVisible(true);
     setResultVisible(false);
-    router.replace("/diagnosis/cat-type?start=1", { scroll: false });
+    router.replace("/diagnosis/cat-type", { scroll: false });
   };
 
   return (

@@ -18,8 +18,8 @@ const staticRoutes: { path: string; priority: number; changeFrequency: SitemapEn
   { path: "/compatibility", priority: 0.9, changeFrequency: "weekly", lastModified: BUILD_DATE },
   { path: "/koi-mikuji", priority: 0.8, changeFrequency: "daily", lastModified: BUILD_DATE },
   { path: "/blog", priority: 0.8, changeFrequency: "daily", lastModified: BUILD_DATE },
-  // /contact は noindex のため sitemap から除外
   { path: "/about", priority: 0.4, changeFrequency: "monthly" },
+  { path: "/contact", priority: 0.3, changeFrequency: "yearly" },
   { path: "/privacy-policy", priority: 0.3, changeFrequency: "yearly" },
   { path: "/terms", priority: 0.3, changeFrequency: "yearly" },
   { path: "/sitemap", priority: 0.3, changeFrequency: "monthly" },
@@ -57,6 +57,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: BUILD_DATE,
   }));
 
+  // 心理テスト一覧の 2ページ目以降。ここからしか辿れない詳細ページが
+  // 「検出 - インデックス未登録」で止まらないよう、ハブとして sitemap に載せる。
+  const TESTS_PER_PAGE = 10;
+  const testListPages = Math.ceil(loveTests.length / TESTS_PER_PAGE);
+  const testPaginationEntries: MetadataRoute.Sitemap = Array.from(
+    { length: Math.max(testListPages - 1, 0) },
+    (_, i) => ({
+      url: `${base}/tests?page=${i + 2}`,
+      priority: 0.5,
+      changeFrequency: "weekly" as const,
+      lastModified: BUILD_DATE,
+    })
+  );
+
   // 恋愛ブログ: カテゴリー一覧 + 記事詳細（microCMS + 既存コラム統合）
   // 旧 /columns/* は /blog/* へ 301 リダイレクトするため sitemap には含めない。
   const blogEntries: MetadataRoute.Sitemap = BLOG_CATEGORY_SLUGS.map((slug) => ({
@@ -88,6 +102,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticEntries,
     ...diagnosisEntries,
     ...testEntries,
+    ...testPaginationEntries,
     ...blogEntries,
   ];
 }
