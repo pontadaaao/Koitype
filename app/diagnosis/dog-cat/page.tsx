@@ -60,9 +60,6 @@ export async function generateMetadata({
 export default function DogCatPage({ searchParams }: DogCatPageProps) {
   return (
     <>
-      {!searchParams?.result && (
-        <QuizContent {...buildDogCatContent(results)} />
-      )}
       <Suspense
         fallback={
           <div className="flex min-h-screen items-center justify-center bg-base">
@@ -72,6 +69,9 @@ export default function DogCatPage({ searchParams }: DogCatPageProps) {
       >
         <DogCatClient />
       </Suspense>
+      {!searchParams?.result && (
+        <QuizContent {...buildDogCatContent(results)} />
+      )}
     </>
   );
 }

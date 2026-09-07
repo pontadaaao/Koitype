@@ -76,9 +76,6 @@ export async function generateMetadata({
 export default function CatTypePage({ searchParams }: CatTypePageProps) {
   return (
     <>
-      {!searchParams?.result && (
-        <QuizContent {...buildCatTypeContent(results)} />
-      )}
       <Suspense
         fallback={
           <div className="flex min-h-screen items-center justify-center bg-base">
@@ -88,6 +85,9 @@ export default function CatTypePage({ searchParams }: CatTypePageProps) {
       >
         <CatTypeClient />
       </Suspense>
+      {!searchParams?.result && (
+        <QuizContent {...buildCatTypeContent(results)} />
+      )}
     </>
   );
 }

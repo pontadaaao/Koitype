@@ -72,9 +72,6 @@ export async function generateMetadata({
 export default function DogLoverPage({ searchParams }: DogLoverPageProps) {
   return (
     <>
-      {!searchParams?.result && (
-        <QuizContent {...buildDogLoverContent(results)} />
-      )}
       <Suspense
         fallback={
           <div className="flex min-h-screen items-center justify-center bg-base">
@@ -84,6 +81,9 @@ export default function DogLoverPage({ searchParams }: DogLoverPageProps) {
       >
         <DogLoverClient />
       </Suspense>
+      {!searchParams?.result && (
+        <QuizContent {...buildDogLoverContent(results)} />
+      )}
     </>
   );
 }

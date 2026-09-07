@@ -76,9 +76,6 @@ export async function generateMetadata({
 export default function SukinaHitoPage({ searchParams }: SukinaHitoPageProps) {
   return (
     <>
-      {!searchParams?.result && (
-        <QuizContent {...buildSukinaHitoContent(results)} />
-      )}
       <Suspense
         fallback={
           <div className="flex min-h-screen items-center justify-center bg-base">
@@ -88,6 +85,9 @@ export default function SukinaHitoPage({ searchParams }: SukinaHitoPageProps) {
       >
         <SukinaHitoClient />
       </Suspense>
+      {!searchParams?.result && (
+        <QuizContent {...buildSukinaHitoContent(results)} />
+      )}
     </>
   );
 }

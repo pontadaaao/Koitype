@@ -112,9 +112,6 @@ export default function DiagnosisPage({ params, searchParams }: DiagnosisPagePro
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      {!searchParams?.result && (
-        <QuizContent {...buildDiagnosisContent(diagnosis)} />
-      )}
       <Suspense
         fallback={
           <div className="flex min-h-screen items-center justify-center bg-base">
@@ -124,6 +121,9 @@ export default function DiagnosisPage({ params, searchParams }: DiagnosisPagePro
       >
         <DiagnosisClient diagnosis={diagnosis} />
       </Suspense>
+      {!searchParams?.result && (
+        <QuizContent {...buildDiagnosisContent(diagnosis)} />
+      )}
       {!searchParams?.result && <SiteFooter />}
     </>
   );
