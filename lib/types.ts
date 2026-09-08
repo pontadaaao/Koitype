@@ -55,6 +55,12 @@ export interface Diagnosis {
    * 未指定時は従来どおり最小indexを優先。
    */
   tieBreak?: "last";
+  /**
+   * この診断固有のよくある質問（任意）。
+   * 全ページ共通のテンプレFAQは低品質判定の原因になるため廃止した。
+   * 書く場合はこの診断でしか成立しない内容にすること。
+   */
+  faq?: Array<{ q: string; a: string }>;
   questions: Question[];
   results: DiagnosisResult[];
 }

@@ -18,6 +18,8 @@ export type LoveTest = {
   color: string;
   question: string;
   publishedAt?: string; // YYYY-MM-DD — set when added to show in notifications
+  /** このテスト固有のよくある質問（任意）。共通テンプレは使わない。 */
+  faq?: Array<{ q: string; a: string }>;
   choices: LoveTestChoice[];
 };
 
