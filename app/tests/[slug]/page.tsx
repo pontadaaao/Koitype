@@ -24,7 +24,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: siteTitle(test.title),
     description: test.description,
-    alternates: { canonical: url },
+    // 1問形式の心理テストは本文が薄く、AdSense「有用性の低いコンテンツ」の
+    // 主因と判断したため検索インデックスから外す（ユーザーは引き続き遊べる）。
+    // noindex と canonical は矛盾シグナルになるので canonical は出さない。
+    robots: { index: false, follow: true },
     openGraph: {
       title: `${test.title} | ${SITE_NAME}`,
       description: test.description,

@@ -33,8 +33,9 @@ export async function generateMetadata({
   return {
     title: siteTitle(`#${tag}`),
     description,
-    robots: { index: false },
-    alternates: { canonical: url },
+    // タグ一覧は記事カードが並ぶだけの薄いページなので noindex,follow。
+    // noindex と canonical は矛盾シグナルになるため canonical は出さない。
+    robots: { index: false, follow: true },
     openGraph: {
       title: `#${tag} | ${SITE_NAME}`,
       description,

@@ -74,8 +74,6 @@ const nextConfig = {
         destination: "/compatibility",
         permanent: false,
       },
-      // ?start=1 はクライアント側の useEffect で削除されるため、サーバー側のリダイレクトは不要
-      // ?start=1 はクライアント側の useEffect で削除されるため、サーバー側のリダイレクトは不要
       // www → non-www リダイレクト（SEO 正規化）
       {
         source: "/:path*",

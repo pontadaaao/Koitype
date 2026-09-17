@@ -20,12 +20,10 @@ export async function generateMetadata({
     Math.max(totalPages, 1)
   );
 
-  // ページネーションは「自分自身」を正規URLにする（Google の推奨）。
-  // 以前は 2ページ目以降を canonical=/tests + noindex にしていたが、
-  // 正規化と noindex を同時に出すと矛盾したシグナルになり、
-  // さらに 2ページ目以降からしか辿れない心理テスト詳細ページが
-  // 「検出 - インデックス未登録」のまま放置される原因になっていた。
-  const canonical =
+  // 心理テスト詳細は noindex にしたため、2ページ目以降はカードが並ぶだけの
+  // 薄いページになる。1ページ目のみインデックスし、以降は noindex,follow。
+  // noindex と canonical は同時に出さない（矛盾シグナルになる）。
+  const url =
     page > 1
       ? `${SITE_DEFAULT_URL}/tests?page=${page}`
       : `${SITE_DEFAULT_URL}/tests`;
@@ -39,11 +37,13 @@ export async function generateMetadata({
   return {
     title: siteTitle(title),
     description,
-    alternates: { canonical },
+    ...(page > 1
+      ? { robots: { index: false, follow: true } }
+      : { alternates: { canonical: url } }),
     openGraph: {
       title: `${title} | ${SITE_NAME}`,
       description,
-      url: canonical,
+      url,
       type: "website",
     },
     twitter: {

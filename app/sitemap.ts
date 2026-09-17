@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_DEFAULT_URL } from "@/lib/site";
 import { diagnoses } from "@/lib/diagnoses";
-import { loveTests } from "@/lib/love-tests";
 import { BLOG_CATEGORY_SLUGS } from "@/lib/microcms";
 import { getBlogArticleSlugs } from "@/lib/blog-data";
 
@@ -50,26 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const testEntries: MetadataRoute.Sitemap = loveTests.map((t) => ({
-    url: `${base}/tests/${t.slug}`,
-    priority: 0.6,
-    changeFrequency: "monthly" as const,
-    lastModified: BUILD_DATE,
-  }));
-
-  // 心理テスト一覧の 2ページ目以降。ここからしか辿れない詳細ページが
-  // 「検出 - インデックス未登録」で止まらないよう、ハブとして sitemap に載せる。
-  const TESTS_PER_PAGE = 10;
-  const testListPages = Math.ceil(loveTests.length / TESTS_PER_PAGE);
-  const testPaginationEntries: MetadataRoute.Sitemap = Array.from(
-    { length: Math.max(testListPages - 1, 0) },
-    (_, i) => ({
-      url: `${base}/tests?page=${i + 2}`,
-      priority: 0.5,
-      changeFrequency: "weekly" as const,
-      lastModified: BUILD_DATE,
-    })
-  );
+  // 心理テスト詳細（/tests/*）と一覧の2ページ目以降は noindex のため載せない。
 
   // 恋愛ブログ: カテゴリー一覧 + 記事詳細（microCMS + 既存コラム統合）
   // 旧 /columns/* は /blog/* へ 301 リダイレクトするため sitemap には含めない。
@@ -101,8 +81,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...staticEntries,
     ...diagnosisEntries,
-    ...testEntries,
-    ...testPaginationEntries,
     ...blogEntries,
   ];
 }

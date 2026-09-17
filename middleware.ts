@@ -4,7 +4,16 @@ import type { NextRequest } from "next/server";
 const ADMIN_COOKIE = "koitype_admin_auth";
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, searchParams } = request.nextUrl;
+
+  // 旧「すぐ開始」フラグ ?start=1 は正規URLへ 301 で集約する。
+  // Google にクロール済みの ?start=1 URL が「noindex タグによって除外」等に
+  // 残り続けるのを防ぎ、評価を正規URLへ寄せる（現在の内部リンクは #start）。
+  if (searchParams.has("start")) {
+    const url = request.nextUrl.clone();
+    url.searchParams.delete("start");
+    return NextResponse.redirect(url, 301);
+  }
 
   if (!pathname.startsWith("/admin")) {
     return NextResponse.next();
@@ -26,5 +35,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/diagnosis/:path*", "/compatibility/:path*", "/tests/:path*"],
 };
