@@ -15,6 +15,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
+  // 以前の構造化データ(WebSite SearchAction)由来の /?q={search_term_string} が
+  // クロールされ「代替ページ（適切な canonical タグあり）」に残るため、トップへ 301。
+  // トップページは q を使っていない。
+  if (pathname === "/" && searchParams.has("q")) {
+    const url = request.nextUrl.clone();
+    url.searchParams.delete("q");
+    return NextResponse.redirect(url, 301);
+  }
+
   if (!pathname.startsWith("/admin")) {
     return NextResponse.next();
   }
@@ -35,5 +44,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/diagnosis/:path*", "/compatibility/:path*", "/tests/:path*"],
+  matcher: ["/", "/admin/:path*", "/diagnosis/:path*", "/compatibility/:path*", "/tests/:path*"],
 };
