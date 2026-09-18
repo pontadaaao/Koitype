@@ -56,8 +56,9 @@ export async function generateMetadata({
   return {
     title,
     description: result.rank.catch,
-    robots: { index: false, follow: false },
-    alternates: { canonical: PAGE_URL },
+    // 結果URL（誕生日入りのクエリ付き）は noindex。
+    // noindex と canonical を同時に出すと矛盾シグナルになるため canonical は付けない。
+    robots: { index: false, follow: true },
     openGraph: {
       title,
       description: result.rank.catch,

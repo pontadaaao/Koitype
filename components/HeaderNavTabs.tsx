@@ -96,6 +96,9 @@ export default function HeaderNavTabs() {
                 ) : (
                   <Link
                     href={tab.href}
+                    // 恋みくじは public 配下の静的HTMLへの rewrite で、Next のルートではない。
+                    // prefetch すると /koi-mikuji?_rsc=... が 404 を返し続けるため無効にする。
+                    prefetch={tab.id === "koi-mikuji" ? false : undefined}
                     onClick={tabOnClick}
                     aria-current={active ? "page" : undefined}
                     className={tabClassName}

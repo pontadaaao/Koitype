@@ -5,7 +5,21 @@ import Link from "next/link";
 type ContentItem =
   | { type: "p"; text: string }
   | { type: "ul"; items: string[] }
-  | { type: "pLink"; before: string; linkText: string; after: string };
+  | { type: "pLink"; before: string; linkText: string; after: string }
+  | {
+      type: "intLink";
+      before: string;
+      linkText: string;
+      href: string;
+      after: string;
+    }
+  | {
+      type: "extLink";
+      before: string;
+      linkText: string;
+      href: string;
+      after: string;
+    };
 
 type Section = {
   heading: string;
@@ -43,6 +57,30 @@ export default function LegalPageContent({ title, updated, intro, sections }: Pr
                 <p key={i}>
                   {item.before}
                   <Link href="/contact">{item.linkText}</Link>
+                  {item.after}
+                </p>
+              );
+            }
+            if (item.type === "intLink") {
+              return (
+                <p key={i}>
+                  {item.before}
+                  <Link href={item.href}>{item.linkText}</Link>
+                  {item.after}
+                </p>
+              );
+            }
+            if (item.type === "extLink") {
+              return (
+                <p key={i}>
+                  {item.before}
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {item.linkText}
+                  </a>
                   {item.after}
                 </p>
               );

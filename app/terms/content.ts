@@ -19,7 +19,7 @@ export type TermsContent = {
 const content: Record<Locale, TermsContent> = {
   ja: {
     title: "利用規約",
-    updated: "最終更新日：2026年6月28日",
+    updated: "最終更新日：2026年9月18日",
     intro:
       "本利用規約（以下「本規約」）は、当サイト（以下「本サービス」）をご利用いただくすべての方（以下「利用者」）に適用されます。本サービスをご利用いただくことで、本規約に同意したものとみなします。",
     sections: [
@@ -85,7 +85,7 @@ const content: Record<Locale, TermsContent> = {
         items: [
           {
             type: "p",
-            text: "当サイトでは、広告配信サービス（Google AdSense等）やアフィリエイトプログラムを利用する場合があります。",
+            text: "本サイトは、第三者配信の広告サービス Google AdSense を利用して運営しています。広告の内容は配信事業者が自動的に決定するもので、運営者が個別の商品・サービスを推薦・保証するものではありません。Cookieの利用とオプトアウトの方法はプライバシーポリシーに記載しています。",
           },
           {
             type: "p",
@@ -138,7 +138,7 @@ const content: Record<Locale, TermsContent> = {
   },
   en: {
     title: "Terms of Use",
-    updated: "Last Updated: June 28, 2026",
+    updated: "Last updated: September 18, 2026",
     intro:
       "These Terms of Use (hereinafter \"these Terms\") apply to all users (hereinafter \"users\") of this website (hereinafter \"this service\"). By using this service, you are deemed to have agreed to these Terms.",
     sections: [
@@ -207,7 +207,7 @@ const content: Record<Locale, TermsContent> = {
         items: [
           {
             type: "p",
-            text: "This site may use advertising services (such as Google AdSense) and affiliate programs.",
+            text: "This site is funded by the third-party advertising service Google AdSense. Ad content is selected automatically by the ad provider; the operator does not endorse or guarantee any individual product or service shown. Cookie use and how to opt out are described in our privacy policy.",
           },
           {
             type: "p",
@@ -260,7 +260,7 @@ const content: Record<Locale, TermsContent> = {
   },
   ko: {
     title: "이용약관",
-    updated: "최종 업데이트: 2026년 6월 28일",
+    updated: "최종 업데이트: 2026년 9월 18일",
     intro:
       "본 이용약관（이하 「본 약관」）은 본 사이트（이하 「본 서비스」）를 이용하는 모든 분（이하 「이용자」）에게 적용됩니다. 본 서비스를 이용함으로써 본 약관에 동의한 것으로 간주합니다.",
     sections: [
@@ -329,7 +329,7 @@ const content: Record<Locale, TermsContent> = {
         items: [
           {
             type: "p",
-            text: "본 사이트에서는 광고 배포 서비스（Google AdSense 등）나 제휴 프로그램을 이용할 수 있습니다.",
+            text: "본 사이트는 제3자 광고 서비스인 Google AdSense를 이용해 운영되고 있습니다. 광고 내용은 광고 사업자가 자동으로 결정하는 것으로, 운영자가 개별 상품·서비스를 추천하거나 보증하는 것은 아닙니다. 쿠키 이용과 옵트아웃 방법은 개인정보처리방침에 기재되어 있습니다.",
           },
           {
             type: "p",
@@ -382,7 +382,7 @@ const content: Record<Locale, TermsContent> = {
   },
   "zh-TW": {
     title: "使用條款",
-    updated: "最後更新日期：2026年6月28日",
+    updated: "最後更新日：2026年9月18日",
     intro:
       "本使用條款（以下簡稱「本條款」）適用於所有使用本網站（以下簡稱「本服務」）的用戶（以下簡稱「用戶」）。使用本服務即視為同意本條款。",
     sections: [
@@ -451,7 +451,7 @@ const content: Record<Locale, TermsContent> = {
         items: [
           {
             type: "p",
-            text: "本站可能使用廣告投放服務（如 Google AdSense）及聯盟行銷計畫。",
+            text: "本站以第三方廣告服務 Google AdSense 的收益營運。廣告內容由廣告供應商自動決定，營運者並不推薦或保證其中的個別商品與服務。Cookie 的使用與停用方式記載於隱私權政策。",
           },
           {
             type: "p",
@@ -504,7 +504,7 @@ const content: Record<Locale, TermsContent> = {
   },
   "zh-CN": {
     title: "使用条款",
-    updated: "最后更新日期：2026年6月28日",
+    updated: "最后更新日期：2026年9月18日",
     intro:
       "本使用条款（以下简称「本条款」）适用于所有使用本网站（以下简称「本服务」）的用户（以下简称「用户」）。使用本服务即视为同意本条款。",
     sections: [
@@ -573,7 +573,7 @@ const content: Record<Locale, TermsContent> = {
         items: [
           {
             type: "p",
-            text: "本站可能使用广告投放服务（如 Google AdSense）及联盟营销计划。",
+            text: "本站以第三方广告服务 Google AdSense 的收益运营。广告内容由广告供应商自动决定，运营者并不推荐或保证其中的个别商品与服务。Cookie 的使用与停用方式记载于隐私政策。",
           },
           {
             type: "p",

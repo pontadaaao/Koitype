@@ -97,9 +97,12 @@ export default function HomePageClient({
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:mt-8">
               <button
                 onClick={() => {
-                  const ids = diagnoses.map((d) => d.id);
-                  const randomId = ids[Math.floor(Math.random() * ids.length)];
-                  router.push(`/diagnosis/${randomId}`);
+                  // 相性診断のように実体が別URLのものは href を持っている。
+                  // 以前は href を無視して /diagnosis/<id> へ飛ばしていたため、
+                  // 相性診断を引くと 404 になっていた。
+                  const target =
+                    diagnoses[Math.floor(Math.random() * diagnoses.length)];
+                  router.push(target.href ?? `/diagnosis/${target.id}`);
                 }}
                 className="inline-flex items-center gap-2 rounded-full border-2 border-cat/50 bg-cat px-6 py-2.5 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:scale-[1.04] hover:shadow-md active:scale-[0.97] sm:px-8 sm:py-3 sm:text-base"
               >

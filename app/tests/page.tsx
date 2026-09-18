@@ -299,6 +299,79 @@ export default function TestsPage({ searchParams }: Props) {
               </p>
             )}
           </div>
+
+          {/*
+            以前このページはカードのタイトルが並ぶだけで、
+            心理テストが何なのか・診断と何が違うのかを説明する文章が無かった。
+            一覧ページとしての説明をサーバー側で出す。
+          */}
+          <section className="mx-auto max-w-2xl space-y-9 px-4 pb-14">
+            <div>
+              <h2 className="font-heading text-lg font-bold text-text-main sm:text-xl">
+                Koitypeの恋愛心理テストについて
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-text-sub">
+                ここに掲載しているのは、質問1問だけで終わる短い心理テストです。
+                選んだ答えに表れやすい傾向を、4つのタイプに分けて紹介しています。
+                1つあたり数十秒で終わるので、待ち時間や休憩中に気軽に試せます。
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-text-sub">
+                すべて無料・登録不要です。回答はお使いのブラウザの中だけで処理され、
+                サーバーに送信・保存されることはありません。
+              </p>
+            </div>
+
+            <div>
+              <h2 className="font-heading text-lg font-bold text-text-main sm:text-xl">
+                恋愛診断との違い
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-text-sub">
+                心理テストは1問だけなので、結果はあくまで「その答えを選んだ人に多い傾向」です。
+                複数の質問から傾向を組み立てる恋愛診断と比べると、結果の幅は狭くなります。
+                自分の恋愛のクセをもう少し詳しく知りたい場合は、5〜12問の恋愛診断のほうが向いています。
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-text-sub">
+                心理テストは、友達や恋人と一緒に答えて違いを見る、という使い方が向いています。
+                同じ質問でも人によって選ぶ答えが違うので、そこから話が広がります。
+              </p>
+            </div>
+
+            <div>
+              <h2 className="font-heading text-lg font-bold text-text-main sm:text-xl">
+                結果の扱いについて
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-text-sub">
+                各テストは、Koitype編集部が独自に作成した娯楽向けのコンテンツです。
+                心理学の検査を再現したものではなく、精度の検証や専門家による監修は行っていません。
+                結果を、自分や他人を決めつけるためのラベルとしては使わないでください。
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-text-sub">
+                本サイトのコンテンツは、医学的・心理学的な診断や治療の代わりにはなりません。
+                心身の不調を感じる場合は、医療機関や公的な相談窓口にご相談ください。
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-2.5">
+              <Link
+                href="/love-diagnosis"
+                className="rounded-full border border-pink-light bg-pink-pale px-4 py-2 text-sm font-medium text-accent transition-colors hover:bg-pink-light"
+              >
+                もっと詳しい恋愛診断
+              </Link>
+              <Link
+                href="/compatibility"
+                className="rounded-full border border-pink-light bg-pink-pale px-4 py-2 text-sm font-medium text-accent transition-colors hover:bg-pink-light"
+              >
+                誕生日でわかる相性診断
+              </Link>
+              <Link
+                href="/blog"
+                className="rounded-full border border-pink-light bg-pink-pale px-4 py-2 text-sm font-medium text-accent transition-colors hover:bg-pink-light"
+              >
+                恋愛ブログ
+              </Link>
+            </div>
+          </section>
         </main>
       </div>
       <SiteFooter />

@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import CompatibilitySection from "@/components/sections/CompatibilitySection";
+import CompatibilityAbout from "@/components/CompatibilityAbout";
 
 function SectionFallback() {
   return (
@@ -39,6 +40,8 @@ export default function CompatibilityClient() {
         <Suspense fallback={<SectionFallback />}>
           <CompatibilitySection />
         </Suspense>
+        {/* 入力フォームだけのページにならないよう、診断の説明を常に出す */}
+        <CompatibilityAbout />
       </main>
       <SiteFooter />
     </div>

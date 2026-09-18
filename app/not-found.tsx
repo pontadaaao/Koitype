@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
-import { staticColumns } from "@/lib/static-columns";
 
 export const metadata: Metadata = {
   title: "ページが見つかりません | Koitype",
@@ -19,9 +18,17 @@ const popularDiagnoses = [
   { href: "/love-diagnosis", label: "恋愛診断一覧" },
 ];
 
-export default function NotFound() {
-  const popularColumns = staticColumns.slice(0, 3);
+// 以前はここで staticColumns（現在は空配列）から記事を出していたため、
+// このセクションは本番で一度も表示されていなかった。
+// 記事 slug は microCMS 側で発行され変わりうるので、
+// 個別記事ではなく必ず存在する一覧ページへ誘導する。
+const otherDestinations = [
+  { href: "/blog", label: "恋愛ブログ（記事一覧）" },
+  { href: "/tests", label: "恋愛心理テスト一覧" },
+  { href: "/sitemap", label: "サイトマップ（全ページ一覧）" },
+];
 
+export default function NotFound() {
   return (
     <>
       <SiteHeader showBack={false} />
@@ -80,45 +87,37 @@ export default function NotFound() {
           </div>
         </section>
 
-        {/* 人気コラム */}
-        {popularColumns.length > 0 && (
-          <section>
-            <h2 className="mb-4 font-heading text-base font-bold text-text-main">
-              人気のコラム
-            </h2>
-            <div className="space-y-2 text-left">
-              {popularColumns.map((col) => (
-                <Link
-                  key={col.slug}
-                  href={`/blog/${col.slug}`}
-                  className="flex items-center gap-3 rounded-2xl border border-pink-light bg-sub-bg px-4 py-3 transition-colors hover:border-accent/40 hover:bg-pink-pale/30"
+        {/* 他のコンテンツへの導線 */}
+        <section>
+          <h2 className="mb-4 font-heading text-base font-bold text-text-main">
+            ほかのページを見る
+          </h2>
+          <div className="space-y-2 text-left">
+            {otherDestinations.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex items-center gap-3 rounded-2xl border border-pink-light bg-sub-bg px-4 py-3 transition-colors hover:border-accent/40 hover:bg-pink-pale/30"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-4 w-4 shrink-0 text-accent"
+                  aria-hidden="true"
                 >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.75"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-4 w-4 shrink-0 text-accent"
-                    aria-hidden="true"
-                  >
-                    <path d="M9 18l6-6-6-6" />
-                  </svg>
-                  <span className="text-sm font-medium text-text-main line-clamp-1">
-                    {col.title}
-                  </span>
-                </Link>
-              ))}
-            </div>
-            <Link
-              href="/blog/category/column"
-              className="mt-4 inline-block text-xs text-accent underline underline-offset-2"
-            >
-              コラム一覧をすべて見る
-            </Link>
-          </section>
-        )}
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+                <span className="text-sm font-medium text-text-main">
+                  {item.label}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
       </main>
       <SiteFooter />
     </>

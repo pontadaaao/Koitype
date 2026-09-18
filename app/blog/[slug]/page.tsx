@@ -52,7 +52,15 @@ export async function generateMetadata({
   params,
 }: DetailPageProps): Promise<Metadata> {
   const article = await getBlogArticleBySlug(params.slug);
-  if (!article) return { title: siteTitle("恋愛ブログ") };
+  // 存在しない slug は page 側で notFound() する。
+  // ここでも noindex を返し、万一 200 で配信された場合でも
+  // 検索インデックスに空ページが残らないようにしておく。
+  if (!article) {
+    return {
+      title: siteTitle("恋愛ブログ"),
+      robots: { index: false, follow: false },
+    };
+  }
 
   const url = `${SITE_DEFAULT_URL}/blog/${article.slug}`;
   const title = article.metaTitle || article.title;

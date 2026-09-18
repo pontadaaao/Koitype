@@ -70,7 +70,9 @@ export async function generateMetadata({
   return {
     title: siteTitle(`私の恋愛スタイルは「${result.name}」でした`),
     description: result.desc,
-    robots: { index: false, follow: false },
+    // 結果URLはインデックスしないが、ここから張っている診断・記事への
+    // リンクは辿ってほしいので follow は残す（canonical は出さない）。
+    robots: { index: false, follow: true },
     openGraph: {
       title: `私の恋愛スタイルは「${result.name}」でした`,
       description: result.desc,

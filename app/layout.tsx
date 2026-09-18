@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
-import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import AdSenseScript, { ADSENSE_CLIENT_ID } from "@/components/AdSenseScript";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { SITE_DEFAULT_URL, SITE_DESCRIPTION, SITE_NAME, siteTitle } from "@/lib/site";
 import "./globals.css";
@@ -48,8 +48,10 @@ export const metadata: Metadata = {
   // ルートに canonical を置くと、自分で alternates を返さないページ
   // （診断結果ページなど）がトップページの canonical を継承してしまい、
   // Google に「トップの重複」と判定される。canonical は各ページで指定する。
-  // AdSenseサイト所有確認用メタタグ（<meta name="google-adsense-account">）
-  other: { "google-adsense-account": "ca-pub-4709100652775310" },
+  // AdSenseサイト所有確認用メタタグ（<meta name="google-adsense-account">）。
+  // 広告配信スクリプト（components/AdSenseScript.tsx）とは役割が別で、
+  // 環境や審査状況に関係なく常に出力する。
+  other: { "google-adsense-account": ADSENSE_CLIENT_ID },
 };
 
 const jsonLdOrganization = {
@@ -85,15 +87,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
         />
-        {process.env.NODE_ENV === "production" && (
-          <Script
-            id="adsbygoogle-init"
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4709100652775310"
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
-        )}
+        <AdSenseScript />
       </head>
       <body
         className={`${notoSans.variable} bg-base font-body text-text-main antialiased`}

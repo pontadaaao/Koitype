@@ -640,7 +640,7 @@ export const diagnoses: Diagnosis[] = [
       {
         id: "ideal-mine",
         icon: "bulb",
-        name: "理想过高地雷型",
+        name: "理想高すぎ地雷型",
         tags: ["完璧期待", "ギャップ苦手", "ロマン過剰"],
         desc: "最初のイメージや理想像を大切にしすぎて、現実の相手とのズレにショックを受けやすいタイプ。期待値を少し下げると、恋は長く続きやすい。",
         detailTitle: "恋愛のクセ",
