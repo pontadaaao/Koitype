@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAutoStart } from "@/lib/use-auto-start";
 import ProgressBar from "@/components/ProgressBar";
-import AppIcon from "@/components/AppIcon";
 import QuestionStep from "@/components/QuestionStep";
 import ResultCard from "@/components/ResultCard";
 import ShareButtons from "@/components/ShareButtons";
@@ -122,9 +121,6 @@ export default function DiagnosisClient({ diagnosis }: DiagnosisClientProps) {
         {!started && !result ? (
           <div className="text-center">
             <div className="overflow-hidden rounded-2xl border border-pink-light bg-base p-8 shadow-sm">
-              <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full border border-pink-light bg-base shadow-sm">
-                <AppIcon name={diagnosis.icon} size={40} className="text-accent" />
-              </div>
               <h1 className="font-heading text-xl font-bold text-text-main sm:text-2xl">
                 {diagnosis.title}
               </h1>

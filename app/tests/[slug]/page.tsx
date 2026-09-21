@@ -4,7 +4,6 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import LoveTestClient from "@/components/LoveTestClient";
 import { loveTests, getLoveTestBySlug } from "@/lib/love-tests";
-import LoveTestIcon from "@/components/LoveTestIcon";
 import QuizContent from "@/components/QuizContent";
 import { buildLoveTestContent } from "@/lib/quiz-content";
 import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
@@ -75,17 +74,6 @@ export default function LoveTestPage({ params }: Props) {
             style={{ background: `linear-gradient(160deg, ${test.color}12 0%, ${test.color}04 100%)` }}
           >
             <div className="mx-auto max-w-lg">
-              {/* Icon */}
-              <div
-                className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-3xl"
-                style={{
-                  background: `${test.color}18`,
-                  boxShadow: `0 0 0 8px ${test.color}0a`,
-                }}
-              >
-                <LoveTestIcon id={test.icon} color={test.color} className="h-8 w-8" />
-              </div>
-
               {/* Category */}
               <span
                 className="mb-3 inline-block rounded-full px-3 py-1 text-xs font-bold"
