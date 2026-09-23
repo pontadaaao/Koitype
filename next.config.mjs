@@ -1,5 +1,22 @@
 /** @type {import('next').NextConfig} */
 
+// 旧 /columns/<slug> → 移行後の microCMS 記事ID（タイトル一致で対応付け）。
+// 移行されずに削除された記事はここに含めず 404 を返す。
+const LEGACY_COLUMN_REDIRECTS = {
+  "shokuba-renai-tips": "xt1g8eq4m4",
+  "toshinosa-renai-tips": "jp2lfeqz1vow",
+  "suki-kamo-tashikame-kata": "p_p_ayen4_j",
+  "koibito-oya-aisatsu": "mfm3m_snr2wb",
+  "kokuhaku-sareta-henji": "g2jw_8yvo",
+  "date-sasoikata-tips": "gmtyag_qplr",
+  "omoi-onna-kaihi-tips": "hbcxrrddc8",
+  "enskyori-renai-tips": "4yys5xz900ke",
+  "enkyori-nagatsuzuki-tips": "4yys5xz900ke",
+  "fukuen-seikou-houhou": "40tw_5nzqce9",
+  "couple-long-lasting-tips": "fzexcpfqe",
+  "nagatsuzuku-couple-tokuchou-10": "fzexcpfqe",
+};
+
 const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
   { key: "X-XSS-Protection", value: "1; mode=block" },
@@ -117,11 +134,15 @@ const nextConfig = {
       { source: "/index.html", destination: "/", statusCode: 301 },
       // 恋愛コラムは恋愛ブログに一本化。旧URLは 301 で /blog へ集約。
       { source: "/columns", destination: "/blog", statusCode: 301 },
-      {
-        source: "/columns/:slug",
-        destination: "/blog/:slug",
+      // 旧コラム記事は microCMS へ移行した際に URL(slug) が変わったため、
+      // /blog/:slug への一律リダイレクトだと転送先が 404 になり
+      // GSC で「ソフト 404」「ページにリダイレクトがあります」が残っていた。
+      // 同じ記事が移行済みのものだけ個別に 301 し、それ以外は 404 のままにする。
+      ...Object.entries(LEGACY_COLUMN_REDIRECTS).map(([slug, id]) => ({
+        source: `/columns/${slug}`,
+        destination: `/blog/${id}`,
         statusCode: 301,
-      },
+      })),
       // トップの旧クエリ(?category=...)はエッジでリダイレクト。
       // これによりトップページ本体は searchParams 非依存で静的化でき、遷移が高速になる。
       {
