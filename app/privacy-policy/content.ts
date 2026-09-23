@@ -41,8 +41,8 @@ const URL_FORMSPREE_PRIVACY = "https://formspree.io/legal/privacy-policy/";
 const URL_VERCEL_PRIVACY = "https://vercel.com/legal/privacy-policy";
 const URL_SUPABASE_PRIVACY = "https://supabase.com/privacy";
 const URL_MICROCMS_PRIVACY = "https://microcms.io/privacy-policy";
-// 個人情報保護委員会「外国における個人情報の保護に関する制度等」の掲載ページ
-const URL_PPC_FOREIGN = "https://www.ppc.go.jp/personalinfo/legal/kaiseihogohou/";
+// 個人情報保護委員会「外国制度（アメリカ合衆国）」
+const URL_PPC_FOREIGN = "https://www.ppc.go.jp/enforcement/infoprovision/laws/offshore_report_america/";
 
 const p = (text: string): ContentItem => ({ type: "p", text });
 const ul = (...items: string[]): ContentItem => ({ type: "ul", items });
@@ -156,8 +156,8 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "8. 欧州経済領域（EEA）・英国・スイスの利用者の方へ",
         items: [
-          p("EEA・英国・スイスからアクセスされた場合、広告とアクセス解析のためのCookieの使用について、Googleの認定同意管理プラットフォーム（CMP）を通じて同意を確認します。"),
-          p("同意をいただけない場合、パーソナライズ広告は配信されません（広告が表示されないか、パーソナライズされていない広告が表示されます）。同意の内容は、表示される同意メッセージからいつでも変更できます。"),
+          p("Googleのポリシーにより、EEA・英国・スイスの利用者に対してパーソナライズ広告を配信するには、Cookieなどの使用について利用者の同意が必要です。これらの地域からアクセスされた場合、Googleの認定同意管理プラットフォーム（CMP）による同意メッセージが表示されることがあります。"),
+          p("同意がない場合、パーソナライズ広告は配信されません（広告が表示されないか、パーソナライズされていない広告が表示されます）。同意メッセージから選択した内容は、いつでも変更できます。"),
         ],
       },
       {
@@ -176,7 +176,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
         heading: "10. 外国にある事業者の利用",
         items: [
           p("第9条のとおり、本サイトが利用する外部サービスの一部（Google、Vercel、Supabase、Formspree）は米国の事業者であり、お問い合わせの内容を含む情報が米国などのサーバーで取り扱われることがあります。これらの事業者は、それぞれのプライバシーポリシーで、個人情報の保護のための措置を定めています。"),
-          ext("米国の個人情報保護制度については、個人情報保護委員会が公表している", "「外国における個人情報の保護に関する制度等の調査」", URL_PPC_FOREIGN, "をご参照ください。"),
+          ext("米国の個人情報保護制度については、個人情報保護委員会が公表している", "「外国制度（アメリカ合衆国）」", URL_PPC_FOREIGN, "をご参照ください。"),
         ],
       },
       {
@@ -194,7 +194,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "12. 安全管理",
         items: [
-          p("お問い合わせでお預かりした個人情報について、漏えい・滅失・毀損を防ぐため、情報を扱う者を運営者に限定し、利用するサービスのアカウントを適切に管理するなど、必要かつ適切な安全管理措置を講じます。"),
+          p("運営者は、お問い合わせでお預かりした個人情報の漏えい・滅失・毀損を防ぎ、安全に管理するため、必要かつ適切な措置を講じるよう努めます。不要になった情報は、第3条のとおり削除します。"),
         ],
       },
       {
@@ -206,7 +206,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "14. 開示・訂正・利用停止・削除のご請求",
         items: [
-          contact("お預かりしている個人情報の開示・訂正・利用停止・削除をご希望の場合は、", "お問い合わせフォーム", "からご連絡ください。ご本人からの請求であることを確認したうえで、速やかに対応します。本人確認のため、お問い合わせ時と同じメールアドレスからのご連絡をお願いすることがあります。"),
+          contact("お預かりしている個人情報の開示・訂正・利用停止・削除をご希望の場合は、", "お問い合わせフォーム", "からご連絡ください。ご本人からの請求であることを確認したうえで、速やかに対応します。本人確認のため、必要な範囲で追加の情報をお伺いすることがあります。"),
           p("記事や診断の内容の誤りに気づかれた場合も、同じ窓口からお知らせください。確認のうえ、修正または削除します。"),
         ],
       },
@@ -326,8 +326,8 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "8. Users in the European Economic Area (EEA), the UK, and Switzerland",
         items: [
-          p("If you access this Site from the EEA, the UK, or Switzerland, we ask for your consent to the use of cookies for advertising and analytics through a Google-certified consent management platform (CMP)."),
-          p("If you do not consent, personalized ads will not be shown (either no ads or non-personalized ads will be displayed). You can change your choice at any time through the consent message."),
+          p("Under Google's policies, personalized ads can be shown to users in the EEA, the UK, and Switzerland only with their consent to the use of cookies and similar technologies. If you access this Site from these regions, a consent message from a Google-certified consent management platform (CMP) may be displayed."),
+          p("Without your consent, personalized ads will not be shown (either no ads or non-personalized ads will be displayed). You can change the choice you made in the consent message at any time."),
         ],
       },
       {
@@ -346,7 +346,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
         heading: "10. Use of Providers Located Outside Japan",
         items: [
           p("As described in Section 9, some of the external services we use (Google, Vercel, Supabase, and Formspree) are US companies, and information, including contact form messages, may be processed on servers in the United States and elsewhere. Each of these providers sets out measures for protecting personal information in its privacy policy."),
-          ext("For information on the personal information protection system in the United States, please see the ", "survey of foreign personal information protection systems", URL_PPC_FOREIGN, " published by Japan's Personal Information Protection Commission (in Japanese)."),
+          ext("For information on the personal information protection system in the United States, please see the ", "Foreign Systems (United States)", URL_PPC_FOREIGN, " page published by Japan's Personal Information Protection Commission (in Japanese)."),
         ],
       },
       {
@@ -364,7 +364,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "12. Security",
         items: [
-          p("To prevent the leakage, loss, or damage of personal information received through inquiries, we take necessary and appropriate security measures, such as limiting access to the operator and properly managing the accounts of the services we use."),
+          p("The operator strives to take necessary and appropriate measures to prevent the leakage, loss, or damage of personal information received through inquiries and to manage it securely. Information that is no longer needed is deleted as described in Section 3."),
         ],
       },
       {
@@ -376,7 +376,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "14. Requests for Disclosure, Correction, Suspension of Use, or Deletion",
         items: [
-          contact("To request disclosure, correction, suspension of use, or deletion of personal information we hold about you, please contact us via our ", "contact form", ". We will respond promptly after confirming that the request comes from you. To verify your identity, we may ask you to contact us from the same email address you used for your inquiry."),
+          contact("To request disclosure, correction, suspension of use, or deletion of personal information we hold about you, please contact us via our ", "contact form", ". We will respond promptly after confirming that the request comes from you. To verify your identity, we may ask for additional information to the extent necessary."),
           p("If you find an error in an article or quiz, please let us know through the same form. We will review it and correct or remove it."),
         ],
       },
@@ -496,8 +496,8 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "8. 유럽경제지역(EEA)·영국·스위스 이용자분께",
         items: [
-          p("EEA·영국·스위스에서 접속하시는 경우, 광고 및 접속 분석을 위한 쿠키 사용에 대해 Google 인증 동의 관리 플랫폼(CMP)을 통해 동의를 확인합니다."),
-          p("동의하지 않으시면 맞춤 광고는 게재되지 않습니다(광고가 표시되지 않거나 맞춤화되지 않은 광고가 표시됩니다). 동의 내용은 표시되는 동의 메시지에서 언제든지 변경할 수 있습니다."),
+          p("Google 정책에 따라 EEA·영국·스위스 이용자에게 맞춤 광고를 게재하려면 쿠키 등의 사용에 대한 이용자의 동의가 필요합니다. 이들 지역에서 접속하시는 경우 Google 인증 동의 관리 플랫폼(CMP)의 동의 메시지가 표시될 수 있습니다."),
+          p("동의가 없으면 맞춤 광고는 게재되지 않습니다(광고가 표시되지 않거나 맞춤화되지 않은 광고가 표시됩니다). 동의 메시지에서 선택한 내용은 언제든지 변경할 수 있습니다."),
         ],
       },
       {
@@ -516,7 +516,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
         heading: "10. 해외 사업자 이용",
         items: [
           p("제9조와 같이 본 사이트가 이용하는 외부 서비스 중 일부(Google, Vercel, Supabase, Formspree)는 미국 사업자이며, 문의 내용을 포함한 정보가 미국 등의 서버에서 처리될 수 있습니다. 이들 사업자는 각자의 개인정보처리방침에서 개인정보 보호를 위한 조치를 정하고 있습니다."),
-          ext("미국의 개인정보 보호 제도에 대해서는 일본 개인정보보호위원회가 공표한 ", "「외국의 개인정보 보호에 관한 제도 등의 조사」", URL_PPC_FOREIGN, "(일본어)를 참조해 주십시오."),
+          ext("미국의 개인정보 보호 제도에 대해서는 일본 개인정보보호위원회가 공표한 ", "「외국 제도(미국)」", URL_PPC_FOREIGN, "(일본어)를 참조해 주십시오."),
         ],
       },
       {
@@ -534,7 +534,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "12. 안전 관리",
         items: [
-          p("문의를 통해 받은 개인정보의 유출·멸실·훼손을 방지하기 위해, 정보를 다루는 사람을 운영자로 한정하고 이용하는 서비스의 계정을 적절히 관리하는 등 필요하고 적절한 안전 관리 조치를 취합니다."),
+          p("운영자는 문의를 통해 받은 개인정보의 유출·멸실·훼손을 방지하고 안전하게 관리하기 위해 필요하고 적절한 조치를 취하도록 노력합니다. 필요 없어진 정보는 제3조에 따라 삭제합니다."),
         ],
       },
       {
@@ -546,7 +546,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "14. 공개·정정·이용 정지·삭제 요청",
         items: [
-          contact("보관 중인 개인정보의 공개·정정·이용 정지·삭제를 원하시는 경우 ", "문의 양식", "으로 연락해 주십시오. 본인의 요청임을 확인한 후 신속하게 대응합니다. 본인 확인을 위해 문의 시와 같은 이메일 주소로 연락해 주시도록 요청할 수 있습니다."),
+          contact("보관 중인 개인정보의 공개·정정·이용 정지·삭제를 원하시는 경우 ", "문의 양식", "으로 연락해 주십시오. 본인의 요청임을 확인한 후 신속하게 대응합니다. 본인 확인을 위해 필요한 범위에서 추가 정보를 여쭐 수 있습니다."),
           p("기사나 진단 내용의 오류를 발견하신 경우에도 같은 창구로 알려 주십시오. 확인 후 수정 또는 삭제합니다."),
         ],
       },
@@ -666,8 +666,8 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "8. 致歐洲經濟區（EEA）、英國及瑞士的用戶",
         items: [
-          p("從 EEA、英國或瑞士存取本網站時，將透過 Google 認證的同意管理平台（CMP），確認您是否同意為廣告及流量分析使用 Cookie。"),
-          p("若您不同意，將不會投放個人化廣告（不顯示廣告，或顯示非個人化廣告）。您可隨時透過顯示的同意訊息變更選擇。"),
+          p("依 Google 的政策，向 EEA、英國及瑞士的用戶投放個人化廣告時，須取得用戶對使用 Cookie 等的同意。從這些地區存取本網站時，可能會顯示 Google 認證同意管理平台（CMP）的同意訊息。"),
+          p("未取得同意時，將不會投放個人化廣告（不顯示廣告，或顯示非個人化廣告）。您在同意訊息中所做的選擇可隨時變更。"),
         ],
       },
       {
@@ -686,7 +686,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
         heading: "10. 使用位於外國的業者",
         items: [
           p("如第9條所述，本網站使用的部分外部服務（Google、Vercel、Supabase、Formspree）為美國業者，包含洽詢內容在內的資訊可能會在美國等地的伺服器上處理。這些業者均在各自的隱私權政策中訂有保護個人資料的措施。"),
-          ext("關於美國的個人資料保護制度，請參閱日本個人資訊保護委員會公布的", "「外國個人資料保護制度等調查」", URL_PPC_FOREIGN, "（日文）。"),
+          ext("關於美國的個人資料保護制度，請參閱日本個人資訊保護委員會公布的", "「外國制度（美國）」", URL_PPC_FOREIGN, "（日文）。"),
         ],
       },
       {
@@ -704,7 +704,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "12. 安全管理",
         items: [
-          p("為防止透過洽詢取得的個人資料外洩、滅失或毀損，本網站採取必要且適當的安全管理措施，例如將處理資訊的人員限定為經營者，並妥善管理所使用服務的帳戶。"),
+          p("經營者致力於採取必要且適當的措施，防止透過洽詢取得的個人資料外洩、滅失或毀損，並安全地加以管理。不再需要的資訊，將依第3條予以刪除。"),
         ],
       },
       {
@@ -716,7 +716,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "14. 揭露、更正、停止使用及刪除的請求",
         items: [
-          contact("如欲請求揭露、更正、停止使用或刪除本網站所保存的個人資料，請透過", "聯絡表單", "與我們聯繫。確認為本人請求後，將迅速處理。為確認身分，可能會請您使用洽詢時的相同電子郵件地址聯繫。"),
+          contact("如欲請求揭露、更正、停止使用或刪除本網站所保存的個人資料，請透過", "聯絡表單", "與我們聯繫。確認為本人請求後，將迅速處理。為確認身分，可能會在必要範圍內請您提供其他資訊。"),
           p("若發現文章或診斷內容有誤，也請透過相同窗口告知，確認後將予以更正或刪除。"),
         ],
       },
@@ -836,8 +836,8 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "8. 致欧洲经济区（EEA）、英国及瑞士的用户",
         items: [
-          p("从 EEA、英国或瑞士访问本网站时，将通过 Google 认证的同意管理平台（CMP），确认您是否同意为广告及访问分析使用 Cookie。"),
-          p("若您不同意，将不会投放个性化广告（不显示广告，或显示非个性化广告）。您可随时通过显示的同意消息变更选择。"),
+          p("根据 Google 的政策，向 EEA、英国及瑞士的用户投放个性化广告时，须取得用户对使用 Cookie 等的同意。从这些地区访问本网站时，可能会显示 Google 认证同意管理平台（CMP）的同意消息。"),
+          p("未取得同意时，将不会投放个性化广告（不显示广告，或显示非个性化广告）。您在同意消息中所做的选择可随时变更。"),
         ],
       },
       {
@@ -856,7 +856,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
         heading: "10. 使用位于外国的业者",
         items: [
           p("如第9条所述，本网站使用的部分外部服务（Google、Vercel、Supabase、Formspree）为美国业者，包含咨询内容在内的信息可能会在美国等地的服务器上处理。这些业者均在各自的隐私政策中制定了保护个人信息的措施。"),
-          ext("关于美国的个人信息保护制度，请参阅日本个人信息保护委员会公布的", "「外国个人信息保护制度等调查」", URL_PPC_FOREIGN, "（日文）。"),
+          ext("关于美国的个人信息保护制度，请参阅日本个人信息保护委员会公布的", "「外国制度（美国）」", URL_PPC_FOREIGN, "（日文）。"),
         ],
       },
       {
@@ -874,7 +874,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "12. 安全管理",
         items: [
-          p("为防止通过咨询获取的个人信息泄露、灭失或毁损，本网站采取必要且适当的安全管理措施，例如将处理信息的人员限定为经营者，并妥善管理所使用服务的账户。"),
+          p("经营者致力于采取必要且适当的措施，防止通过咨询获取的个人信息泄露、灭失或毁损，并安全地加以管理。不再需要的信息，将依第3条予以删除。"),
         ],
       },
       {
@@ -886,7 +886,7 @@ const content: Record<Locale, PrivacyPolicyContent> = {
       {
         heading: "14. 披露、更正、停止使用及删除的请求",
         items: [
-          contact("如欲请求披露、更正、停止使用或删除本网站所保存的个人信息，请通过", "联系表单", "与我们联系。确认为本人请求后，将迅速处理。为确认身份，可能会请您使用咨询时的相同电子邮件地址联系。"),
+          contact("如欲请求披露、更正、停止使用或删除本网站所保存的个人信息，请通过", "联系表单", "与我们联系。确认为本人请求后，将迅速处理。为确认身份，可能会在必要范围内请您提供其他信息。"),
           p("若发现文章或诊断内容有误，也请通过相同窗口告知，确认后将予以更正或删除。"),
         ],
       },
