@@ -35,7 +35,7 @@ function pickRelated(cards: BlogCard[], matchText: string, n: number): BlogCard[
 
 export default function RelatedBlogArticles({
   matchText,
-  heading = "この結果におすすめの恋愛ブログ",
+  heading = "この結果だったあなたに読んでほしい記事",
 }: {
   matchText: string;
   heading?: string;
@@ -130,7 +130,7 @@ export default function RelatedBlogArticles({
             href="/blog"
             className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-white px-6 py-2.5 text-sm font-bold text-accent transition-colors hover:bg-accent hover:text-white"
           >
-            恋愛ブログをもっと見る
+            ほかの記事も読んでみる
             <svg
               viewBox="0 0 24 24"
               fill="none"

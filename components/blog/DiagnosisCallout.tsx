@@ -29,10 +29,10 @@ export default function DiagnosisCallout({ items }: { items: CrossLinkItem[] }) 
           <circle cx="11" cy="11" r="8" />
           <path d="m21 21-4.3-4.3" />
         </svg>
-        あなたの恋愛タイプは？診断でチェック
+        読んだついでに、ちょっと診断してみませんか？
       </h2>
       <p className="mb-3 text-xs text-text-sub">
-        この記事に関連する無料診断・心理テストはこちら。
+        この記事の内容に近いものを選んでみました。どれも無料で、気軽にできます。
       </p>
 
       <ul className="space-y-2">
@@ -97,7 +97,7 @@ export default function DiagnosisCallout({ items }: { items: CrossLinkItem[] }) 
           href="/love-diagnosis"
           className="inline-flex items-center gap-1 text-xs font-bold text-accent hover:underline"
         >
-          恋愛診断をすべて見る
+          ほかの診断も見てみる
           <svg
             viewBox="0 0 24 24"
             fill="none"

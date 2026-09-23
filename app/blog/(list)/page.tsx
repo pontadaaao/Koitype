@@ -10,7 +10,7 @@ import { getPopularSlugs } from "@/lib/supabase-blog-views";
 import { siteTitle, SITE_DEFAULT_URL, SITE_NAME } from "@/lib/site";
 
 const BLOG_DESCRIPTION =
-  "恋愛コラムと恋愛ブログをお届け。片思い・カップル・恋の悩みまで、Koitypeの恋愛ブログで、もっと恋愛を知ろう。";
+  "片思いで眠れなかった夜のこと、付き合ってから気づいたこと、ちょっと笑える恋の失敗。Koitypeの恋愛ブログは、そんな等身大の恋の話を集めた読みものです。";
 
 export const metadata: Metadata = {
   title: siteTitle("恋愛ブログ"),
@@ -73,7 +73,7 @@ export default async function BlogPage() {
             恋愛ブログ
           </h1>
           <p className="mt-2 text-xs text-text-main sm:text-sm">
-            恋愛コラムと恋愛ブログで、あなたの恋をそっと応援
+            うまくいった話も、いかなかった話も。恋のあれこれを書いています
           </p>
         </div>
 

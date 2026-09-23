@@ -20,7 +20,7 @@ export default function RecommendedCarousel({
           <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
         </svg>
         <h2 className="font-heading text-base font-bold sm:text-lg" style={{ color: "#5C4033" }}>
-          おすすめ記事
+          まずはここから読んでほしい記事
         </h2>
       </div>
 

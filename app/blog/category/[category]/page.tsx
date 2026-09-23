@@ -21,9 +21,17 @@ interface CategoryPageProps {
 // 各カテゴリーページ固有の説明文（重複判定対策・独自コンテンツ）
 const CATEGORY_DESCRIPTION: Record<BlogCategorySlug, string> = {
   column:
-    "恋愛コラムでは、片思い・カップル・別れ・婚活・恋愛心理まで、恋のあらゆる悩みに役立つ実用的な記事をお届けします。今日から使えるテクニックやヒントを、テーマ別にわかりやすくまとめました。気になるタイトルから、あなたの恋のヒントを見つけてください。",
+    "「このLINE、脈ありなのかな」「付き合って半年、なんだかマンネリかも」。恋をしていると、誰かに聞きたいけど聞きにくいことが次々に出てきます。恋愛コラムでは、そういう小さなモヤモヤをひとつずつ取り上げて、考え方やちょっとした工夫をまとめています。正解はひとつじゃないので、「自分ならどうするかな」と考えながら読んでもらえたらうれしいです。",
   blog:
-    "恋愛ブログでは、リアルな体験談や恋愛あるある、デートで使えるスポット情報など、読んで共感できる読み物をお届けします。等身大の恋のエピソードを通して、日々の恋愛のヒントやちょっとした勇気が見つかるはずです。",
+    "本当にあった恋の話、思わず「わかる…」と言いたくなる恋愛あるある、デートで行ってよかった場所のこと。恋愛ブログは、肩の力を抜いて読める話を集めたページです。きれいにまとまる話ばかりではないけれど、だからこそ誰かの「私だけじゃなかった」になれたらと思って書いています。",
+};
+
+// 検索結果・SNS 用の短い説明文（120字前後）
+const CATEGORY_META_DESCRIPTION: Record<BlogCategorySlug, string> = {
+  column:
+    "脈ありサインが気になる、付き合ってからのすれ違い、別れるか迷っている。恋をしていると出てくる小さなモヤモヤを、ひとつずつ一緒に考えるコラムです。",
+  blog:
+    "本当にあった恋の話や、思わずうなずく恋愛あるある、デートで行ってよかった場所のこと。肩の力を抜いて読める、等身大の恋の話を集めています。",
 };
 
 function isValidCategory(value: string): value is BlogCategorySlug {
@@ -46,7 +54,7 @@ export async function generateMetadata({
   if (!isValidCategory(params.category)) return { title: siteTitle("恋愛ブログ") };
   const label = BLOG_CATEGORY_LABEL[params.category];
   const url = `${SITE_DEFAULT_URL}/blog/category/${params.category}`;
-  const description = `${label}の記事一覧。Koitypeの恋愛ブログでお届けする${label}をまとめました。`;
+  const description = CATEGORY_META_DESCRIPTION[params.category];
 
   return {
     title: siteTitle(label),
@@ -174,7 +182,7 @@ export default async function BlogCategoryPage({ params }: CategoryPageProps) {
               <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z" />
             </svg>
             <p className="mt-3 text-sm text-text-sub">
-              このカテゴリーにはまだ記事がありません。
+              このカテゴリーの記事は、いま書いているところです。
             </p>
           </div>
         )}

@@ -149,7 +149,7 @@ export default function BlogListClient({
             >
               <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z" />
             </svg>
-            人気記事ランキング
+            いま、よく読まれている記事
           </h2>
           <ol className="overflow-hidden rounded-2xl border border-pink-light/70 bg-white shadow-sm">
             {popular.map((item, i) => (
@@ -339,9 +339,9 @@ function EmptyState({
   favoritesOnly: boolean;
   hasQuery: boolean;
 }) {
-  let message = "記事がまだありません。";
-  if (favoritesOnly) message = "お気に入りに登録した記事はまだありません。";
-  else if (hasQuery) message = "条件に一致する記事が見つかりませんでした。";
+  let message = "まだ記事がありません。もう少しだけ待っていてください。";
+  if (favoritesOnly) message = "お気に入りはまだ空っぽです。あとで読み返したい記事があったら、☆を押しておいてくださいね。";
+  else if (hasQuery) message = "その言葉に合う記事は見つかりませんでした。別の言い方でも探してみてください。";
 
   return (
     <div className="rounded-2xl border border-dashed border-pink-light bg-pink-pale/30 px-6 py-14 text-center">

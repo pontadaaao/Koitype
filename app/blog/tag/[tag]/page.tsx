@@ -28,7 +28,7 @@ export async function generateMetadata({
 }: TagPageProps): Promise<Metadata> {
   const tag = decodeTag(params.tag);
   const url = `${SITE_DEFAULT_URL}/blog/tag/${encodeURIComponent(tag)}`;
-  const description = `「${tag}」に関する恋愛ブログの記事一覧。Koitypeで${tag}の記事をまとめてお届けします。`;
+  const description = `「${tag}」について書いた記事をまとめました。気になるタイトルから、ゆっくり読んでみてください。`;
 
   return {
     title: siteTitle(`#${tag}`),
@@ -112,7 +112,7 @@ export default async function BlogTagPage({ params }: TagPageProps) {
           #{tag}
         </h1>
         <p className="mb-6 text-xs text-text-sub sm:text-sm">
-          「{tag}」の記事 {articles.length}件
+          「{tag}」について書いた記事が{articles.length}件あります
         </p>
 
         <BlogCategoryList articles={cards} />

@@ -376,7 +376,7 @@ export default async function BlogDetailPage({ params }: DetailPageProps) {
         {related.length > 0 && (
           <aside className="mt-12">
             <h2 className="mb-4 font-heading text-[1rem] font-bold text-text-main">
-              関連記事
+              こちらもよく一緒に読まれています
             </h2>
             <div className="space-y-2">
               {related.map((rel) => {
@@ -447,7 +447,7 @@ export default async function BlogDetailPage({ params }: DetailPageProps) {
             >
               <path d="M15 18l-6-6 6-6" />
             </svg>
-            恋愛ブログ一覧へ
+            ほかの記事も読んでみる
           </Link>
         </div>
       </main>
@@ -498,9 +498,10 @@ function AdjacentLink({
 
 const BLOG_BODY_STYLES = `
   .blog-body {
-    line-height: 1.9;
+    line-height: 2;
     color: #5C4033;
     font-size: 0.94rem;
+    letter-spacing: 0.02em;
   }
   @media (min-width: 640px) {
     .blog-body { font-size: 0.97rem; }
@@ -527,9 +528,9 @@ const BLOG_BODY_STYLES = `
   @media (min-width: 640px) {
     .blog-body h3 { font-size: 1rem; margin: 1.6rem 0 0.5rem; }
   }
-  .blog-body p { margin-bottom: 1.1rem; }
+  .blog-body p { margin-bottom: 1.5rem; }
   @media (min-width: 640px) {
-    .blog-body p { margin-bottom: 1.2rem; }
+    .blog-body p { margin-bottom: 1.7rem; }
   }
   .blog-body ul, .blog-body ol { padding-left: 1.4em; margin-bottom: 1.1rem; }
   .blog-body li { margin-bottom: 0.4rem; }
@@ -538,11 +539,14 @@ const BLOG_BODY_STYLES = `
     padding: 0.5rem 0.85rem;
     background: #fff0f5;
     border-radius: 0 8px 8px 0;
-    margin: 1rem 0;
+    margin: 1.2rem 0;
     color: #7a5568;
-    font-style: italic;
   }
-  .blog-body strong { color: #F067A6; font-weight: 700; }
+  .blog-body blockquote p:last-child { margin-bottom: 0; }
+  .blog-body strong {
+    font-weight: 700;
+    background: linear-gradient(transparent 62%, #ffd6e7 62%);
+  }
   .blog-body hr { display: none; }
   .blog-body .num-badge {
     display: inline-flex;
