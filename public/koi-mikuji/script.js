@@ -109,18 +109,23 @@ function startSakura(){
   layer.classList.add("on");
 }
 
-// おみくじ紙風の縦書きキャッチ（番号・改行位置は運勢データの no / lines）
+// おみくじ札風のキャッチ（番号・改行位置は運勢データの no / lines）
 function renderCatch(d){
   const src=[...FORTUNES,RARE].find(f=>f.key===d.key)||{};
   const lines=src.lines||d.catch.split(/(?<=、)/);
   const el=document.getElementById("catch");
   el.setAttribute("aria-label",d.catch);
   el.innerHTML=
-    '<div class="omikuji-paper">'+
-      '<div class="omikuji-no" aria-hidden="true">'+[..."第"+(src.no||"一")+"番"].join(" ")+'</div>'+
-      '<div class="omikuji-frame"><p class="omikuji-text" aria-hidden="true">'+
-        lines.map(l=>'<span>'+l+'</span>').join("")+
-      '</p></div>'+
+    '<div class="omikuji-slip" aria-hidden="true">'+
+      '<div class="omikuji-head">'+
+        '<span class="omikuji-brand">♡ 恋みくじ</span>'+
+        '<span class="omikuji-rank">'+d.key+'</span>'+
+        '<span class="omikuji-no">第'+(src.no||"一")+'番</span>'+
+      '</div>'+
+      '<div class="omikuji-body">'+
+        '<p class="omikuji-text">'+lines.map(l=>'<span>'+l+'</span>').join("")+'</p>'+
+        '<span class="omikuji-site">koitype.com</span>'+
+      '</div>'+
     '</div>';
 }
 
