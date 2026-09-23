@@ -136,7 +136,6 @@ function render(d){
   res.classList.toggle("rare",d.rare);
   document.getElementById("ribbon").innerHTML=d.rare?"✦ 超激レア出ちゃった ✦":"今日のあなたの恋愛運は…♡";
   document.getElementById("icon").innerHTML=ICONS[d.icon];
-  document.getElementById("rank").textContent=d.key;
   renderCatch(d);
   document.getElementById("body").textContent=d.body;
   document.getElementById("stats").innerHTML=d.stats.map(s=>'<div class="stat"><span class="lab">'+s[0]+'</span><span class="stars">'+starHTML(s[1])+'</span></div>').join("");
