@@ -1,15 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { isNewLoveTest, type LoveTest, type LoveTestChoice } from "@/lib/love-tests";
+import type { LoveTestResultDetails } from "@/lib/love-test-results";
 import LoveTestIcon from "@/components/LoveTestIcon";
 import RelatedBlogArticles from "@/components/RelatedBlogArticles";
 
 interface Props {
   test: LoveTest;
   otherTests: LoveTest[];
+  /** 結果ごとの深掘り解説（このテスト分だけをサーバーから渡す）。 */
+  details?: LoveTestResultDetails;
+  /** 結果の読み方・注意点（テストごとの書き下ろし）。 */
+  howToRead?: string;
 }
+
+const HEART_PATH =
+  "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
 
 const LABEL_BG: Record<string, string> = {
   A: "#F067A6",
@@ -89,11 +97,21 @@ function getRecommendedTests(
   return scored.slice(0, 4).map((s) => s.test);
 }
 
-export default function LoveTestClient({ test, otherTests }: Props) {
+export default function LoveTestClient({ test, otherTests, details, howToRead }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
+  const topRef = useRef<HTMLDivElement>(null);
 
   const choice = selected !== null ? test.choices[selected] : null;
+  const detail = choice ? details?.[choice.label] : undefined;
+
+  // 結果を切り替えたときは結果カードの先頭に戻す
+  const selectChoice = (i: number | null) => {
+    setSelected(i);
+    requestAnimationFrame(() => {
+      topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
 
   const handleShare = async () => {
     if (!choice) return;
@@ -110,7 +128,7 @@ export default function LoveTestClient({ test, otherTests }: Props) {
   };
 
   return (
-    <div className={`mx-auto px-4 pb-16 ${choice ? "max-w-2xl" : "max-w-lg"}`}>
+    <div ref={topRef} className={`mx-auto scroll-mt-20 px-4 pb-16 ${choice ? "max-w-2xl" : "max-w-lg"}`}>
 
       {choice === null ? (
         /* ── Question view ── */
@@ -141,7 +159,7 @@ export default function LoveTestClient({ test, otherTests }: Props) {
                 <button
                   key={c.label}
                   type="button"
-                  onClick={() => setSelected(i)}
+                  onClick={() => selectChoice(i)}
                   className="flex w-full items-center gap-3 rounded-2xl border-2 border-pink-100 bg-white px-4 py-4 text-left transition-all duration-150 hover:border-pink-200 hover:shadow-sm active:scale-[0.98]"
                   style={{ minHeight: 56 }}
                 >
@@ -207,6 +225,129 @@ export default function LoveTestClient({ test, otherTests }: Props) {
             </p>
           </div>
 
+          {detail && (
+            <>
+              {/* このタイプをもっと詳しく */}
+              <div className="bg-white px-6 pb-2 pt-6 sm:px-8">
+                <h3 className="font-heading text-base font-bold sm:text-lg" style={{ color: "#5C4033" }}>
+                  「{choice.text}」を選んだ理由
+                </h3>
+                <p className="mt-2.5 text-sm leading-loose sm:text-base" style={{ color: "#5C4033" }}>
+                  {detail.deepDive}
+                </p>
+              </div>
+
+              {/* 強み・気をつけたいこと */}
+              <div className="grid gap-3 bg-white px-6 py-4 sm:grid-cols-2 sm:px-8">
+                <div className="rounded-2xl border px-4 py-4" style={{ borderColor: `${test.color}30`, background: `${test.color}08` }}>
+                  <p className="text-xs font-black tracking-wide" style={{ color: test.color }}>
+                    このタイプの強み
+                  </p>
+                  <p className="mt-1.5 text-sm leading-relaxed" style={{ color: "#5C4033" }}>
+                    {detail.strength}
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-amber-200 bg-amber-50/60 px-4 py-4">
+                  <p className="text-xs font-black tracking-wide text-amber-700">
+                    つまずきやすいところ
+                  </p>
+                  <p className="mt-1.5 text-sm leading-relaxed" style={{ color: "#5C4033" }}>
+                    {detail.caution}
+                  </p>
+                </div>
+              </div>
+
+              {/* 相手からの見え方 */}
+              <div className="bg-white px-6 py-4 sm:px-8">
+                <h3 className="font-heading text-base font-bold" style={{ color: "#5C4033" }}>
+                  相手からはこう見えている
+                </h3>
+                <p className="mt-2 text-sm leading-loose sm:text-base" style={{ color: "#5C4033" }}>
+                  {detail.partnerView}
+                </p>
+              </div>
+
+              {/* 今日からできること */}
+              {detail.actions.length > 0 && (
+                <div className="bg-white px-6 pb-5 pt-3 sm:px-8">
+                  <h3 className="font-heading text-base font-bold" style={{ color: "#5C4033" }}>
+                    今日からできること
+                  </h3>
+                  <ol className="mt-3 space-y-2.5">
+                    {detail.actions.map((a, i) => (
+                      <li key={i} className="flex gap-3 text-sm leading-relaxed" style={{ color: "#5C4033" }}>
+                        <span
+                          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-black text-white"
+                          style={{ backgroundColor: test.color }}
+                        >
+                          {i + 1}
+                        </span>
+                        <span className="pt-0.5">{a}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* 他の答えを選んだ人は */}
+          <div className="bg-white px-6 py-5 sm:px-8">
+            <h3 className="font-heading text-base font-bold" style={{ color: "#5C4033" }}>
+              他の答えを選んだ人は？
+            </h3>
+            <p className="mt-1 text-xs" style={{ color: "#8a6f63" }}>
+              Q. {test.question.replace(/\n/g, " ")}
+            </p>
+            <div className="mt-3 space-y-2">
+              {test.choices.map((c, i) =>
+                i === selected ? null : (
+                  <button
+                    key={c.label}
+                    type="button"
+                    onClick={() => selectChoice(i)}
+                    className="flex w-full items-start gap-3 rounded-2xl border-2 border-pink-100 bg-white px-4 py-3 text-left transition-all hover:border-pink-200 hover:shadow-sm active:scale-[0.99]"
+                  >
+                    <span
+                      className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-black"
+                      style={{ backgroundColor: LABEL_BG[c.label], color: "#5C4033" }}
+                    >
+                      {c.label}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[11px]" style={{ color: "#8a6f63" }}>
+                        「{c.text}」
+                      </span>
+                      <span className="block text-sm font-bold" style={{ color: "#5C4033" }}>
+                        {c.resultTitle}
+                      </span>
+                      <span className="mt-0.5 block text-xs leading-relaxed" style={{ color: "#5C4033" }}>
+                        {c.catchCopy}
+                      </span>
+                    </span>
+                  </button>
+                ),
+              )}
+            </div>
+          </div>
+
+          {/* 結果の読み方 */}
+          {howToRead && (
+            <div className="bg-white px-6 pb-5 sm:px-8">
+              <div className="rounded-2xl bg-stone-50 px-4 py-3.5">
+                <p className="flex items-center gap-1.5 text-xs font-bold" style={{ color: "#5C4033" }}>
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="h-3 w-3 opacity-60">
+                    <path d={HEART_PATH} />
+                  </svg>
+                  結果の受け取り方
+                </p>
+                <p className="mt-1.5 text-xs leading-relaxed" style={{ color: "#6b5449" }}>
+                  {howToRead}
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Share text */}
           <div className="bg-white px-6 py-4 sm:px-8">
             <p className="mb-1.5 text-[11px] font-bold" style={{ color: test.color }}>
@@ -238,7 +379,7 @@ export default function LoveTestClient({ test, otherTests }: Props) {
             <div className="flex flex-col gap-3 sm:flex-row">
               <button
                 type="button"
-                onClick={() => setSelected(null)}
+                onClick={() => selectChoice(null)}
                 className="flex flex-1 items-center justify-center gap-1.5 rounded-2xl border-2 py-3.5 text-sm font-bold transition-colors hover:bg-pink-50 active:scale-[0.98]"
                 style={{ borderColor: test.color, color: test.color }}
               >

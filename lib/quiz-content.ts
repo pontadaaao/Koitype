@@ -8,6 +8,7 @@ import { diagnoses } from "@/lib/diagnoses";
 import { loveTests } from "@/lib/love-tests";
 import { getDiagnosisEditorial } from "@/lib/diagnosis-editorial";
 import { getLoveTestEditorial } from "@/lib/love-test-editorial";
+import { getLoveTestResultDetails } from "@/lib/love-test-results";
 
 const BLOG_LINK: QuizRelatedLink = { href: "/blog", label: "恋愛ブログ" };
 
@@ -105,15 +106,29 @@ export function buildLoveTestContent(test: LoveTest): QuizContentProps {
   const names = test.choices.map((c) => c.resultTitle);
   const typeCount = names.length;
 
-  const types: QuizContentType[] = test.choices.map((c) => ({
-    name: c.resultTitle,
-    tagline: c.catchCopy,
-    description: c.resultDescription,
-    notes: [
-      { label: "選んだ答え", text: `${c.label}「${c.text}」` },
-      ...(c.advice ? [{ label: "アドバイス", text: c.advice }] : []),
-    ],
-  }));
+  const details = getLoveTestResultDetails(test.slug);
+
+  const types: QuizContentType[] = test.choices.map((c) => {
+    const d = details[c.label];
+    return {
+      name: c.resultTitle,
+      tagline: c.catchCopy,
+      description: d ? `${c.resultDescription}${d.deepDive}` : c.resultDescription,
+      notes: [
+        { label: "選んだ答え", text: `${c.label}「${c.text}」` },
+        ...(d
+          ? [
+              { label: "強み", text: d.strength },
+              { label: "つまずきやすいところ", text: d.caution },
+              { label: "相手からの見え方", text: d.partnerView },
+            ]
+          : []),
+        ...(c.advice ? [{ label: "アドバイス", text: c.advice }] : []),
+      ],
+      pointsLabel: d ? "今日からできること" : undefined,
+      points: d?.actions,
+    };
+  });
 
   const intro = ed
     ? [ed.whatItAsks, ed.whyItSplits]

@@ -6,6 +6,8 @@ import LoveTestClient from "@/components/LoveTestClient";
 import { loveTests, getLoveTestBySlug } from "@/lib/love-tests";
 import QuizContent from "@/components/QuizContent";
 import { buildLoveTestContent } from "@/lib/quiz-content";
+import { getLoveTestResultDetails } from "@/lib/love-test-results";
+import { getLoveTestEditorial } from "@/lib/love-test-editorial";
 import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 
 interface Props {
@@ -105,7 +107,12 @@ export default function LoveTestPage({ params }: Props) {
 
           {/* Interactive test */}
           <div className="pt-6">
-            <LoveTestClient test={test} otherTests={otherTests} />
+            <LoveTestClient
+              test={test}
+              otherTests={otherTests}
+              details={getLoveTestResultDetails(test.slug)}
+              howToRead={getLoveTestEditorial(test.slug)?.howToRead}
+            />
           </div>
 
           {/* SSR editorial content for crawlers & readers */}

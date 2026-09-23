@@ -5,6 +5,8 @@ export type QuizContentType = {
   tagline?: string;
   description?: string;
   points?: string[];
+  /** points の見出し（任意）。 */
+  pointsLabel?: string;
   notes?: { label: string; text: string }[];
   tags?: string[];
   /** 相性（結果データの compat）。 */
@@ -204,6 +206,11 @@ export default function QuizContent({
                   )}
                   {type.description && (
                     <p className={`mt-2.5 ${body}`}>{type.description}</p>
+                  )}
+                  {type.points && type.points.length > 0 && type.pointsLabel && (
+                    <p className="mt-2.5 text-sm font-bold text-text-main">
+                      {type.pointsLabel}
+                    </p>
                   )}
                   {type.points && type.points.length > 0 && (
                     <ul className="mt-2.5 space-y-1.5">
