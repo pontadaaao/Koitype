@@ -12,9 +12,11 @@ import {
   questions,
   calculateSukinaHitoType,
   getSukinaHitoResultById,
+  results as sukinaHitoResults,
   type SukinaHitoResult,
 } from "@/lib/sukina-hito-diagnosis";
 import { SITE_TAG, siteUrl } from "@/lib/site";
+import { answersToDistribution, saveDiagnosisResult } from "@/lib/diagnosis-history";
 
 type Screen = "intro" | "quiz" | "result";
 
@@ -228,6 +230,19 @@ export default function SukinaHitoClient() {
       if (newAnswers.length >= questions.length) {
         const calcResult = calculateSukinaHitoType(newAnswers);
         setResult(calcResult);
+        saveDiagnosisResult({
+          diagnosisId: "sukina-hito",
+          diagnosisTitle: "好きな人から見たあなた診断",
+          resultId: calcResult.id,
+          resultName: calcResult.name,
+          summary: calcResult.features[0],
+          href: `/diagnosis/sukina-hito?result=${calcResult.id}`,
+          thumbnail: "/sukina-hito-hero.png",
+          distribution: answersToDistribution(
+            newAnswers,
+            Object.values(sukinaHitoResults).map((r) => r.name)
+          ),
+        });
         setScreen("result");
         setResultVisible(false);
         router.replace(`/diagnosis/sukina-hito?result=${calcResult.id}`, {

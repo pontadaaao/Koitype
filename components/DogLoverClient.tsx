@@ -17,6 +17,7 @@ import {
   questions,
 } from "@/lib/dog-lover-diagnosis";
 import { useLanguage } from "@/components/LanguageProvider";
+import { saveDiagnosisResult } from "@/lib/diagnosis-history";
 import type { DiagnosisResult, DogLoverResult } from "@/lib/types";
 
 type Screen = "intro" | "quiz" | "result";
@@ -86,6 +87,15 @@ export default function DogLoverClient() {
         const score = calculateScore(newAnswers);
         const found = getResultByScore(score);
         setResult(found);
+        saveDiagnosisResult({
+          diagnosisId: "dog-lover",
+          diagnosisTitle: "恋愛犬タイプ診断",
+          resultId: found.id,
+          resultName: found.name,
+          summary: found.title,
+          href: `/diagnosis/dog-lover?result=${found.id}`,
+          thumbnail: "/dog-lover-hero.png",
+        });
         setScreen("result");
         router.replace(`/diagnosis/dog-lover?result=${found.id}`, { scroll: false });
         return;

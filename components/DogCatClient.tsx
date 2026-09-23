@@ -16,6 +16,7 @@ import {
   questions,
 } from "@/lib/dog-cat-diagnosis";
 import type { DogCatResult } from "@/lib/types";
+import { saveDiagnosisResult } from "@/lib/diagnosis-history";
 
 type Screen = "intro" | "quiz" | "result";
 
@@ -91,6 +92,20 @@ export default function DogCatClient() {
         const score = calculateDogCatScore(newAnswers);
         setResult(score.result);
         setDogPct(score.dogPct);
+        saveDiagnosisResult({
+          diagnosisId: "dog-cat",
+          diagnosisTitle: "犬系？猫系？恋愛スタイル診断",
+          resultId: score.result.id,
+          resultName: score.result.name,
+          summary: score.result.subtitle,
+          href: `/diagnosis/dog-cat?result=${score.result.id}&dogPct=${score.dogPct}`,
+          thumbnail: "/dog-cat-hero.png",
+          // ハート6段階評価を 0〜100 に換算
+          parameters: score.result.parameters.map((p) => ({
+            label: p.label,
+            value: Math.round((p.score / 6) * 100),
+          })),
+        });
         setCatPct(score.catPct);
         setScreen("result");
         router.replace(

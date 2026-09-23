@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { IconChevronDown, IconMail, IconMenu2, IconX } from "@tabler/icons-react";
+import { IconChevronDown, IconMail, IconMenu2, IconUserHeart, IconX } from "@tabler/icons-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import SiteLogo from "@/components/SiteLogo";
 import HeaderNavTabs from "@/components/HeaderNavTabs";
@@ -309,6 +309,14 @@ export default function SiteHeader({
                   </span>
                 )}
               </Link>
+              <Link
+                href="/mypage"
+                className="relative flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-pink-pale"
+                aria-label="マイページ（診断結果）"
+                title="マイページ"
+              >
+                <IconUserHeart size={23} stroke={1.8} color="#5C4033" aria-hidden="true" />
+              </Link>
               <div className="hidden sm:block">
                 <LanguageSwitcher variant="compact" />
               </div>
@@ -393,6 +401,22 @@ export default function SiteHeader({
                             className="shrink-0 text-text-sub transition-colors group-hover:text-accent"
                           />
                           {t.nav.favorites}
+                        </Link>
+                      </li>
+                    )}
+                    {item.key === "home" && (
+                      <li>
+                        <Link
+                          href="/mypage"
+                          onClick={() => setMenuOpen(false)}
+                          className="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-text-main transition-colors hover:text-accent"
+                        >
+                          <IconUserHeart
+                            size={18}
+                            stroke={1.75}
+                            className="shrink-0 text-text-sub transition-colors group-hover:text-accent"
+                          />
+                          マイページ
                         </Link>
                       </li>
                     )}
