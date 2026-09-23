@@ -14,6 +14,7 @@ import {
   defaultDogPctForResult,
   getResultById,
   questions,
+  toRadarPoints,
 } from "@/lib/dog-cat-diagnosis";
 import type { DogCatResult } from "@/lib/types";
 import { saveDiagnosisResult } from "@/lib/diagnosis-history";
@@ -100,11 +101,7 @@ export default function DogCatClient() {
           summary: score.result.subtitle,
           href: `/diagnosis/dog-cat?result=${score.result.id}&dogPct=${score.dogPct}`,
           thumbnail: "/dog-cat-hero.png",
-          // ハート6段階評価を 0〜100 に換算
-          parameters: score.result.parameters.map((p) => ({
-            label: p.label,
-            value: Math.round((p.score / 6) * 100),
-          })),
+          parameters: toRadarPoints(score.result),
         });
         setCatPct(score.catPct);
         setScreen("result");

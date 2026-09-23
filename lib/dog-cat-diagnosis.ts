@@ -425,3 +425,11 @@ export function defaultDogPctForResult(resultId: string): number {
 export function isDogCatResultId(resultId: string): boolean {
   return results.some((r) => r.id === resultId);
 }
+
+/** ハート6段階評価のパラメータを 0〜100 に換算（レーダーチャート用）。 */
+export function toRadarPoints(result: DogCatResult): Array<{ label: string; value: number }> {
+  return (result.parameters ?? []).map((p) => ({
+    label: p.label,
+    value: Math.round((p.score / 6) * 100),
+  }));
+}

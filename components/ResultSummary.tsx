@@ -4,11 +4,13 @@ import Link from "next/link";
 import AppIcon from "@/components/AppIcon";
 import BalanceMeter from "@/components/BalanceMeter";
 import ResultHeroBanner from "@/components/ResultHeroBanner";
+import ResultRadar from "@/components/ResultRadar";
 import HeartRating from "@/components/HeartRating";
 import ResultSection from "@/components/ResultSection";
 import { ResultTypeHeader } from "@/components/ResultStickerCard";
 import ShareButtons from "@/components/ShareButtons";
 import type { DogCatResult } from "@/lib/types";
+import { toRadarPoints } from "@/lib/dog-cat-diagnosis";
 
 interface ResultSummaryProps {
   result: DogCatResult;
@@ -59,6 +61,10 @@ export default function ResultSummary({
           label="あなたの恋愛タイプは"
           title={result.name}
           subtitle={subtitle}
+        />
+        <ResultRadar
+          className="mt-5"
+          points={toRadarPoints(result)}
         />
       </div>
 

@@ -38,16 +38,19 @@ export default function RadarChart({
   const n = axes.length;
   if (n < 3) return null;
 
-  // 軸ラベル分の余白（pad）を四方に確保する。
-  const pad = 84;
-  const view = size + pad * 2;
-  const c = view / 2;
+  // 軸ラベル分の余白を確保する（横書きラベルが長いので左右を広めに）。
+  const padX = 124;
+  const padY = 84;
+  const viewW = size + padX * 2;
+  const viewH = size + padY * 2;
+  const cx = viewW / 2;
+  const cy = viewH / 2;
   const r = size / 2 - 8;
 
   const angle = (i: number) => -Math.PI / 2 + (2 * Math.PI * i) / n;
   const pos = (i: number, ratio: number) => ({
-    x: c + Math.cos(angle(i)) * r * ratio,
-    y: c + Math.sin(angle(i)) * r * ratio,
+    x: cx + Math.cos(angle(i)) * r * ratio,
+    y: cy + Math.sin(angle(i)) * r * ratio,
   });
   const clamp = (v: number) => Math.max(0, Math.min(1, v / max));
   const polygon = (ratios: number[]) =>
@@ -60,8 +63,8 @@ export default function RadarChart({
 
   return (
     <svg
-      viewBox={`0 0 ${view} ${view}`}
-      className="mx-auto block h-auto w-full max-w-[380px]"
+      viewBox={`0 0 ${viewW} ${viewH}`}
+      className="mx-auto block h-auto w-full max-w-[420px]"
       role="img"
       aria-label={ariaLabel}
     >
@@ -78,7 +81,7 @@ export default function RadarChart({
       {axes.map((_, i) => {
         const p = pos(i, 1);
         return (
-          <line key={i} x1={c} y1={c} x2={p.x} y2={p.y} stroke="#FFD6EC" strokeWidth={1} />
+          <line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="#FFD6EC" strokeWidth={1} />
         );
       })}
 
@@ -115,7 +118,7 @@ export default function RadarChart({
         const lines = splitLabel(label);
         const value = series[0].points[i]?.value;
         // 上側の軸は上に、下側の軸は下に積み、チャートと重ならないようにする。
-        const blockH = lines.length * 20;
+        const blockH = lines.length * 23;
         const sin = Math.sin(angle(i));
         const offsetY = sin > 0.2 ? 6 : sin < -0.2 ? -blockH - 6 : -blockH / 2;
         return (
@@ -125,17 +128,17 @@ export default function RadarChart({
             y={p.y + offsetY}
             textAnchor={anchor}
             dominantBaseline="middle"
-            fontSize={18}
+            fontSize={21}
             fill="#5C4033"
             fontWeight={600}
           >
             {lines.map((line, j) => (
-              <tspan key={j} x={p.x} dy={j === 0 ? 0 : 20}>
+              <tspan key={j} x={p.x} dy={j === 0 ? 0 : 23}>
                 {line}
               </tspan>
             ))}
             {value !== undefined && (
-              <tspan x={p.x} dy={20} fontSize={16} fill="#F067A6" fontWeight={700}>
+              <tspan x={p.x} dy={23} fontSize={18} fill="#F067A6" fontWeight={700}>
                 {value}
               </tspan>
             )}
