@@ -5,6 +5,13 @@ type ContentItem =
   | { type: "ul"; items: string[] }
   | { type: "pLink"; before: string; linkText: string; after: string }
   | {
+      type: "intLink";
+      before: string;
+      linkText: string;
+      href: string;
+      after: string;
+    }
+  | {
       type: "extLink";
       before: string;
       linkText: string;
@@ -34,317 +41,199 @@ const URL_FORMSPREE_PRIVACY = "https://formspree.io/legal/privacy-policy/";
 const URL_VERCEL_PRIVACY = "https://vercel.com/legal/privacy-policy";
 const URL_SUPABASE_PRIVACY = "https://supabase.com/privacy";
 const URL_MICROCMS_PRIVACY = "https://microcms.io/privacy-policy";
+// 個人情報保護委員会「外国における個人情報の保護に関する制度等」の掲載ページ
+const URL_PPC_FOREIGN = "https://www.ppc.go.jp/personalinfo/legal/kaiseihogohou/";
+
+const p = (text: string): ContentItem => ({ type: "p", text });
+const ul = (...items: string[]): ContentItem => ({ type: "ul", items });
+// お問い合わせフォーム（/contact）へのリンク付き段落
+const contact = (before: string, linkText: string, after: string): ContentItem => ({
+  type: "pLink",
+  before,
+  linkText,
+  after,
+});
+const terms = (before: string, linkText: string, after: string): ContentItem => ({
+  type: "intLink",
+  before,
+  linkText,
+  href: "/terms",
+  after,
+});
+const ext = (before: string, linkText: string, href: string, after = ""): ContentItem => ({
+  type: "extLink",
+  before,
+  linkText,
+  href,
+  after,
+});
 
 const content: Record<Locale, PrivacyPolicyContent> = {
   ja: {
     title: "プライバシーポリシー",
-    updated: "最終更新日：2026年9月18日",
+    updated: "最終更新日：2026年9月23日",
     intro:
-      "Koitype（以下「本サイト」）は、無料の恋愛診断・心理テストと恋愛コラムを提供するWebサイトです。本ポリシーでは、本サイトが実際に取得している情報、その利用目的、外部サービスへの送信、Cookieと広告の取り扱いについて説明します。",
+      "Koitype運営事務局（以下「運営者」）は、無料の恋愛診断・心理テストと恋愛コラムを提供するWebサイト「Koitype」（以下「本サイト」）での利用者の情報の取り扱いについて、個人情報の保護に関する法律（個人情報保護法）その他の関係法令を守り、次のとおりプライバシーポリシー（以下「本ポリシー」）を定めます。",
     sections: [
       {
         heading: "1. 本サイトが取得する情報",
         items: [
-          {
-            type: "p",
-            text: "本サイトは、会員登録を必要としません。閲覧するだけで氏名や住所などの個人情報を入力していただくことはありません。実際に取得している情報は次のとおりです。",
-          },
-          {
-            type: "ul",
-            items: [
-              "お問い合わせフォームにご入力いただいた、お名前（ハンドルネームを含む）、メールアドレス、件名、お問い合わせ内容",
-              "アクセス解析により自動的に収集される、閲覧ページ、参照元、おおまかな地域、ブラウザ・端末の種類などの統計情報",
-              "広告配信・アクセス解析に使われるCookieおよび広告識別子",
-              "サーバーのアクセスログ（IPアドレス、アクセス日時、ユーザーエージェント等）",
-            ],
-          },
-          {
-            type: "p",
-            text: "アクセス解析・広告・アクセスログで扱う情報は、単体で特定の個人を識別することを目的としたものではありません。",
-          },
+          p("本サイトは会員登録を必要としません。閲覧するだけで、氏名や住所などの個人情報を入力していただくことはありません。本サイトが取得する情報は次のとおりです。"),
+          ul(
+            "お問い合わせフォームに入力された、お名前（ハンドルネームを含む）、メールアドレス、件名、お問い合わせ内容",
+            "アクセス解析により自動的に収集される、閲覧ページ、参照元、おおまかな地域、ブラウザ・端末の種類などの統計情報",
+            "広告配信・アクセス解析に使われるCookieと広告識別子",
+            "サーバーのアクセスログ（IPアドレス、アクセス日時、ユーザーエージェントなど）",
+          ),
+          p("アクセス解析・広告・アクセスログで扱う情報は、単体で特定の個人を識別することを目的としたものではありません。"),
         ],
       },
       {
-        heading: "2. お問い合わせフォームの情報と外部送信について",
+        heading: "2. 利用目的",
         items: [
-          {
-            type: "p",
-            text: "お問い合わせフォームに入力された内容は、本サイトのサーバーを経由せず、メール転送サービス「Formspree」（Formspree, Inc.／米国）へ直接送信され、同社を通じて運営者に届きます。送信されるのは、お名前、メールアドレス、件名、お問い合わせ内容です。",
-          },
-          {
-            type: "p",
-            text: "取得した情報は、お問い合わせへの回答と、そのために必要なご連絡にのみ利用します。内容は対応に必要な期間保管し、不要になった時点で削除します。",
-          },
-          {
-            type: "extLink",
-            before: "Formspreeにおける情報の取り扱いについては、同社の",
-            linkText: "プライバシーポリシー",
-            href: URL_FORMSPREE_PRIVACY,
-            after: "をご確認ください。",
-          },
-          {
-            type: "p",
-            text: "お問い合わせの際に、パスワード、クレジットカード番号、マイナンバーなどの機微な情報はご入力にならないでください。",
-          },
+          p("取得した情報は、次の目的の範囲内で利用します。"),
+          ul(
+            "お問い合わせへの回答と、そのために必要な連絡",
+            "本サイトの利用状況の分析と、コンテンツ・機能の改善",
+            "広告の配信と効果測定",
+            "記事の閲覧数の集計（人気記事の表示など）",
+            "不正アクセスや迷惑行為の防止など、本サイトの安全な運営",
+          ),
+          p("利用目的を変更する場合は、変更前の目的と関連性があると合理的に認められる範囲で行い、本ページで公表します。"),
         ],
       },
       {
-        heading: "3. 診断・心理テストの回答の取り扱い",
+        heading: "3. お問い合わせフォームの情報",
         items: [
-          {
-            type: "p",
-            text: "恋愛診断・心理テスト・恋みくじの設問への回答は、お使いのブラウザ内だけで処理され、本サイトのサーバーや外部サービスに送信・保存されることはありません。回答内容が運営者に届くこともありません。",
-          },
-          {
-            type: "p",
-            text: "診断結果を共有するためのURL（末尾に result= が付いたURL）には、判定されたタイプの識別子だけが含まれます。個々の設問にどう答えたかは含まれません。共有URLをSNS等に投稿すると、その結果タイプは公開されますのでご注意ください。",
-          },
-          {
-            type: "p",
-            text: "本サイトの診断・心理テストは、娯楽および自己理解のきっかけとして提供するものです。医学的・心理学的な検査ではなく、回答内容を健康状態や人格の評価に用いることはありません。",
-          },
+          p("お問い合わせフォームに入力された内容は、本サイトのサーバーを経由せず、フォーム送信サービス「Formspree」（Formspree, Inc.／米国）へ直接送信され、同社を通じて運営者に届きます。送信されるのは、お名前、メールアドレス、件名、お問い合わせ内容です。"),
+          p("取得した情報は、お問い合わせへの回答と、そのために必要な連絡にのみ利用します。内容は対応に必要な期間だけ保管し、不要になった時点で削除します。"),
+          ext("Formspreeでの情報の取り扱いについては、同社の", "プライバシーポリシー", URL_FORMSPREE_PRIVACY, "をご確認ください。"),
+          p("お問い合わせの際に、パスワード、クレジットカード番号、マイナンバー、健康状態などの機微な情報は入力しないでください。"),
         ],
       },
       {
-        heading: "4. Cookieと端末に保存される情報について",
+        heading: "4. 診断・心理テストの回答",
         items: [
-          {
-            type: "p",
-            text: "Cookieとは、ブラウザに保存される小さなデータファイルです。本サイトでは、広告配信とアクセス解析のためにCookieを利用しています。",
-          },
-          {
-            type: "p",
-            text: "また、利便性のために、次の情報をお使いの端末内（ローカルストレージ／セッションストレージ）に保存しています。これらは端末内にとどまり、運営者が読み取ることはできません。",
-          },
-          {
-            type: "ul",
-            items: [
-              "表示言語の選択",
-              "恋愛ブログのお気に入り記事",
-              "同一セッション内で閲覧済みの記事（閲覧数の重複カウント防止用）",
-            ],
-          },
-          {
-            type: "p",
-            text: "Cookieはブラウザの設定から無効にできます。無効にした場合でも診断や記事の閲覧はご利用いただけますが、一部の機能が正常に動作しないことがあります。",
-          },
+          p("恋愛診断・心理テスト・恋みくじの設問への回答は、お使いのブラウザの中だけで処理され、本サイトのサーバーや外部サービスに送信・保存されることはありません。回答の内容が運営者に届くこともありません。"),
+          p("診断結果を共有するためのURL（末尾に result= が付いたURL）には、判定されたタイプの識別子だけが含まれ、個々の設問への回答は含まれません。共有URLをSNSなどに投稿すると、その結果タイプは公開されますのでご注意ください。"),
+          p("本サイトの診断・心理テストは、娯楽と自己理解のきっかけとして提供するものです。医学的・心理学的な検査ではなく、回答内容を健康状態や人格の評価に使うことはありません。"),
         ],
       },
       {
-        heading: "5. 広告配信について（Google AdSense）",
+        heading: "5. Cookieと端末に保存される情報",
         items: [
-          {
-            type: "p",
-            text: "本サイトでは、第三者配信の広告サービスとしてGoogle AdSenseを利用しています。",
-          },
-          {
-            type: "p",
-            text: "Googleを含む第三者配信事業者は、Cookieを使用して、ユーザーが本サイトや他のウェブサイトに過去にアクセスした際の情報に基づいて広告を配信することがあります。",
-          },
-          {
-            type: "p",
-            text: "Googleが広告Cookieを使用することにより、Googleおよびそのパートナーは、ユーザーが本サイトや他のサイトにアクセスした際の情報に基づいて、適切な広告を表示できるようになります。",
-          },
-          {
-            type: "extLink",
-            before: "パーソナライズ広告は、",
-            linkText: "Googleの広告設定",
-            href: URL_MY_AD_CENTER,
-            after: "からいつでも無効にできます。",
-          },
-          {
-            type: "extLink",
-            before: "また、Google以外の第三者配信事業者のCookieを無効にしたい場合は、",
-            linkText: "aboutads.info のオプトアウトページ",
-            href: URL_ABOUT_ADS,
-            after: "をご利用ください。",
-          },
-          {
-            type: "extLink",
-            before: "Googleが広告においてデータをどのように扱うかについては、",
-            linkText: "「Google のサービスを使用するサイトやアプリから収集した情報の Google による使用」",
-            href: URL_GOOGLE_ADS_POLICY,
-            after: "をご覧ください。",
-          },
+          p("Cookieとは、ブラウザに保存される小さなデータファイルです。本サイトでは、広告配信とアクセス解析のためにCookieを利用しています。"),
+          p("また、利便性のために、次の情報をお使いの端末内（ローカルストレージ／セッションストレージ）に保存しています。これらは端末の中にとどまり、運営者や外部サービスに送信されることはありません。"),
+          ul(
+            "表示言語の選択",
+            "恋愛ブログのお気に入り記事",
+            "診断を開いた回数（トップページの診断の並び順に使用）",
+            "お知らせページを最後に見た日（新着お知らせの表示に使用）",
+            "同じセッション内で閲覧済みの記事（閲覧数の重複カウントを防ぐため）",
+          ),
+          p("Cookieはブラウザの設定から無効にできます。端末に保存された情報は、ブラウザのサイトデータを削除すると消去されます。無効・削除した場合も診断や記事の閲覧はご利用いただけますが、一部の機能が正常に動作しないことがあります。"),
         ],
       },
       {
-        heading: "6. アクセス解析について（Googleアナリティクス）",
+        heading: "6. 広告配信について（Google AdSense）",
         items: [
-          {
-            type: "p",
-            text: "本サイトでは、利用状況を把握し改善に役立てるため、Googleアナリティクス4（GA4）を利用しています。GA4はCookieを利用して、閲覧ページや滞在時間などのトラフィックデータを収集します。",
-          },
-          {
-            type: "p",
-            text: "収集されるデータは統計的なもので、氏名やメールアドレスなど個人を直接特定する情報は含まれません。",
-          },
-          {
-            type: "extLink",
-            before: "Googleアナリティクスによるデータ収集を停止したい場合は、",
-            linkText: "Googleアナリティクス オプトアウト アドオン",
-            href: URL_GA_OPTOUT,
-            after: "をご利用いただくか、ブラウザでCookieを無効にしてください。",
-          },
-          {
-            type: "extLink",
-            before: "Googleにおけるデータの取り扱いについては、",
-            linkText: "Googleのプライバシーポリシー",
-            href: URL_GOOGLE_PRIVACY,
-            after: "をご確認ください。",
-          },
+          p("本サイトでは、第三者配信の広告サービスとしてGoogle AdSenseを利用しています。"),
+          p("Googleなどの第三者配信事業者は、Cookieを使用して、利用者が本サイトや他のウェブサイトに過去にアクセスした際の情報に基づいて広告を配信することがあります。"),
+          p("Googleが広告Cookieを使用することにより、Googleとそのパートナーは、利用者が本サイトや他のサイトにアクセスした際の情報に基づいて、適切な広告を表示できるようになります。"),
+          ext("パーソナライズ広告は、", "Googleの広告設定", URL_MY_AD_CENTER, "からいつでも無効にできます。"),
+          ext("Google以外の第三者配信事業者のCookieを無効にしたい場合は、", "aboutads.info のオプトアウトページ", URL_ABOUT_ADS, "をご利用ください。"),
+          ext("Googleが広告でデータをどのように扱うかについては、", "「Google のサービスを使用するサイトやアプリから収集した情報の Google による使用」", URL_GOOGLE_ADS_POLICY, "をご覧ください。"),
         ],
       },
       {
-        heading: "7. 欧州経済領域（EEA）・英国・スイスのユーザーの方へ",
+        heading: "7. アクセス解析について（Googleアナリティクス）",
         items: [
-          {
-            type: "p",
-            text: "EEA・英国・スイスからアクセスされた場合、広告およびアクセス解析のためのCookieの使用について、Googleの認定同意管理プラットフォーム（CMP）を通じて同意を確認します。",
-          },
-          {
-            type: "p",
-            text: "同意をいただけない場合、パーソナライズ広告は配信されません（広告自体が表示されないか、パーソナライズされていない広告が表示されます）。同意の内容は、表示される同意メッセージからいつでも変更できます。",
-          },
+          p("本サイトでは、利用状況を把握して改善に役立てるため、Googleアナリティクス4（GA4）を利用しています。GA4はCookieを使って、閲覧ページや滞在時間などのトラフィックデータを収集します。"),
+          p("収集されるデータは統計的なもので、氏名やメールアドレスなど、個人を直接特定する情報は含まれません。"),
+          ext("Googleアナリティクスによるデータ収集を止めたい場合は、", "Googleアナリティクス オプトアウト アドオン", URL_GA_OPTOUT, "を利用するか、ブラウザでCookieを無効にしてください。"),
         ],
       },
       {
-        heading: "8. 利用している外部サービス",
+        heading: "8. 欧州経済領域（EEA）・英国・スイスの利用者の方へ",
         items: [
-          {
-            type: "p",
-            text: "本サイトの運営にあたり、次の外部サービスを利用しています。各サービスにおける情報の取り扱いは、それぞれのプライバシーポリシーに従います。",
-          },
-          {
-            type: "extLink",
-            before: "Vercel（ホスティング。アクセスログを含みます）／",
-            linkText: "プライバシーポリシー",
-            href: URL_VERCEL_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Google AdSense・Googleアナリティクス（広告配信とアクセス解析）／",
-            linkText: "プライバシーポリシー",
-            href: URL_GOOGLE_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Formspree（お問い合わせフォームの送信）／",
-            linkText: "プライバシーポリシー",
-            href: URL_FORMSPREE_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "microCMS（恋愛ブログ記事の管理・配信。閲覧者の情報は扱いません）／",
-            linkText: "プライバシーポリシー",
-            href: URL_MICROCMS_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Supabase（記事ごとの閲覧数の保存。記事の識別子と回数のみで、閲覧者の情報は保存しません）／",
-            linkText: "プライバシーポリシー",
-            href: URL_SUPABASE_PRIVACY,
-            after: "",
-          },
+          p("EEA・英国・スイスからアクセスされた場合、広告とアクセス解析のためのCookieの使用について、Googleの認定同意管理プラットフォーム（CMP）を通じて同意を確認します。"),
+          p("同意をいただけない場合、パーソナライズ広告は配信されません（広告が表示されないか、パーソナライズされていない広告が表示されます）。同意の内容は、表示される同意メッセージからいつでも変更できます。"),
         ],
       },
       {
-        heading: "9. 個人情報の第三者提供",
+        heading: "9. 利用者情報の外部送信について",
         items: [
-          {
-            type: "p",
-            text: "お問い合わせでお預かりした個人情報は、次の場合を除き、第三者へ提供することはありません。本ポリシー第2条・第8条に記載した、サービス提供のために必要な外部サービスへの送信は、この「第三者提供」には含みません。",
-          },
-          {
-            type: "ul",
-            items: [
-              "ご本人の同意がある場合",
-              "法令に基づき開示が必要な場合",
-              "人の生命・身体・財産の保護のために必要であり、ご本人の同意を得ることが困難な場合",
-            ],
-          },
-          {
-            type: "p",
-            text: "個人情報を販売したり、広告目的で第三者に提供したりすることはありません。",
-          },
+          p("本サイトでは、ページの表示や機能の提供に伴い、利用者の端末から次の外部事業者へ情報が送信されます（電気通信事業法第27条の12に基づく公表事項です）。各事業者での情報の取り扱いは、それぞれのプライバシーポリシーに従います。"),
+          ext("Google（Google LLC／米国）：広告配信（Google AdSense）とアクセス解析（Googleアナリティクス）のため、Cookie・広告識別子、閲覧ページのURL、参照元、IPアドレス、ブラウザ・端末の情報、閲覧日時などが送信されます。／", "プライバシーポリシー", URL_GOOGLE_PRIVACY),
+          ext("Vercel（Vercel Inc.／米国）：本サイトのホスティングと配信のため、IPアドレス、アクセス日時、閲覧URL、ユーザーエージェントなどがアクセスログとして記録されます。／", "プライバシーポリシー", URL_VERCEL_PRIVACY),
+          ext("Supabase（Supabase, Inc.／米国）：記事の閲覧数を集計するため、恋愛ブログの記事を開いたときに、その記事の識別子が送信されます。通信に伴いIPアドレスなどが同社に届きますが、本サイトが保存するのは記事ごとの閲覧回数だけです。／", "プライバシーポリシー", URL_SUPABASE_PRIVACY),
+          ext("Formspree（Formspree, Inc.／米国）：お問い合わせフォームを送信したときだけ、入力内容（第3条）と、通信に伴うIPアドレスなどが送信されます。／", "プライバシーポリシー", URL_FORMSPREE_PRIVACY),
+          ext("microCMS（株式会社microCMS／日本）：恋愛ブログ記事の管理に利用しています。記事は本サイトのサーバーから配信されるため、利用者の端末から同社へ情報が送信されることはありません。／", "プライバシーポリシー", URL_MICROCMS_PRIVACY),
+          p("記事や診断結果のシェアボタン（X・LINE・Facebook）は、押したときに各サービスのページを開くリンクです。ボタンが表示されるだけで各社に情報が送信されることはありません。"),
         ],
       },
       {
-        heading: "10. 開示・訂正・削除のご請求",
+        heading: "10. 外国にある事業者の利用",
         items: [
-          {
-            type: "pLink",
-            before: "お預かりしている個人情報の開示・訂正・利用停止・削除をご希望の場合は、",
-            linkText: "お問い合わせフォーム",
-            after: "よりご連絡ください。ご本人からのご請求であることを確認のうえ、速やかに対応します。",
-          },
-          {
-            type: "p",
-            text: "記事や診断の内容に誤りを見つけられた場合も、同じ窓口でお知らせください。確認のうえ修正または削除を行います。",
-          },
+          p("第9条のとおり、本サイトが利用する外部サービスの一部（Google、Vercel、Supabase、Formspree）は米国の事業者であり、お問い合わせの内容を含む情報が米国などのサーバーで取り扱われることがあります。これらの事業者は、それぞれのプライバシーポリシーで、個人情報の保護のための措置を定めています。"),
+          ext("米国の個人情報保護制度については、個人情報保護委員会が公表している", "「外国における個人情報の保護に関する制度等の調査」", URL_PPC_FOREIGN, "をご参照ください。"),
         ],
       },
       {
-        heading: "11. 免責事項",
+        heading: "11. 個人情報の第三者提供",
         items: [
-          {
-            type: "p",
-            text: "本サイトに掲載する情報は、可能な限り正確な内容を提供するよう努めていますが、その正確性・安全性・有用性を保証するものではありません。",
-          },
-          {
-            type: "p",
-            text: "本サイトの恋愛診断・心理テスト・恋みくじ・コラムは、娯楽および自己理解のきっかけとして提供するものであり、医学的・心理学的・専門的な診断や助言ではありません。心身の不調や、ご自身または周囲の方の安全に関わる悩みについては、医療機関や公的な相談窓口にご相談ください。",
-          },
-          {
-            type: "p",
-            text: "本サイトの情報を利用したことによって生じた損害について、運営者は責任を負いかねます。また、リンク先サイトにおける情報・サービス等についても責任を負いかねます。",
-          },
+          p("お問い合わせでお預かりした個人情報は、次の場合を除き、第三者へ提供しません。第3条・第9条に記載した、サービスの提供に必要な外部事業者への送信（業務の委託）は、ここでいう第三者提供には含みません。"),
+          ul(
+            "ご本人の同意がある場合",
+            "法令に基づき開示が必要な場合",
+            "人の生命・身体・財産の保護のために必要で、ご本人の同意を得ることが難しい場合",
+          ),
+          p("個人情報を販売したり、広告の目的で第三者に提供したりすることはありません。"),
         ],
       },
       {
-        heading: "12. 著作権",
+        heading: "12. 安全管理",
         items: [
-          {
-            type: "p",
-            text: "本サイトに掲載している文章・画像・イラスト・ロゴ・デザイン・診断コンテンツ等の著作権は、運営者または正当な権利者に帰属します。",
-          },
-          {
-            type: "p",
-            text: "法令で認められる場合を除き、無断転載・複製・再配布・商用利用を禁止します。引用を行う際は、引用元を明記し、著作権法の範囲内でご利用ください。",
-          },
+          p("お問い合わせでお預かりした個人情報について、漏えい・滅失・毀損を防ぐため、情報を扱う者を運営者に限定し、利用するサービスのアカウントを適切に管理するなど、必要かつ適切な安全管理措置を講じます。"),
         ],
       },
       {
-        heading: "13. 本ポリシーの変更",
+        heading: "13. 未成年の方へ",
         items: [
-          {
-            type: "p",
-            text: "本ポリシーは、法令の改正や、利用する外部サービス・機能の変更に応じて改定することがあります。重要な変更を行った場合は、本ページの最終更新日を改めて掲載します。",
-          },
+          p("本サイトの閲覧に年齢制限はありませんが、未成年の方がお問い合わせフォームで個人情報を送信する場合は、保護者の同意を得てから送信してください。"),
         ],
       },
       {
-        heading: "14. お問い合わせ・運営者",
+        heading: "14. 開示・訂正・利用停止・削除のご請求",
         items: [
-          {
-            type: "ul",
-            items: [
-              "サイト名：Koitype（コイタイプ）",
-              "URL：https://koitype.com",
-              "運営者：Koitype運営事務局",
-              "コンテンツの企画・制作：Koitype編集部",
-            ],
-          },
-          {
-            type: "pLink",
-            before: "本ポリシーおよび本サイトに関するお問い合わせは、",
-            linkText: "お問い合わせフォーム",
-            after: "よりお願いいたします。返信にはお時間をいただく場合があります。",
-          },
+          contact("お預かりしている個人情報の開示・訂正・利用停止・削除をご希望の場合は、", "お問い合わせフォーム", "からご連絡ください。ご本人からの請求であることを確認したうえで、速やかに対応します。本人確認のため、お問い合わせ時と同じメールアドレスからのご連絡をお願いすることがあります。"),
+          p("記事や診断の内容の誤りに気づかれた場合も、同じ窓口からお知らせください。確認のうえ、修正または削除します。"),
+        ],
+      },
+      {
+        heading: "15. 免責事項・著作権",
+        items: [
+          p("本サイトの恋愛診断・心理テスト・恋みくじ・コラムは、娯楽と自己理解のきっかけとして提供するものであり、医学的・心理学的その他の専門的な診断や助言ではありません。心身の不調や、ご自身または周りの方の安全に関わる悩みは、医療機関や公的な相談窓口にご相談ください。"),
+          terms("免責事項と、コンテンツの著作権・引用・リンクについては、", "利用規約", "をご覧ください。"),
+        ],
+      },
+      {
+        heading: "16. 本ポリシーの変更",
+        items: [
+          p("本ポリシーは、法令の改正や、利用する外部サービス・機能の変更に応じて改定することがあります。改定した場合は本ページに掲載し、最終更新日を更新します。重要な変更は、本サイト上でお知らせします。"),
+        ],
+      },
+      {
+        heading: "17. 運営者・お問い合わせ窓口",
+        items: [
+          ul(
+            "サイト名：Koitype（コイタイプ）",
+            "URL：https://koitype.com",
+            "運営者：Koitype運営事務局",
+            "コンテンツの企画・制作：Koitype編集部",
+          ),
+          contact("本ポリシーと本サイトに関するお問い合わせは、", "お問い合わせフォーム", "からお願いいたします。返信にお時間をいただく場合があります。"),
+          p("本ポリシーは日本語版を正文とします。翻訳版と内容が異なる場合は、日本語版が優先します。"),
         ],
       },
     ],
@@ -352,313 +241,169 @@ const content: Record<Locale, PrivacyPolicyContent> = {
 
   en: {
     title: "Privacy Policy",
-    updated: "Last updated: September 18, 2026",
+    updated: "Last updated: September 23, 2026",
     intro:
-      "Koitype (the \"Site\") is a website offering free love-related quizzes, psychological tests and relationship articles. This policy explains what information the Site actually collects, how it is used, which external services it is sent to, and how cookies and advertising are handled.",
+      "The Koitype Administration Office (\"the operator\") has established this Privacy Policy (\"this Policy\") for Koitype (\"this Site\"), a website offering free love quizzes, personality tests, and relationship columns. It explains how we handle information about users in compliance with Japan's Act on the Protection of Personal Information and other applicable laws.",
     sections: [
       {
-        heading: "1. Information we collect",
+        heading: "1. Information We Collect",
         items: [
-          {
-            type: "p",
-            text: "The Site does not require an account. Simply browsing it does not require you to enter your name, address or any other personal details. The information we actually collect is as follows.",
-          },
-          {
-            type: "ul",
-            items: [
-              "Your name (including a nickname), email address, subject and message, when you use the contact form",
-              "Statistical information collected automatically by analytics, such as pages viewed, referrer, approximate region, and browser/device type",
-              "Cookies and advertising identifiers used for ad delivery and analytics",
-              "Server access logs (IP address, access time, user agent, etc.)",
-            ],
-          },
-          {
-            type: "p",
-            text: "The information handled by analytics, advertising and access logs is not used for the purpose of identifying a specific individual on its own.",
-          },
+          p("This Site does not require registration. You are never asked to enter personal information such as your name or address just to browse. We collect the following information:"),
+          ul(
+            "Your name (or nickname), email address, subject, and message when you use the contact form",
+            "Statistical data collected automatically by analytics, such as pages viewed, referrers, approximate region, and browser and device type",
+            "Cookies and advertising identifiers used for ad delivery and analytics",
+            "Server access logs (IP address, access time, user agent, etc.)",
+          ),
+          p("Information handled for analytics, advertising, and access logs is not intended to identify any specific individual on its own."),
         ],
       },
       {
-        heading: "2. The contact form and transmission to an external service",
+        heading: "2. Purposes of Use",
         items: [
-          {
-            type: "p",
-            text: "Content submitted through the contact form is not routed through our own servers. It is sent directly to the email forwarding service Formspree (Formspree, Inc., USA), which then delivers it to the operator. The data sent consists of your name, email address, subject and message.",
-          },
-          {
-            type: "p",
-            text: "We use this information only to reply to your enquiry and to make any contact necessary for that purpose. It is retained for as long as needed to handle your enquiry and deleted once it is no longer required.",
-          },
-          {
-            type: "extLink",
-            before: "For how Formspree handles information, please see their ",
-            linkText: "privacy policy",
-            href: URL_FORMSPREE_PRIVACY,
-            after: ".",
-          },
-          {
-            type: "p",
-            text: "Please do not include sensitive information such as passwords or credit card numbers in your enquiry.",
-          },
+          p("We use the information we collect only for the following purposes:"),
+          ul(
+            "Answering inquiries and contacting you as needed to do so",
+            "Analyzing how this Site is used and improving its content and features",
+            "Delivering ads and measuring their effectiveness",
+            "Counting article views (for example, to show popular articles)",
+            "Keeping this Site secure, including preventing unauthorized access and abuse",
+          ),
+          p("If we change these purposes, we will do so only within a scope reasonably related to the original purposes and will announce the change on this page."),
         ],
       },
       {
-        heading: "3. How quiz and test answers are handled",
+        heading: "3. Contact Form Information",
         items: [
-          {
-            type: "p",
-            text: "Your answers to the quizzes, psychological tests and Koi-mikuji are processed entirely within your browser. They are never sent to or stored on our servers or any external service, and they never reach the operator.",
-          },
-          {
-            type: "p",
-            text: "A result-sharing URL (one ending in result=) contains only the identifier of the result type. It does not contain how you answered each individual question. Please note that posting a shared URL on social media makes that result type public.",
-          },
-          {
-            type: "p",
-            text: "The quizzes and tests on this Site are offered for entertainment and as a starting point for self-reflection. They are not medical or psychological assessments, and answers are never used to evaluate health or personality.",
-          },
+          p("Information entered in the contact form does not pass through our servers. It is sent directly to Formspree (Formspree, Inc., USA), a form delivery service, which forwards it to the operator. The data sent is your name, email address, subject, and message."),
+          p("We use this information only to answer your inquiry and contact you as needed to do so. We keep it only as long as needed to respond and delete it once it is no longer needed."),
+          ext("For how Formspree handles information, please see its ", "Privacy Policy", URL_FORMSPREE_PRIVACY, "."),
+          p("Please do not enter sensitive information such as passwords, credit card numbers, government ID numbers, or health information in the contact form."),
         ],
       },
       {
-        heading: "4. Cookies and data stored on your device",
+        heading: "4. Quiz and Test Answers",
         items: [
-          {
-            type: "p",
-            text: "A cookie is a small data file stored in your browser. This Site uses cookies for advertising and analytics.",
-          },
-          {
-            type: "p",
-            text: "For convenience, the following is also stored on your own device (local storage / session storage). It stays on your device and cannot be read by the operator.",
-          },
-          {
-            type: "ul",
-            items: [
-              "Your selected display language",
-              "Articles you have favourited on the blog",
-              "Articles already viewed in the current session (to avoid double-counting views)",
-            ],
-          },
-          {
-            type: "p",
-            text: "You can disable cookies in your browser settings. You will still be able to take the quizzes and read the articles, but some features may not work correctly.",
-          },
+          p("Your answers to love quizzes, personality tests, and Koi-mikuji (love fortunes) are processed only within your browser. They are never sent to or stored on our servers or any external service, and the operator never receives them."),
+          p("A result-sharing URL (one ending in result=) contains only an identifier for your result type, not your answers to individual questions. Please note that if you post a sharing URL on social media, your result type becomes public."),
+          p("Our quizzes and tests are provided for entertainment and as a starting point for self-reflection. They are not medical or psychological assessments, and we never use your answers to evaluate your health or personality."),
         ],
       },
       {
-        heading: "5. Advertising (Google AdSense)",
+        heading: "5. Cookies and Data Stored on Your Device",
         items: [
-          {
-            type: "p",
-            text: "This Site uses Google AdSense, a third-party advertising service.",
-          },
-          {
-            type: "p",
-            text: "Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to this website or other websites.",
-          },
-          {
-            type: "p",
-            text: "Google's use of advertising cookies enables it and its partners to serve ads to users based on their visit to this Site and/or other sites on the Internet.",
-          },
-          {
-            type: "extLink",
-            before: "You may opt out of personalised advertising at any time via ",
-            linkText: "Google Ads Settings",
-            href: URL_MY_AD_CENTER,
-            after: ".",
-          },
-          {
-            type: "extLink",
-            before: "To opt out of cookies used by third-party vendors other than Google, please visit ",
-            linkText: "the aboutads.info opt-out page",
-            href: URL_ABOUT_ADS,
-            after: ".",
-          },
-          {
-            type: "extLink",
-            before: "For how Google uses data in advertising, see ",
-            linkText: "\"How Google uses information from sites or apps that use our services\"",
-            href: URL_GOOGLE_ADS_POLICY,
-            after: ".",
-          },
+          p("Cookies are small data files stored in your browser. This Site uses cookies for ad delivery and analytics."),
+          p("For convenience, we also store the following in your device's local storage or session storage. This data stays on your device and is never sent to the operator or any external service."),
+          ul(
+            "Your display language",
+            "Your favorite love blog articles",
+            "How many times you have opened each quiz (used to order quizzes on the home page)",
+            "The date you last viewed the notices page (used to show new notices)",
+            "Articles already viewed in the current session (to avoid counting the same view twice)",
+          ),
+          p("You can disable cookies in your browser settings, and clearing your browser's site data deletes the data stored on your device. You can still take quizzes and read articles if you do so, but some features may not work properly."),
         ],
       },
       {
-        heading: "6. Analytics (Google Analytics)",
+        heading: "6. Advertising (Google AdSense)",
         items: [
-          {
-            type: "p",
-            text: "This Site uses Google Analytics 4 (GA4) to understand how the Site is used and to improve it. GA4 uses cookies to collect traffic data such as pages viewed and time spent.",
-          },
-          {
-            type: "p",
-            text: "The data collected is statistical and does not include information that directly identifies you, such as your name or email address.",
-          },
-          {
-            type: "extLink",
-            before: "To stop data collection by Google Analytics, you can use the ",
-            linkText: "Google Analytics Opt-out Browser Add-on",
-            href: URL_GA_OPTOUT,
-            after: " or disable cookies in your browser.",
-          },
-          {
-            type: "extLink",
-            before: "For how Google handles data, please see ",
-            linkText: "Google's Privacy Policy",
-            href: URL_GOOGLE_PRIVACY,
-            after: ".",
-          },
+          p("This Site uses Google AdSense, a third-party advertising service."),
+          p("Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to this Site or other websites."),
+          p("Google's use of advertising cookies enables it and its partners to serve ads to users based on their visits to this Site and/or other sites on the Internet."),
+          ext("You can opt out of personalized advertising at any time in ", "Google's Ad Settings", URL_MY_AD_CENTER, "."),
+          ext("To opt out of cookies from third-party vendors other than Google, please visit ", "the aboutads.info opt-out page", URL_ABOUT_ADS, "."),
+          ext("For how Google uses data in advertising, please see ", "\"How Google uses information from sites or apps that use our services\"", URL_GOOGLE_ADS_POLICY, "."),
         ],
       },
       {
-        heading: "7. Users in the EEA, UK and Switzerland",
+        heading: "7. Analytics (Google Analytics)",
         items: [
-          {
-            type: "p",
-            text: "If you access the Site from the EEA, the UK or Switzerland, your consent to the use of cookies for advertising and analytics is obtained through a Google-certified Consent Management Platform (CMP).",
-          },
-          {
-            type: "p",
-            text: "Without your consent, no personalised advertising is served (you will see either no ads or non-personalised ads). You can change your choices at any time from the consent message.",
-          },
+          p("This Site uses Google Analytics 4 (GA4) to understand how the Site is used and to improve it. GA4 uses cookies to collect traffic data such as pages viewed and time spent on the Site."),
+          p("The data collected is statistical and does not include information that directly identifies you, such as your name or email address."),
+          ext("To stop Google Analytics from collecting data, please use the ", "Google Analytics Opt-out Browser Add-on", URL_GA_OPTOUT, " or disable cookies in your browser."),
         ],
       },
       {
-        heading: "8. External services we use",
+        heading: "8. Users in the European Economic Area (EEA), the UK, and Switzerland",
         items: [
-          {
-            type: "p",
-            text: "The following external services are used to operate the Site. Information handled by each service is governed by its own privacy policy.",
-          },
-          {
-            type: "extLink",
-            before: "Vercel (hosting, including access logs) / ",
-            linkText: "privacy policy",
-            href: URL_VERCEL_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Google AdSense and Google Analytics (advertising and analytics) / ",
-            linkText: "privacy policy",
-            href: URL_GOOGLE_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Formspree (contact form delivery) / ",
-            linkText: "privacy policy",
-            href: URL_FORMSPREE_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "microCMS (managing and delivering blog articles; handles no visitor data) / ",
-            linkText: "privacy policy",
-            href: URL_MICROCMS_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Supabase (storing per-article view counts; only the article identifier and a count, no visitor data) / ",
-            linkText: "privacy policy",
-            href: URL_SUPABASE_PRIVACY,
-            after: "",
-          },
+          p("If you access this Site from the EEA, the UK, or Switzerland, we ask for your consent to the use of cookies for advertising and analytics through a Google-certified consent management platform (CMP)."),
+          p("If you do not consent, personalized ads will not be shown (either no ads or non-personalized ads will be displayed). You can change your choice at any time through the consent message."),
         ],
       },
       {
-        heading: "9. Disclosure to third parties",
+        heading: "9. Transmission of User Information to External Services",
         items: [
-          {
-            type: "p",
-            text: "Personal information received through enquiries is not provided to third parties except in the following cases. Transmission to the external services described in sections 2 and 8, which is necessary to provide the service, is not treated as disclosure to a third party.",
-          },
-          {
-            type: "ul",
-            items: [
-              "When you have given your consent",
-              "When disclosure is required by law",
-              "When it is necessary to protect someone's life, body or property and obtaining consent is difficult",
-            ],
-          },
-          {
-            type: "p",
-            text: "We never sell personal information or provide it to third parties for advertising purposes.",
-          },
+          p("When pages are displayed or features are used, information is sent from your device to the following external providers (this disclosure is made under Article 27-12 of Japan's Telecommunications Business Act). Each provider handles information according to its own privacy policy."),
+          ext("Google (Google LLC, USA): for ad delivery (Google AdSense) and analytics (Google Analytics), cookies and advertising identifiers, page URLs, referrers, IP address, browser and device information, and access times are sent. / ", "Privacy Policy", URL_GOOGLE_PRIVACY),
+          ext("Vercel (Vercel Inc., USA): for hosting and delivering this Site, IP address, access time, requested URL, user agent, and similar data are recorded as access logs. / ", "Privacy Policy", URL_VERCEL_PRIVACY),
+          ext("Supabase (Supabase, Inc., USA): to count article views, the article's identifier is sent when you open a love blog article. Your IP address and similar data reach the provider as part of the connection, but this Site stores only the view count for each article. / ", "Privacy Policy", URL_SUPABASE_PRIVACY),
+          ext("Formspree (Formspree, Inc., USA): only when you submit the contact form, the information you entered (see Section 3) and connection data such as your IP address are sent. / ", "Privacy Policy", URL_FORMSPREE_PRIVACY),
+          ext("microCMS (microCMS, Inc., Japan): used to manage love blog articles. Articles are delivered from this Site's servers, so no information is sent from your device to this provider. / ", "Privacy Policy", URL_MICROCMS_PRIVACY),
+          p("The share buttons for articles and results (X, LINE, Facebook) are links that open each service's page only when you tap them. Merely displaying the buttons does not send any information to those services."),
         ],
       },
       {
-        heading: "10. Access, correction and deletion",
+        heading: "10. Use of Providers Located Outside Japan",
         items: [
-          {
-            type: "pLink",
-            before: "If you would like us to disclose, correct, suspend the use of, or delete the personal information we hold, please contact us via the ",
-            linkText: "contact form",
-            after: ". We will respond promptly once we have confirmed the request comes from you.",
-          },
-          {
-            type: "p",
-            text: "If you find an error in an article or a quiz, please use the same contact form. We will check it and correct or remove the content.",
-          },
+          p("As described in Section 9, some of the external services we use (Google, Vercel, Supabase, and Formspree) are US companies, and information, including contact form messages, may be processed on servers in the United States and elsewhere. Each of these providers sets out measures for protecting personal information in its privacy policy."),
+          ext("For information on the personal information protection system in the United States, please see the ", "survey of foreign personal information protection systems", URL_PPC_FOREIGN, " published by Japan's Personal Information Protection Commission (in Japanese)."),
         ],
       },
       {
-        heading: "11. Disclaimer",
+        heading: "11. Disclosure of Personal Information to Third Parties",
         items: [
-          {
-            type: "p",
-            text: "We make every effort to provide accurate information, but we do not guarantee its accuracy, safety or usefulness.",
-          },
-          {
-            type: "p",
-            text: "The quizzes, psychological tests, Koi-mikuji and articles on this Site are provided for entertainment and as a starting point for self-reflection. They are not medical, psychological or professional diagnoses or advice. For concerns about your physical or mental health, or the safety of yourself or others, please consult a medical institution or an official support service.",
-          },
-          {
-            type: "p",
-            text: "The operator accepts no liability for damages arising from use of the information on this Site, nor for information or services on linked sites.",
-          },
+          p("We do not provide personal information received through inquiries to third parties except in the following cases. Transmissions to the external providers described in Sections 3 and 9, which are necessary to provide our services (entrustment), are not considered provision to third parties here."),
+          ul(
+            "When you have given consent",
+            "When disclosure is required by law",
+            "When necessary to protect a person's life, body, or property and it is difficult to obtain your consent",
+          ),
+          p("We never sell personal information or provide it to third parties for advertising purposes."),
         ],
       },
       {
-        heading: "12. Copyright",
+        heading: "12. Security",
         items: [
-          {
-            type: "p",
-            text: "Copyright in the text, images, illustrations, logos, design and quiz content published on this Site belongs to the operator or the rightful rights holder.",
-          },
-          {
-            type: "p",
-            text: "Except where permitted by law, reproduction, redistribution and commercial use without permission are prohibited. When quoting, please cite the source and stay within the limits of copyright law.",
-          },
+          p("To prevent the leakage, loss, or damage of personal information received through inquiries, we take necessary and appropriate security measures, such as limiting access to the operator and properly managing the accounts of the services we use."),
         ],
       },
       {
-        heading: "13. Changes to this policy",
+        heading: "13. Minors",
         items: [
-          {
-            type: "p",
-            text: "This policy may be revised in response to changes in law or to the external services and features we use. When we make a significant change, we will update the last-updated date on this page.",
-          },
+          p("There is no age restriction for browsing this Site, but if you are a minor, please obtain a parent's or guardian's consent before sending personal information through the contact form."),
         ],
       },
       {
-        heading: "14. Contact and operator",
+        heading: "14. Requests for Disclosure, Correction, Suspension of Use, or Deletion",
         items: [
-          {
-            type: "ul",
-            items: [
-              "Site name: Koitype",
-              "URL: https://koitype.com",
-              "Operator: Koitype Operations Office",
-              "Content planning and production: Koitype Editorial Team",
-            ],
-          },
-          {
-            type: "pLink",
-            before: "For enquiries about this policy or the Site, please use the ",
-            linkText: "contact form",
-            after: ". Please note that a reply may take some time.",
-          },
+          contact("To request disclosure, correction, suspension of use, or deletion of personal information we hold about you, please contact us via our ", "contact form", ". We will respond promptly after confirming that the request comes from you. To verify your identity, we may ask you to contact us from the same email address you used for your inquiry."),
+          p("If you find an error in an article or quiz, please let us know through the same form. We will review it and correct or remove it."),
+        ],
+      },
+      {
+        heading: "15. Disclaimer and Copyright",
+        items: [
+          p("Our love quizzes, personality tests, Koi-mikuji, and columns are provided for entertainment and as a starting point for self-reflection, and are not medical, psychological, or other professional diagnoses or advice. For health concerns or worries involving your safety or that of people around you, please consult a medical institution or a public support service."),
+          terms("For our disclaimer and for copyright, quotation, and linking rules, please see our ", "Terms of Use", "."),
+        ],
+      },
+      {
+        heading: "16. Changes to This Policy",
+        items: [
+          p("We may revise this Policy in response to changes in law or in the external services and features we use. When we do, we will post the revised Policy on this page and update the last-updated date. We will announce significant changes on this Site."),
+        ],
+      },
+      {
+        heading: "17. Operator and Contact",
+        items: [
+          ul(
+            "Site name: Koitype",
+            "URL: https://koitype.com",
+            "Operator: Koitype Administration Office",
+            "Content planning and production: Koitype Editorial Team",
+          ),
+          contact("For questions about this Policy or this Site, please use our ", "contact form", ". Please allow some time for a reply."),
+          p("The Japanese version of this Policy is the original. If a translation differs from it, the Japanese version prevails."),
         ],
       },
     ],
@@ -666,313 +411,169 @@ const content: Record<Locale, PrivacyPolicyContent> = {
 
   ko: {
     title: "개인정보처리방침",
-    updated: "최종 업데이트: 2026년 9월 18일",
+    updated: "최종 업데이트: 2026년 9월 23일",
     intro:
-      "Koitype(이하 '본 사이트')는 무료 연애 진단·심리 테스트와 연애 칼럼을 제공하는 웹사이트입니다. 본 방침에서는 본 사이트가 실제로 수집하는 정보, 이용 목적, 외부 서비스로의 전송, 쿠키와 광고의 취급에 대해 설명합니다.",
+      "Koitype 운영사무국(이하 「운영자」)은 무료 연애 진단·심리 테스트와 연애 칼럼을 제공하는 웹사이트 「Koitype」(이하 「본 사이트」)에서의 이용자 정보 취급에 관하여, 일본 개인정보 보호에 관한 법률 및 기타 관계 법령을 준수하고 다음과 같이 개인정보처리방침(이하 「본 방침」)을 정합니다.",
     sections: [
       {
-        heading: "1. 수집하는 정보",
+        heading: "1. 본 사이트가 수집하는 정보",
         items: [
-          {
-            type: "p",
-            text: "본 사이트는 회원가입이 필요하지 않습니다. 열람만 하실 경우 이름이나 주소 등 개인정보를 입력하실 필요가 없습니다. 실제로 수집하는 정보는 다음과 같습니다.",
-          },
-          {
-            type: "ul",
-            items: [
-              "문의 양식에 입력하신 이름(닉네임 포함), 이메일 주소, 제목, 문의 내용",
-              "접속 분석을 통해 자동으로 수집되는 열람 페이지, 유입 경로, 대략적인 지역, 브라우저·기기 종류 등의 통계 정보",
-              "광고 게재 및 접속 분석에 사용되는 쿠키와 광고 식별자",
-              "서버 접속 로그(IP 주소, 접속 일시, 사용자 에이전트 등)",
-            ],
-          },
-          {
-            type: "p",
-            text: "접속 분석·광고·접속 로그에서 다루는 정보는 그 자체로 특정 개인을 식별하는 것을 목적으로 하지 않습니다.",
-          },
+          p("본 사이트는 회원가입이 필요하지 않습니다. 열람만으로 이름이나 주소 등 개인정보를 입력하실 일은 없습니다. 본 사이트가 수집하는 정보는 다음과 같습니다."),
+          ul(
+            "문의 양식에 입력하신 이름(닉네임 포함), 이메일 주소, 제목, 문의 내용",
+            "접속 분석으로 자동 수집되는 열람 페이지, 유입 경로, 대략적인 지역, 브라우저·기기 종류 등의 통계 정보",
+            "광고 게재·접속 분석에 사용되는 쿠키와 광고 식별자",
+            "서버 접속 로그(IP 주소, 접속 일시, 사용자 에이전트 등)",
+          ),
+          p("접속 분석·광고·접속 로그에서 다루는 정보는 그 자체로 특정 개인을 식별하는 것을 목적으로 하지 않습니다."),
         ],
       },
       {
-        heading: "2. 문의 양식의 정보와 외부 전송",
+        heading: "2. 이용 목적",
         items: [
-          {
-            type: "p",
-            text: "문의 양식에 입력된 내용은 본 사이트의 서버를 경유하지 않고, 메일 전송 서비스 'Formspree'(Formspree, Inc. / 미국)로 직접 전송되어 운영자에게 전달됩니다. 전송되는 항목은 이름, 이메일 주소, 제목, 문의 내용입니다.",
-          },
-          {
-            type: "p",
-            text: "수집한 정보는 문의에 대한 답변과 그에 필요한 연락에만 이용합니다. 내용은 대응에 필요한 기간 동안 보관하고, 불필요해진 시점에 삭제합니다.",
-          },
-          {
-            type: "extLink",
-            before: "Formspree의 정보 취급에 대해서는 해당 사의 ",
-            linkText: "개인정보처리방침",
-            href: URL_FORMSPREE_PRIVACY,
-            after: "을 확인해 주세요.",
-          },
-          {
-            type: "p",
-            text: "문의 시 비밀번호, 신용카드 번호 등 민감한 정보는 입력하지 말아 주세요.",
-          },
+          p("수집한 정보는 다음 목적의 범위 안에서 이용합니다."),
+          ul(
+            "문의에 대한 답변과 이를 위해 필요한 연락",
+            "본 사이트 이용 현황 분석과 콘텐츠·기능 개선",
+            "광고 게재와 효과 측정",
+            "기사 조회수 집계(인기 기사 표시 등)",
+            "부정 접속이나 방해 행위 방지 등 본 사이트의 안전한 운영",
+          ),
+          p("이용 목적을 변경하는 경우, 변경 전 목적과 관련성이 있다고 합리적으로 인정되는 범위에서 하며 본 페이지에 공표합니다."),
         ],
       },
       {
-        heading: "3. 진단·심리 테스트 답변의 취급",
+        heading: "3. 문의 양식의 정보",
         items: [
-          {
-            type: "p",
-            text: "연애 진단·심리 테스트·연애 운세의 답변은 사용하시는 브라우저 안에서만 처리되며, 본 사이트의 서버나 외부 서비스로 전송·저장되지 않습니다. 답변 내용이 운영자에게 전달되는 일도 없습니다.",
-          },
-          {
-            type: "p",
-            text: "결과 공유용 URL(끝에 result= 가 붙은 URL)에는 판정된 유형의 식별자만 포함됩니다. 각 문항에 어떻게 답했는지는 포함되지 않습니다. 공유 URL을 SNS 등에 게시하면 해당 결과 유형이 공개되므로 유의해 주세요.",
-          },
-          {
-            type: "p",
-            text: "본 사이트의 진단·심리 테스트는 오락 및 자기 이해의 계기로 제공되는 것입니다. 의학적·심리학적 검사가 아니며, 답변 내용을 건강 상태나 인격 평가에 사용하지 않습니다.",
-          },
+          p("문의 양식에 입력하신 내용은 본 사이트의 서버를 거치지 않고 양식 전송 서비스 「Formspree」(Formspree, Inc./미국)로 직접 전송되며, 해당 회사를 통해 운영자에게 전달됩니다. 전송되는 정보는 이름, 이메일 주소, 제목, 문의 내용입니다."),
+          p("수집한 정보는 문의에 대한 답변과 이를 위해 필요한 연락에만 이용합니다. 대응에 필요한 기간 동안만 보관하며, 필요 없어진 시점에 삭제합니다."),
+          ext("Formspree의 정보 취급에 대해서는 해당 회사의 ", "개인정보처리방침", URL_FORMSPREE_PRIVACY, "을 확인해 주십시오."),
+          p("문의 시 비밀번호, 신용카드 번호, 주민등록번호, 건강 상태 등 민감한 정보는 입력하지 마십시오."),
         ],
       },
       {
-        heading: "4. 쿠키와 기기에 저장되는 정보",
+        heading: "4. 진단·심리 테스트의 답변",
         items: [
-          {
-            type: "p",
-            text: "쿠키란 브라우저에 저장되는 작은 데이터 파일입니다. 본 사이트에서는 광고 게재와 접속 분석을 위해 쿠키를 이용하고 있습니다.",
-          },
-          {
-            type: "p",
-            text: "또한 편의를 위해 다음 정보를 사용자의 기기 내(로컬 스토리지 / 세션 스토리지)에 저장합니다. 이는 기기 내에 머무르며 운영자가 읽을 수 없습니다.",
-          },
-          {
-            type: "ul",
-            items: [
-              "표시 언어 선택",
-              "연애 블로그의 즐겨찾기 기사",
-              "동일 세션 내에서 열람한 기사(조회수 중복 집계 방지용)",
-            ],
-          },
-          {
-            type: "p",
-            text: "쿠키는 브라우저 설정에서 비활성화할 수 있습니다. 비활성화해도 진단과 기사 열람은 이용하실 수 있지만, 일부 기능이 정상적으로 동작하지 않을 수 있습니다.",
-          },
+          p("연애 진단·심리 테스트·연애 제비뽑기의 문항에 대한 답변은 사용 중인 브라우저 안에서만 처리되며, 본 사이트의 서버나 외부 서비스로 전송·저장되지 않습니다. 답변 내용이 운영자에게 전달되는 일도 없습니다."),
+          p("진단 결과 공유용 URL(끝에 result=가 붙은 URL)에는 판정된 유형의 식별자만 포함되며, 각 문항에 대한 답변은 포함되지 않습니다. 공유 URL을 SNS 등에 게시하면 그 결과 유형이 공개되므로 주의해 주십시오."),
+          p("본 사이트의 진단·심리 테스트는 오락과 자기 이해의 계기로 제공하는 것입니다. 의학적·심리학적 검사가 아니며, 답변 내용을 건강 상태나 인격 평가에 이용하지 않습니다."),
         ],
       },
       {
-        heading: "5. 광고 게재에 대하여 (Google AdSense)",
+        heading: "5. 쿠키와 기기에 저장되는 정보",
         items: [
-          {
-            type: "p",
-            text: "본 사이트에서는 제3자 광고 서비스인 Google AdSense를 이용하고 있습니다.",
-          },
-          {
-            type: "p",
-            text: "Google을 포함한 제3자 광고 사업자는 쿠키를 사용하여, 사용자가 본 사이트나 다른 웹사이트에 과거 방문한 정보를 바탕으로 광고를 게재하는 경우가 있습니다.",
-          },
-          {
-            type: "p",
-            text: "Google이 광고 쿠키를 사용함으로써, Google과 그 파트너는 사용자가 본 사이트나 다른 사이트를 방문했을 때의 정보를 바탕으로 적절한 광고를 표시할 수 있게 됩니다.",
-          },
-          {
-            type: "extLink",
-            before: "맞춤 광고는 ",
-            linkText: "Google 광고 설정",
-            href: URL_MY_AD_CENTER,
-            after: "에서 언제든지 비활성화할 수 있습니다.",
-          },
-          {
-            type: "extLink",
-            before: "또한 Google 이외의 제3자 광고 사업자의 쿠키를 비활성화하려면 ",
-            linkText: "aboutads.info 옵트아웃 페이지",
-            href: URL_ABOUT_ADS,
-            after: "를 이용해 주세요.",
-          },
-          {
-            type: "extLink",
-            before: "Google이 광고에서 데이터를 어떻게 다루는지에 대해서는 ",
-            linkText: "'Google 서비스를 사용하는 사이트 및 앱에서 수집한 정보의 사용'",
-            href: URL_GOOGLE_ADS_POLICY,
-            after: "을 참고해 주세요.",
-          },
+          p("쿠키는 브라우저에 저장되는 작은 데이터 파일입니다. 본 사이트는 광고 게재와 접속 분석을 위해 쿠키를 이용합니다."),
+          p("또한 편의를 위해 다음 정보를 사용 중인 기기(로컬 스토리지/세션 스토리지)에 저장합니다. 이 정보는 기기 안에만 머물며 운영자나 외부 서비스로 전송되지 않습니다."),
+          ul(
+            "표시 언어 선택",
+            "연애 블로그 즐겨찾기 기사",
+            "각 진단을 연 횟수(홈 화면의 진단 정렬 순서에 사용)",
+            "알림 페이지를 마지막으로 본 날짜(새 알림 표시에 사용)",
+            "같은 세션에서 이미 본 기사(조회수 중복 집계 방지용)",
+          ),
+          p("쿠키는 브라우저 설정에서 비활성화할 수 있으며, 브라우저의 사이트 데이터를 삭제하면 기기에 저장된 정보도 삭제됩니다. 이 경우에도 진단과 기사 열람은 이용할 수 있지만 일부 기능이 정상적으로 작동하지 않을 수 있습니다."),
         ],
       },
       {
-        heading: "6. 접속 분석에 대하여 (Google 애널리틱스)",
+        heading: "6. 광고 게재(Google AdSense)",
         items: [
-          {
-            type: "p",
-            text: "본 사이트에서는 이용 상황을 파악하고 개선에 활용하기 위해 Google 애널리틱스 4(GA4)를 이용하고 있습니다. GA4는 쿠키를 이용하여 열람 페이지와 체류 시간 등의 트래픽 데이터를 수집합니다.",
-          },
-          {
-            type: "p",
-            text: "수집되는 데이터는 통계적인 것으로, 이름이나 이메일 주소 등 개인을 직접 특정하는 정보는 포함되지 않습니다.",
-          },
-          {
-            type: "extLink",
-            before: "Google 애널리틱스의 데이터 수집을 중지하고 싶으신 경우 ",
-            linkText: "Google 애널리틱스 옵트아웃 부가기능",
-            href: URL_GA_OPTOUT,
-            after: "을 이용하시거나 브라우저에서 쿠키를 비활성화해 주세요.",
-          },
-          {
-            type: "extLink",
-            before: "Google의 데이터 취급에 대해서는 ",
-            linkText: "Google 개인정보처리방침",
-            href: URL_GOOGLE_PRIVACY,
-            after: "을 확인해 주세요.",
-          },
+          p("본 사이트는 제3자 광고 서비스인 Google AdSense를 이용하고 있습니다."),
+          p("Google을 포함한 제3자 광고 사업자는 쿠키를 사용하여 이용자가 본 사이트나 다른 웹사이트를 과거에 방문했을 때의 정보를 바탕으로 광고를 게재할 수 있습니다."),
+          p("Google은 광고 쿠키를 사용함으로써 Google과 그 파트너가 이용자의 본 사이트 및 다른 사이트 방문 정보를 바탕으로 적절한 광고를 표시할 수 있습니다."),
+          ext("맞춤 광고는 ", "Google 광고 설정", URL_MY_AD_CENTER, "에서 언제든지 해제할 수 있습니다."),
+          ext("Google 이외의 제3자 광고 사업자의 쿠키를 해제하려면 ", "aboutads.info 옵트아웃 페이지", URL_ABOUT_ADS, "를 이용해 주십시오."),
+          ext("Google이 광고에서 데이터를 어떻게 다루는지에 대해서는 ", "「Google 서비스를 사용하는 사이트 또는 앱에서 수집한 정보를 Google이 사용하는 방법」", URL_GOOGLE_ADS_POLICY, "을 참조해 주십시오."),
         ],
       },
       {
-        heading: "7. 유럽경제지역(EEA)·영국·스위스 사용자분들께",
+        heading: "7. 접속 분석(Google 애널리틱스)",
         items: [
-          {
-            type: "p",
-            text: "EEA·영국·스위스에서 접속하신 경우, 광고 및 접속 분석을 위한 쿠키 사용에 대해 Google 인증 동의 관리 플랫폼(CMP)을 통해 동의를 확인합니다.",
-          },
-          {
-            type: "p",
-            text: "동의하지 않으실 경우 맞춤 광고는 게재되지 않습니다(광고 자체가 표시되지 않거나 맞춤화되지 않은 광고가 표시됩니다). 동의 내용은 표시되는 동의 메시지에서 언제든지 변경하실 수 있습니다.",
-          },
+          p("본 사이트는 이용 현황을 파악하여 개선에 활용하기 위해 Google 애널리틱스 4(GA4)를 이용합니다. GA4는 쿠키를 사용하여 열람 페이지나 체류 시간 등의 트래픽 데이터를 수집합니다."),
+          p("수집되는 데이터는 통계적인 것으로, 이름이나 이메일 주소 등 개인을 직접 특정하는 정보는 포함되지 않습니다."),
+          ext("Google 애널리틱스의 데이터 수집을 중지하려면 ", "Google 애널리틱스 차단 브라우저 부가기능", URL_GA_OPTOUT, "을 이용하거나 브라우저에서 쿠키를 비활성화해 주십시오."),
         ],
       },
       {
-        heading: "8. 이용 중인 외부 서비스",
+        heading: "8. 유럽경제지역(EEA)·영국·스위스 이용자분께",
         items: [
-          {
-            type: "p",
-            text: "본 사이트 운영에 있어 다음 외부 서비스를 이용하고 있습니다. 각 서비스에서의 정보 취급은 각각의 개인정보처리방침에 따릅니다.",
-          },
-          {
-            type: "extLink",
-            before: "Vercel(호스팅. 접속 로그 포함) / ",
-            linkText: "개인정보처리방침",
-            href: URL_VERCEL_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Google AdSense·Google 애널리틱스(광고 게재와 접속 분석) / ",
-            linkText: "개인정보처리방침",
-            href: URL_GOOGLE_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Formspree(문의 양식 전송) / ",
-            linkText: "개인정보처리방침",
-            href: URL_FORMSPREE_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "microCMS(연애 블로그 기사 관리·배포. 열람자의 정보는 다루지 않습니다) / ",
-            linkText: "개인정보처리방침",
-            href: URL_MICROCMS_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Supabase(기사별 조회수 저장. 기사 식별자와 횟수만 저장하며 열람자 정보는 저장하지 않습니다) / ",
-            linkText: "개인정보처리방침",
-            href: URL_SUPABASE_PRIVACY,
-            after: "",
-          },
+          p("EEA·영국·스위스에서 접속하시는 경우, 광고 및 접속 분석을 위한 쿠키 사용에 대해 Google 인증 동의 관리 플랫폼(CMP)을 통해 동의를 확인합니다."),
+          p("동의하지 않으시면 맞춤 광고는 게재되지 않습니다(광고가 표시되지 않거나 맞춤화되지 않은 광고가 표시됩니다). 동의 내용은 표시되는 동의 메시지에서 언제든지 변경할 수 있습니다."),
         ],
       },
       {
-        heading: "9. 개인정보의 제3자 제공",
+        heading: "9. 이용자 정보의 외부 전송",
         items: [
-          {
-            type: "p",
-            text: "문의를 통해 받은 개인정보는 다음의 경우를 제외하고 제3자에게 제공하지 않습니다. 본 방침 제2조·제8조에 기재한, 서비스 제공을 위해 필요한 외부 서비스로의 전송은 이 '제3자 제공'에 포함되지 않습니다.",
-          },
-          {
-            type: "ul",
-            items: [
-              "본인의 동의가 있는 경우",
-              "법령에 근거하여 공개가 필요한 경우",
-              "사람의 생명·신체·재산 보호를 위해 필요하며 본인의 동의를 얻기 어려운 경우",
-            ],
-          },
-          {
-            type: "p",
-            text: "개인정보를 판매하거나 광고 목적으로 제3자에게 제공하는 일은 없습니다.",
-          },
+          p("본 사이트에서는 페이지 표시나 기능 제공에 따라 이용자의 기기에서 다음 외부 사업자에게 정보가 전송됩니다(일본 전기통신사업법 제27조의12에 따른 공표 사항입니다). 각 사업자의 정보 취급은 각각의 개인정보처리방침에 따릅니다."),
+          ext("Google(Google LLC/미국): 광고 게재(Google AdSense)와 접속 분석(Google 애널리틱스)을 위해 쿠키·광고 식별자, 열람 페이지 URL, 유입 경로, IP 주소, 브라우저·기기 정보, 열람 일시 등이 전송됩니다. / ", "개인정보처리방침", URL_GOOGLE_PRIVACY),
+          ext("Vercel(Vercel Inc./미국): 본 사이트의 호스팅과 전송을 위해 IP 주소, 접속 일시, 열람 URL, 사용자 에이전트 등이 접속 로그로 기록됩니다. / ", "개인정보처리방침", URL_VERCEL_PRIVACY),
+          ext("Supabase(Supabase, Inc./미국): 기사 조회수 집계를 위해 연애 블로그 기사를 열 때 해당 기사의 식별자가 전송됩니다. 통신 과정에서 IP 주소 등이 해당 회사에 전달되지만, 본 사이트가 저장하는 것은 기사별 조회수뿐입니다. / ", "개인정보처리방침", URL_SUPABASE_PRIVACY),
+          ext("Formspree(Formspree, Inc./미국): 문의 양식을 전송할 때만 입력 내용(제3조)과 통신에 따른 IP 주소 등이 전송됩니다. / ", "개인정보처리방침", URL_FORMSPREE_PRIVACY),
+          ext("microCMS(주식회사 microCMS/일본): 연애 블로그 기사 관리에 이용합니다. 기사는 본 사이트의 서버에서 전송되므로 이용자의 기기에서 해당 회사로 정보가 전송되지 않습니다. / ", "개인정보처리방침", URL_MICROCMS_PRIVACY),
+          p("기사나 진단 결과의 공유 버튼(X·LINE·Facebook)은 눌렀을 때 각 서비스의 페이지를 여는 링크입니다. 버튼이 표시되는 것만으로 각 회사에 정보가 전송되지는 않습니다."),
         ],
       },
       {
-        heading: "10. 열람·정정·삭제 요청",
+        heading: "10. 해외 사업자 이용",
         items: [
-          {
-            type: "pLink",
-            before: "보관 중인 개인정보의 열람·정정·이용 정지·삭제를 원하시는 경우 ",
-            linkText: "문의 양식",
-            after: "을 통해 연락해 주세요. 본인의 요청임을 확인한 후 신속히 대응하겠습니다.",
-          },
-          {
-            type: "p",
-            text: "기사나 진단 내용에서 오류를 발견하신 경우에도 같은 창구로 알려 주세요. 확인 후 수정 또는 삭제하겠습니다.",
-          },
+          p("제9조와 같이 본 사이트가 이용하는 외부 서비스 중 일부(Google, Vercel, Supabase, Formspree)는 미국 사업자이며, 문의 내용을 포함한 정보가 미국 등의 서버에서 처리될 수 있습니다. 이들 사업자는 각자의 개인정보처리방침에서 개인정보 보호를 위한 조치를 정하고 있습니다."),
+          ext("미국의 개인정보 보호 제도에 대해서는 일본 개인정보보호위원회가 공표한 ", "「외국의 개인정보 보호에 관한 제도 등의 조사」", URL_PPC_FOREIGN, "(일본어)를 참조해 주십시오."),
         ],
       },
       {
-        heading: "11. 면책사항",
+        heading: "11. 개인정보의 제3자 제공",
         items: [
-          {
-            type: "p",
-            text: "본 사이트에 게재하는 정보는 가능한 한 정확한 내용을 제공하도록 노력하고 있으나, 그 정확성·안전성·유용성을 보증하는 것은 아닙니다.",
-          },
-          {
-            type: "p",
-            text: "본 사이트의 연애 진단·심리 테스트·연애 운세·칼럼은 오락 및 자기 이해의 계기로 제공되는 것이며, 의학적·심리학적·전문적인 진단이나 조언이 아닙니다. 심신의 이상이나 본인 또는 주변 분의 안전에 관한 고민은 의료기관이나 공적 상담 창구에 상담해 주세요.",
-          },
-          {
-            type: "p",
-            text: "본 사이트의 정보를 이용함으로써 발생한 손해에 대해 운영자는 책임지지 않습니다. 또한 링크된 사이트의 정보·서비스 등에 대해서도 책임지지 않습니다.",
-          },
+          p("문의를 통해 받은 개인정보는 다음의 경우를 제외하고 제3자에게 제공하지 않습니다. 제3조·제9조에 기재한, 서비스 제공에 필요한 외부 사업자로의 전송(업무 위탁)은 여기서 말하는 제3자 제공에 포함되지 않습니다."),
+          ul(
+            "본인의 동의가 있는 경우",
+            "법령에 따라 공개가 필요한 경우",
+            "사람의 생명·신체·재산 보호를 위해 필요하며 본인의 동의를 얻기 어려운 경우",
+          ),
+          p("개인정보를 판매하거나 광고 목적으로 제3자에게 제공하는 일은 없습니다."),
         ],
       },
       {
-        heading: "12. 저작권",
+        heading: "12. 안전 관리",
         items: [
-          {
-            type: "p",
-            text: "본 사이트에 게재된 문장·이미지·일러스트·로고·디자인·진단 콘텐츠 등의 저작권은 운영자 또는 정당한 권리자에게 귀속됩니다.",
-          },
-          {
-            type: "p",
-            text: "법령에서 인정되는 경우를 제외하고 무단 전재·복제·재배포·상업적 이용을 금지합니다. 인용 시에는 출처를 명시하고 저작권법의 범위 내에서 이용해 주세요.",
-          },
+          p("문의를 통해 받은 개인정보의 유출·멸실·훼손을 방지하기 위해, 정보를 다루는 사람을 운영자로 한정하고 이용하는 서비스의 계정을 적절히 관리하는 등 필요하고 적절한 안전 관리 조치를 취합니다."),
         ],
       },
       {
-        heading: "13. 본 방침의 변경",
+        heading: "13. 미성년자분께",
         items: [
-          {
-            type: "p",
-            text: "본 방침은 법령 개정이나 이용하는 외부 서비스·기능의 변경에 따라 개정될 수 있습니다. 중요한 변경이 있을 경우 본 페이지의 최종 업데이트 날짜를 갱신합니다.",
-          },
+          p("본 사이트 열람에는 연령 제한이 없지만, 미성년자가 문의 양식으로 개인정보를 보내는 경우에는 보호자의 동의를 얻은 후 보내 주십시오."),
         ],
       },
       {
-        heading: "14. 문의·운영자",
+        heading: "14. 공개·정정·이용 정지·삭제 요청",
         items: [
-          {
-            type: "ul",
-            items: [
-              "사이트명: Koitype",
-              "URL: https://koitype.com",
-              "운영자: Koitype 운영사무국",
-              "콘텐츠 기획·제작: Koitype 편집부",
-            ],
-          },
-          {
-            type: "pLink",
-            before: "본 방침 및 본 사이트에 관한 문의는 ",
-            linkText: "문의 양식",
-            after: "을 이용해 주세요. 답변에는 시간이 걸릴 수 있습니다.",
-          },
+          contact("보관 중인 개인정보의 공개·정정·이용 정지·삭제를 원하시는 경우 ", "문의 양식", "으로 연락해 주십시오. 본인의 요청임을 확인한 후 신속하게 대응합니다. 본인 확인을 위해 문의 시와 같은 이메일 주소로 연락해 주시도록 요청할 수 있습니다."),
+          p("기사나 진단 내용의 오류를 발견하신 경우에도 같은 창구로 알려 주십시오. 확인 후 수정 또는 삭제합니다."),
+        ],
+      },
+      {
+        heading: "15. 면책 사항·저작권",
+        items: [
+          p("본 사이트의 연애 진단·심리 테스트·연애 제비뽑기·칼럼은 오락과 자기 이해의 계기로 제공하는 것이며, 의학적·심리학적 또는 기타 전문적인 진단이나 조언이 아닙니다. 심신의 불편이나 본인 또는 주변 사람의 안전에 관한 고민은 의료기관이나 공공 상담 창구에 상담해 주십시오."),
+          terms("면책 사항과 콘텐츠의 저작권·인용·링크에 대해서는 ", "이용약관", "을 참조해 주십시오."),
+        ],
+      },
+      {
+        heading: "16. 본 방침의 변경",
+        items: [
+          p("본 방침은 법령 개정이나 이용하는 외부 서비스·기능의 변경에 따라 개정될 수 있습니다. 개정한 경우 본 페이지에 게재하고 최종 업데이트 날짜를 갱신합니다. 중요한 변경은 본 사이트에서 알려 드립니다."),
+        ],
+      },
+      {
+        heading: "17. 운영자·문의 창구",
+        items: [
+          ul(
+            "사이트명: Koitype(코이타입)",
+            "URL: https://koitype.com",
+            "운영자: Koitype 운영사무국",
+            "콘텐츠 기획·제작: Koitype 편집부",
+          ),
+          contact("본 방침과 본 사이트에 관한 문의는 ", "문의 양식", "으로 부탁드립니다. 답변에 시간이 걸릴 수 있습니다."),
+          p("본 방침은 일본어판을 정본으로 합니다. 번역본과 내용이 다른 경우 일본어판이 우선합니다."),
         ],
       },
     ],
@@ -980,313 +581,169 @@ const content: Record<Locale, PrivacyPolicyContent> = {
 
   "zh-TW": {
     title: "隱私權政策",
-    updated: "最後更新日：2026年9月18日",
+    updated: "最後更新日：2026年9月23日",
     intro:
-      "Koitype（以下稱「本站」）是提供免費戀愛測驗、心理測驗與戀愛專欄的網站。本政策說明本站實際收集的資訊、使用目的、傳送至外部服務的情形，以及 Cookie 與廣告的處理方式。",
+      "Koitype 營運事務局（以下簡稱「經營者」）就提供免費戀愛診斷、心理測驗及戀愛專欄的網站「Koitype」（以下簡稱「本網站」）中用戶資訊的處理，遵守日本《個人資料保護法》及其他相關法令，訂定本隱私權政策（以下簡稱「本政策」）如下。",
     sections: [
       {
-        heading: "1. 本站收集的資訊",
+        heading: "1. 本網站取得的資訊",
         items: [
-          {
-            type: "p",
-            text: "本站不需要註冊會員。僅瀏覽時無須輸入姓名或地址等個人資料。實際收集的資訊如下。",
-          },
-          {
-            type: "ul",
-            items: [
-              "您在聯絡表單中輸入的姓名（含暱稱）、電子郵件地址、主旨與詢問內容",
-              "由分析工具自動收集的瀏覽頁面、來源網站、大致地區、瀏覽器與裝置類型等統計資訊",
-              "用於廣告投放與流量分析的 Cookie 及廣告識別碼",
-              "伺服器存取紀錄（IP 位址、存取時間、使用者代理程式等）",
-            ],
-          },
-          {
-            type: "p",
-            text: "流量分析、廣告與存取紀錄所處理的資訊，其目的並非單獨識別特定個人。",
-          },
+          p("本網站無需註冊會員，僅瀏覽時不會要求您輸入姓名、地址等個人資料。本網站取得的資訊如下。"),
+          ul(
+            "您在聯絡表單中輸入的姓名（含暱稱）、電子郵件地址、主旨及洽詢內容",
+            "透過流量分析自動收集的瀏覽頁面、來源網址、大致地區、瀏覽器及裝置類型等統計資訊",
+            "用於廣告投放及流量分析的 Cookie 與廣告識別碼",
+            "伺服器存取紀錄（IP 位址、存取時間、使用者代理程式等）",
+          ),
+          p("流量分析、廣告及存取紀錄所處理的資訊，並非以單獨識別特定個人為目的。"),
         ],
       },
       {
-        heading: "2. 聯絡表單的資訊與外部傳送",
+        heading: "2. 使用目的",
         items: [
-          {
-            type: "p",
-            text: "透過聯絡表單輸入的內容不會經由本站伺服器，而是直接傳送至郵件轉寄服務「Formspree」（Formspree, Inc.／美國），再由該公司轉交營運者。傳送的項目為姓名、電子郵件地址、主旨與詢問內容。",
-          },
-          {
-            type: "p",
-            text: "所取得的資訊僅用於回覆您的詢問及為此所需的聯絡。內容保存至處理完成所需的期間，不再需要時即予刪除。",
-          },
-          {
-            type: "extLink",
-            before: "關於 Formspree 的資訊處理方式，請參閱該公司的",
-            linkText: "隱私權政策",
-            href: URL_FORMSPREE_PRIVACY,
-            after: "。",
-          },
-          {
-            type: "p",
-            text: "詢問時請勿輸入密碼、信用卡號等敏感資訊。",
-          },
+          p("取得的資訊僅在下列目的範圍內使用。"),
+          ul(
+            "回覆洽詢及為此所需的聯絡",
+            "分析本網站的使用狀況，並改善內容與功能",
+            "投放廣告及衡量成效",
+            "統計文章瀏覽次數（顯示熱門文章等）",
+            "防止未經授權存取或騷擾行為等，確保本網站安全營運",
+          ),
+          p("變更使用目的時，將在與變更前目的具有合理關聯的範圍內進行，並於本頁公告。"),
         ],
       },
       {
-        heading: "3. 測驗作答的處理方式",
+        heading: "3. 聯絡表單的資訊",
         items: [
-          {
-            type: "p",
-            text: "戀愛測驗、心理測驗與戀愛御籤的作答僅在您的瀏覽器內處理，不會傳送或儲存至本站伺服器或外部服務，也不會傳達給營運者。",
-          },
-          {
-            type: "p",
-            text: "結果分享用的網址（結尾含 result= 的網址）僅包含判定結果類型的識別碼，不包含您如何回答每一題。請注意，將分享網址發布至社群媒體會使該結果類型公開。",
-          },
-          {
-            type: "p",
-            text: "本站的測驗是為了娛樂與作為自我理解的契機而提供，並非醫學或心理學檢測，作答內容不會用於評估健康狀態或人格。",
-          },
+          p("您在聯絡表單中輸入的內容不經本網站伺服器，而是直接傳送至表單傳送服務「Formspree」（Formspree, Inc.／美國），再經由該公司送達經營者。傳送的資訊為姓名、電子郵件地址、主旨及洽詢內容。"),
+          p("取得的資訊僅用於回覆洽詢及為此所需的聯絡。僅在處理所需期間內保存，不再需要時即予刪除。"),
+          ext("關於 Formspree 的資訊處理，請參閱該公司的", "隱私權政策", URL_FORMSPREE_PRIVACY, "。"),
+          p("洽詢時請勿輸入密碼、信用卡號碼、身分證字號、健康狀況等敏感資訊。"),
         ],
       },
       {
-        heading: "4. Cookie 與儲存於裝置的資訊",
+        heading: "4. 診斷與心理測驗的回答",
         items: [
-          {
-            type: "p",
-            text: "Cookie 是儲存在瀏覽器中的小型資料檔案。本站為了廣告投放與流量分析而使用 Cookie。",
-          },
-          {
-            type: "p",
-            text: "此外，為提升便利性，下列資訊會儲存在您的裝置內（本機儲存空間／工作階段儲存空間）。這些資訊僅留存於您的裝置，營運者無法讀取。",
-          },
-          {
-            type: "ul",
-            items: [
-              "顯示語言的選擇",
-              "戀愛部落格的收藏文章",
-              "同一工作階段內已瀏覽的文章（用於避免重複計算瀏覽次數）",
-            ],
-          },
-          {
-            type: "p",
-            text: "您可於瀏覽器設定中停用 Cookie。停用後仍可使用測驗與閱讀文章，但部分功能可能無法正常運作。",
-          },
+          p("戀愛診斷、心理測驗及戀愛籤的題目回答，僅在您的瀏覽器中處理，不會傳送或儲存至本網站的伺服器或外部服務，也不會送達經營者。"),
+          p("用於分享診斷結果的網址（結尾帶有 result= 的網址）僅包含判定類型的識別碼，不包含各題的回答。若將分享網址發布到社群網站等，該結果類型將會公開，敬請留意。"),
+          p("本網站的診斷與心理測驗是作為娛樂及自我了解的契機而提供，並非醫學或心理學檢查，也不會將回答內容用於評估健康狀況或人格。"),
         ],
       },
       {
-        heading: "5. 關於廣告投放（Google AdSense）",
+        heading: "5. Cookie 與儲存在裝置上的資訊",
         items: [
-          {
-            type: "p",
-            text: "本站使用第三方廣告服務 Google AdSense。",
-          },
-          {
-            type: "p",
-            text: "包含 Google 在內的第三方廣告供應商會使用 Cookie，根據使用者過去造訪本站或其他網站的資訊來放送廣告。",
-          },
-          {
-            type: "p",
-            text: "透過 Google 使用廣告 Cookie，Google 及其合作夥伴得以根據使用者造訪本站或其他網站的資訊，顯示合適的廣告。",
-          },
-          {
-            type: "extLink",
-            before: "您可隨時透過",
-            linkText: "Google 廣告設定",
-            href: URL_MY_AD_CENTER,
-            after: "停用個人化廣告。",
-          },
-          {
-            type: "extLink",
-            before: "若想停用 Google 以外第三方廣告供應商的 Cookie，請使用",
-            linkText: "aboutads.info 的停用頁面",
-            href: URL_ABOUT_ADS,
-            after: "。",
-          },
-          {
-            type: "extLink",
-            before: "關於 Google 在廣告中如何處理資料，請參閱",
-            linkText: "「Google 如何使用來自採用 Google 服務的網站或應用程式的資訊」",
-            href: URL_GOOGLE_ADS_POLICY,
-            after: "。",
-          },
+          p("Cookie 是儲存在瀏覽器中的小型資料檔案。本網站為投放廣告及流量分析而使用 Cookie。"),
+          p("此外，為了方便使用，本網站會將下列資訊儲存在您的裝置中（本機儲存空間／工作階段儲存空間）。這些資訊只保留在裝置內，不會傳送至經營者或外部服務。"),
+          ul(
+            "顯示語言的選擇",
+            "戀愛部落格的收藏文章",
+            "開啟各項診斷的次數（用於首頁診斷的排列順序）",
+            "最後一次查看通知頁面的日期（用於顯示新通知）",
+            "同一工作階段內已瀏覽的文章（用於防止重複計算瀏覽次數）",
+          ),
+          p("您可以在瀏覽器設定中停用 Cookie；刪除瀏覽器的網站資料時，儲存在裝置上的資訊也會一併刪除。即使如此仍可使用診斷及閱讀文章，但部分功能可能無法正常運作。"),
         ],
       },
       {
-        heading: "6. 關於流量分析（Google Analytics）",
+        heading: "6. 廣告投放（Google AdSense）",
         items: [
-          {
-            type: "p",
-            text: "本站使用 Google Analytics 4（GA4）以掌握使用狀況並用於改善。GA4 使用 Cookie 收集瀏覽頁面、停留時間等流量資料。",
-          },
-          {
-            type: "p",
-            text: "所收集的資料為統計性質，不包含姓名或電子郵件地址等可直接識別個人的資訊。",
-          },
-          {
-            type: "extLink",
-            before: "若想停止 Google Analytics 的資料收集，可使用",
-            linkText: "Google Analytics 停用瀏覽器外掛程式",
-            href: URL_GA_OPTOUT,
-            after: "，或於瀏覽器停用 Cookie。",
-          },
-          {
-            type: "extLink",
-            before: "關於 Google 的資料處理方式，請參閱",
-            linkText: "Google 隱私權政策",
-            href: URL_GOOGLE_PRIVACY,
-            after: "。",
-          },
+          p("本網站使用第三方廣告服務 Google AdSense。"),
+          p("包括 Google 在內的第三方廣告業者，可能會使用 Cookie，根據用戶過去造訪本網站或其他網站的資訊投放廣告。"),
+          p("Google 透過使用廣告 Cookie，使 Google 及其合作夥伴能夠根據用戶造訪本網站或其他網站的資訊，顯示適當的廣告。"),
+          ext("您可以隨時透過", "Google 廣告設定", URL_MY_AD_CENTER, "停用個人化廣告。"),
+          ext("若要停用 Google 以外第三方廣告業者的 Cookie，請使用", "aboutads.info 的退出頁面", URL_ABOUT_ADS, "。"),
+          ext("關於 Google 如何在廣告中處理資料，請參閱", "「Google 如何使用來自採用 Google 服務的網站或應用程式的資訊」", URL_GOOGLE_ADS_POLICY, "。"),
         ],
       },
       {
-        heading: "7. 致歐洲經濟區（EEA）、英國與瑞士的使用者",
+        heading: "7. 流量分析（Google Analytics）",
         items: [
-          {
-            type: "p",
-            text: "若您從 EEA、英國或瑞士連線，本站會透過 Google 認證的同意管理平台（CMP）取得您對廣告與流量分析 Cookie 使用的同意。",
-          },
-          {
-            type: "p",
-            text: "未獲得您的同意時，將不會放送個人化廣告（可能不顯示廣告，或顯示非個人化廣告）。您可隨時透過同意訊息變更您的選擇。",
-          },
+          p("本網站為掌握使用狀況並加以改善，使用 Google Analytics 4（GA4）。GA4 使用 Cookie 收集瀏覽頁面、停留時間等流量資料。"),
+          p("收集的資料為統計性質，不包含姓名、電子郵件地址等可直接識別個人的資訊。"),
+          ext("若要停止 Google Analytics 收集資料，請使用", "Google Analytics 不透露資訊外掛程式", URL_GA_OPTOUT, "，或在瀏覽器中停用 Cookie。"),
         ],
       },
       {
-        heading: "8. 本站使用的外部服務",
+        heading: "8. 致歐洲經濟區（EEA）、英國及瑞士的用戶",
         items: [
-          {
-            type: "p",
-            text: "本站營運使用下列外部服務。各服務的資訊處理方式依其各自的隱私權政策辦理。",
-          },
-          {
-            type: "extLink",
-            before: "Vercel（主機代管，含存取紀錄）／",
-            linkText: "隱私權政策",
-            href: URL_VERCEL_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Google AdSense、Google Analytics（廣告投放與流量分析）／",
-            linkText: "隱私權政策",
-            href: URL_GOOGLE_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Formspree（聯絡表單的傳送）／",
-            linkText: "隱私權政策",
-            href: URL_FORMSPREE_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "microCMS（戀愛部落格文章的管理與發布，不處理瀏覽者資訊）／",
-            linkText: "隱私權政策",
-            href: URL_MICROCMS_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Supabase（各篇文章瀏覽次數的儲存，僅儲存文章識別碼與次數，不儲存瀏覽者資訊）／",
-            linkText: "隱私權政策",
-            href: URL_SUPABASE_PRIVACY,
-            after: "",
-          },
+          p("從 EEA、英國或瑞士存取本網站時，將透過 Google 認證的同意管理平台（CMP），確認您是否同意為廣告及流量分析使用 Cookie。"),
+          p("若您不同意，將不會投放個人化廣告（不顯示廣告，或顯示非個人化廣告）。您可隨時透過顯示的同意訊息變更選擇。"),
         ],
       },
       {
-        heading: "9. 個人資料的第三方提供",
+        heading: "9. 用戶資訊的外部傳送",
         items: [
-          {
-            type: "p",
-            text: "透過詢問所取得的個人資料，除下列情形外不會提供給第三方。本政策第2條與第8條所述、為提供服務所必需的外部服務傳送，不屬於此處的「第三方提供」。",
-          },
-          {
-            type: "ul",
-            items: [
-              "取得本人同意時",
-              "依法令需要揭露時",
-              "為保護人的生命、身體或財產所必需，且難以取得本人同意時",
-            ],
-          },
-          {
-            type: "p",
-            text: "本站絕不販售個人資料，也不會為廣告目的提供給第三方。",
-          },
+          p("本網站在顯示頁面或提供功能時，會從您的裝置向下列外部業者傳送資訊（此為依日本《電氣通信事業法》第27條之12所公布的事項）。各業者對資訊的處理，依其各自的隱私權政策辦理。"),
+          ext("Google（Google LLC／美國）：為投放廣告（Google AdSense）及流量分析（Google Analytics），會傳送 Cookie 與廣告識別碼、瀏覽頁面網址、來源網址、IP 位址、瀏覽器與裝置資訊、瀏覽時間等。／", "隱私權政策", URL_GOOGLE_PRIVACY),
+          ext("Vercel（Vercel Inc.／美國）：為本網站的主機代管與傳送，IP 位址、存取時間、瀏覽網址、使用者代理程式等會記錄為存取紀錄。／", "隱私權政策", URL_VERCEL_PRIVACY),
+          ext("Supabase（Supabase, Inc.／美國）：為統計文章瀏覽次數，開啟戀愛部落格文章時會傳送該文章的識別碼。通訊過程中 IP 位址等會送達該公司，但本網站僅儲存各文章的瀏覽次數。／", "隱私權政策", URL_SUPABASE_PRIVACY),
+          ext("Formspree（Formspree, Inc.／美國）：僅在送出聯絡表單時，傳送輸入內容（第3條）及通訊所伴隨的 IP 位址等。／", "隱私權政策", URL_FORMSPREE_PRIVACY),
+          ext("microCMS（株式會社 microCMS／日本）：用於管理戀愛部落格文章。文章由本網站的伺服器傳送，因此不會從您的裝置向該公司傳送資訊。／", "隱私權政策", URL_MICROCMS_PRIVACY),
+          p("文章及診斷結果的分享按鈕（X、LINE、Facebook）是在點按時開啟各服務頁面的連結。僅顯示按鈕並不會向各公司傳送資訊。"),
         ],
       },
       {
-        heading: "10. 查詢、更正與刪除的請求",
+        heading: "10. 使用位於外國的業者",
         items: [
-          {
-            type: "pLink",
-            before: "若您希望查詢、更正、停止使用或刪除本站保存的個人資料，請透過",
-            linkText: "聯絡表單",
-            after: "與我們聯繫。確認為本人請求後，我們將儘速處理。",
-          },
-          {
-            type: "p",
-            text: "若您在文章或測驗內容中發現錯誤，也請透過同一窗口告知。我們會確認後進行修正或刪除。",
-          },
+          p("如第9條所述，本網站使用的部分外部服務（Google、Vercel、Supabase、Formspree）為美國業者，包含洽詢內容在內的資訊可能會在美國等地的伺服器上處理。這些業者均在各自的隱私權政策中訂有保護個人資料的措施。"),
+          ext("關於美國的個人資料保護制度，請參閱日本個人資訊保護委員會公布的", "「外國個人資料保護制度等調查」", URL_PPC_FOREIGN, "（日文）。"),
         ],
       },
       {
-        heading: "11. 免責聲明",
+        heading: "11. 向第三方提供個人資料",
         items: [
-          {
-            type: "p",
-            text: "本站刊載的資訊力求正確，但不保證其正確性、安全性或實用性。",
-          },
-          {
-            type: "p",
-            text: "本站的戀愛測驗、心理測驗、戀愛御籤與專欄是為娛樂及自我理解的契機而提供，並非醫學、心理學或專業的診斷與建議。關於身心不適，或涉及您本人或周遭人士安全的煩惱，請諮詢醫療機構或公立諮詢窗口。",
-          },
-          {
-            type: "p",
-            text: "因使用本站資訊而產生的損害，營運者概不負責。對於連結網站的資訊與服務等亦不負責。",
-          },
+          p("透過洽詢取得的個人資料，除下列情形外，不會提供給第三方。第3條及第9條所記載、為提供服務所必需而傳送至外部業者（業務委託）的情形，不屬於此處所稱的第三方提供。"),
+          ul(
+            "經本人同意時",
+            "依法令需要揭露時",
+            "為保護人的生命、身體或財產所必需，且難以取得本人同意時",
+          ),
+          p("本網站絕不販售個人資料，也不會為廣告目的將其提供給第三方。"),
         ],
       },
       {
-        heading: "12. 著作權",
+        heading: "12. 安全管理",
         items: [
-          {
-            type: "p",
-            text: "本站刊載的文章、圖片、插畫、標誌、設計與測驗內容等著作權，歸屬營運者或正當權利人所有。",
-          },
-          {
-            type: "p",
-            text: "除法令允許的情形外，禁止未經授權的轉載、複製、再散布與商業利用。引用時請註明出處，並於著作權法範圍內使用。",
-          },
+          p("為防止透過洽詢取得的個人資料外洩、滅失或毀損，本網站採取必要且適當的安全管理措施，例如將處理資訊的人員限定為經營者，並妥善管理所使用服務的帳戶。"),
         ],
       },
       {
-        heading: "13. 本政策的變更",
+        heading: "13. 致未成年人",
         items: [
-          {
-            type: "p",
-            text: "本政策可能因法令修訂或本站所使用的外部服務與功能變更而修訂。進行重要變更時，將更新本頁的最後更新日期。",
-          },
+          p("瀏覽本網站沒有年齡限制，但未成年人透過聯絡表單傳送個人資料時，請先取得監護人的同意。"),
         ],
       },
       {
-        heading: "14. 聯絡方式與營運者",
+        heading: "14. 揭露、更正、停止使用及刪除的請求",
         items: [
-          {
-            type: "ul",
-            items: [
-              "網站名稱：Koitype",
-              "網址：https://koitype.com",
-              "營運者：Koitype 營運事務局",
-              "內容企劃與製作：Koitype 編輯部",
-            ],
-          },
-          {
-            type: "pLink",
-            before: "關於本政策及本站的詢問，請透過",
-            linkText: "聯絡表單",
-            after: "提出。回覆可能需要一些時間，敬請見諒。",
-          },
+          contact("如欲請求揭露、更正、停止使用或刪除本網站所保存的個人資料，請透過", "聯絡表單", "與我們聯繫。確認為本人請求後，將迅速處理。為確認身分，可能會請您使用洽詢時的相同電子郵件地址聯繫。"),
+          p("若發現文章或診斷內容有誤，也請透過相同窗口告知，確認後將予以更正或刪除。"),
+        ],
+      },
+      {
+        heading: "15. 免責事項與著作權",
+        items: [
+          p("本網站的戀愛診斷、心理測驗、戀愛籤及專欄，是作為娛樂及自我了解的契機而提供，並非醫學、心理學或其他專業的診斷或建議。身心不適，或涉及您本人或身邊的人安全的煩惱，請諮詢醫療機構或公共諮詢窗口。"),
+          terms("關於免責事項，以及內容的著作權、引用與連結，請參閱", "使用條款", "。"),
+        ],
+      },
+      {
+        heading: "16. 本政策的變更",
+        items: [
+          p("本政策可能因法令修正或所使用的外部服務、功能變更而修訂。修訂時將刊登於本頁並更新最後更新日；重要變更將在本網站上公告。"),
+        ],
+      },
+      {
+        heading: "17. 經營者與聯絡窗口",
+        items: [
+          ul(
+            "網站名稱：Koitype",
+            "網址：https://koitype.com",
+            "經營者：Koitype 營運事務局",
+            "內容企劃與製作：Koitype 編輯部",
+          ),
+          contact("有關本政策及本網站的洽詢，請透過", "聯絡表單", "提出。回覆可能需要一些時間，敬請見諒。"),
+          p("本政策以日文版為正本。翻譯版與日文版內容不一致時，以日文版為準。"),
         ],
       },
     ],
@@ -1294,313 +751,169 @@ const content: Record<Locale, PrivacyPolicyContent> = {
 
   "zh-CN": {
     title: "隐私政策",
-    updated: "最后更新日期：2026年9月18日",
+    updated: "最后更新日期：2026年9月23日",
     intro:
-      "Koitype（以下称“本站”）是提供免费恋爱测试、心理测试与恋爱专栏的网站。本政策说明本站实际收集的信息、使用目的、向外部服务的传输，以及 Cookie 与广告的处理方式。",
+      "Koitype 运营事务局（以下简称「经营者」）就提供免费恋爱诊断、心理测试及恋爱专栏的网站「Koitype」（以下简称「本网站」）中用户信息的处理，遵守日本《个人信息保护法》及其他相关法令，制定本隐私政策（以下简称「本政策」）如下。",
     sections: [
       {
-        heading: "1. 本站收集的信息",
+        heading: "1. 本网站获取的信息",
         items: [
-          {
-            type: "p",
-            text: "本站无需注册会员。仅浏览时无需输入姓名或地址等个人信息。实际收集的信息如下。",
-          },
-          {
-            type: "ul",
-            items: [
-              "您在联系表单中填写的姓名（含昵称）、电子邮箱、主题与咨询内容",
-              "由分析工具自动收集的浏览页面、来源网站、大致地区、浏览器与设备类型等统计信息",
-              "用于广告投放与访问分析的 Cookie 及广告标识符",
-              "服务器访问日志（IP 地址、访问时间、用户代理等）",
-            ],
-          },
-          {
-            type: "p",
-            text: "访问分析、广告与访问日志所处理的信息，其目的并非单独识别特定个人。",
-          },
+          p("本网站无需注册会员，仅浏览时不会要求您输入姓名、地址等个人信息。本网站获取的信息如下。"),
+          ul(
+            "您在联系表单中输入的姓名（含昵称）、电子邮件地址、主题及咨询内容",
+            "通过访问分析自动收集的浏览页面、来源网址、大致地区、浏览器及设备类型等统计信息",
+            "用于广告投放及访问分析的 Cookie 与广告标识符",
+            "服务器访问日志（IP 地址、访问时间、用户代理等）",
+          ),
+          p("访问分析、广告及访问日志所处理的信息，并非以单独识别特定个人为目的。"),
         ],
       },
       {
-        heading: "2. 联系表单的信息与外部传输",
+        heading: "2. 使用目的",
         items: [
-          {
-            type: "p",
-            text: "通过联系表单填写的内容不经由本站服务器，而是直接发送至邮件转发服务“Formspree”（Formspree, Inc./美国），再由该公司转交运营者。发送的项目为姓名、电子邮箱、主题与咨询内容。",
-          },
-          {
-            type: "p",
-            text: "所获取的信息仅用于回复您的咨询及为此所需的联络。内容保存至处理完成所需的期间，不再需要时即予删除。",
-          },
-          {
-            type: "extLink",
-            before: "关于 Formspree 的信息处理方式，请查阅该公司的",
-            linkText: "隐私政策",
-            href: URL_FORMSPREE_PRIVACY,
-            after: "。",
-          },
-          {
-            type: "p",
-            text: "咨询时请勿填写密码、信用卡号等敏感信息。",
-          },
+          p("获取的信息仅在下列目的范围内使用。"),
+          ul(
+            "回复咨询及为此所需的联系",
+            "分析本网站的使用情况，并改进内容与功能",
+            "投放广告及衡量效果",
+            "统计文章浏览次数（显示热门文章等）",
+            "防止未经授权访问或骚扰行为等，确保本网站安全运营",
+          ),
+          p("变更使用目的时，将在与变更前目的具有合理关联的范围内进行，并在本页公布。"),
         ],
       },
       {
-        heading: "3. 测试作答的处理方式",
+        heading: "3. 联系表单的信息",
         items: [
-          {
-            type: "p",
-            text: "恋爱测试、心理测试与恋爱签的作答仅在您的浏览器内处理，不会发送或保存至本站服务器或外部服务，也不会传达给运营者。",
-          },
-          {
-            type: "p",
-            text: "结果分享用的网址（结尾含 result= 的网址）仅包含判定结果类型的标识符，不包含您如何回答每一道题。请注意，将分享网址发布至社交媒体会使该结果类型公开。",
-          },
-          {
-            type: "p",
-            text: "本站的测试是为了娱乐与作为自我理解的契机而提供，并非医学或心理学检测，作答内容不会用于评估健康状况或人格。",
-          },
+          p("您在联系表单中输入的内容不经本网站服务器，而是直接发送至表单发送服务「Formspree」（Formspree, Inc.／美国），再经由该公司送达经营者。发送的信息为姓名、电子邮件地址、主题及咨询内容。"),
+          p("获取的信息仅用于回复咨询及为此所需的联系。仅在处理所需期间内保存，不再需要时即予删除。"),
+          ext("关于 Formspree 的信息处理，请参阅该公司的", "隐私政策", URL_FORMSPREE_PRIVACY, "。"),
+          p("咨询时请勿输入密码、信用卡号码、身份证号码、健康状况等敏感信息。"),
         ],
       },
       {
-        heading: "4. Cookie 与保存在设备上的信息",
+        heading: "4. 诊断与心理测试的回答",
         items: [
-          {
-            type: "p",
-            text: "Cookie 是保存在浏览器中的小型数据文件。本站为了广告投放与访问分析而使用 Cookie。",
-          },
-          {
-            type: "p",
-            text: "此外，为提升便利性，下列信息会保存在您的设备内（本地存储／会话存储）。这些信息仅留存于您的设备，运营者无法读取。",
-          },
-          {
-            type: "ul",
-            items: [
-              "显示语言的选择",
-              "恋爱博客的收藏文章",
-              "同一会话内已浏览的文章（用于避免重复计算浏览次数）",
-            ],
-          },
-          {
-            type: "p",
-            text: "您可在浏览器设置中停用 Cookie。停用后仍可使用测试与阅读文章，但部分功能可能无法正常运行。",
-          },
+          p("恋爱诊断、心理测试及恋爱签的题目回答，仅在您的浏览器中处理，不会发送或存储至本网站的服务器或外部服务，也不会送达经营者。"),
+          p("用于分享诊断结果的网址（结尾带有 result= 的网址）仅包含判定类型的标识符，不包含各题的回答。若将分享网址发布到社交网站等，该结果类型将会公开，敬请留意。"),
+          p("本网站的诊断与心理测试是作为娱乐及自我了解的契机而提供，并非医学或心理学检查，也不会将回答内容用于评估健康状况或人格。"),
         ],
       },
       {
-        heading: "5. 关于广告投放（Google AdSense）",
+        heading: "5. Cookie 与存储在设备上的信息",
         items: [
-          {
-            type: "p",
-            text: "本站使用第三方广告服务 Google AdSense。",
-          },
-          {
-            type: "p",
-            text: "包括 Google 在内的第三方广告供应商会使用 Cookie，根据用户过去访问本站或其他网站的信息来投放广告。",
-          },
-          {
-            type: "p",
-            text: "通过 Google 使用广告 Cookie，Google 及其合作伙伴得以根据用户访问本站或其他网站的信息，显示合适的广告。",
-          },
-          {
-            type: "extLink",
-            before: "您可随时通过",
-            linkText: "Google 广告设置",
-            href: URL_MY_AD_CENTER,
-            after: "停用个性化广告。",
-          },
-          {
-            type: "extLink",
-            before: "若想停用 Google 以外第三方广告供应商的 Cookie，请使用",
-            linkText: "aboutads.info 的停用页面",
-            href: URL_ABOUT_ADS,
-            after: "。",
-          },
-          {
-            type: "extLink",
-            before: "关于 Google 在广告中如何处理数据，请参阅",
-            linkText: "“Google 如何使用来自采用 Google 服务的网站或应用的信息”",
-            href: URL_GOOGLE_ADS_POLICY,
-            after: "。",
-          },
+          p("Cookie 是存储在浏览器中的小型数据文件。本网站为投放广告及访问分析而使用 Cookie。"),
+          p("此外，为了方便使用，本网站会将下列信息存储在您的设备中（本地存储／会话存储）。这些信息只保留在设备内，不会发送至经营者或外部服务。"),
+          ul(
+            "显示语言的选择",
+            "恋爱博客的收藏文章",
+            "打开各项诊断的次数（用于首页诊断的排列顺序）",
+            "最后一次查看通知页面的日期（用于显示新通知）",
+            "同一会话内已浏览的文章（用于防止重复计算浏览次数）",
+          ),
+          p("您可以在浏览器设置中禁用 Cookie；删除浏览器的网站数据时，存储在设备上的信息也会一并删除。即使如此仍可使用诊断及阅读文章，但部分功能可能无法正常运行。"),
         ],
       },
       {
-        heading: "6. 关于访问分析（Google Analytics）",
+        heading: "6. 广告投放（Google AdSense）",
         items: [
-          {
-            type: "p",
-            text: "本站使用 Google Analytics 4（GA4）以掌握使用情况并用于改进。GA4 使用 Cookie 收集浏览页面、停留时间等流量数据。",
-          },
-          {
-            type: "p",
-            text: "所收集的数据为统计性质，不包含姓名或电子邮箱等可直接识别个人的信息。",
-          },
-          {
-            type: "extLink",
-            before: "若想停止 Google Analytics 的数据收集，可使用",
-            linkText: "Google Analytics 停用浏览器插件",
-            href: URL_GA_OPTOUT,
-            after: "，或在浏览器中停用 Cookie。",
-          },
-          {
-            type: "extLink",
-            before: "关于 Google 的数据处理方式，请查阅",
-            linkText: "Google 隐私政策",
-            href: URL_GOOGLE_PRIVACY,
-            after: "。",
-          },
+          p("本网站使用第三方广告服务 Google AdSense。"),
+          p("包括 Google 在内的第三方广告业者，可能会使用 Cookie，根据用户过去访问本网站或其他网站的信息投放广告。"),
+          p("Google 通过使用广告 Cookie，使 Google 及其合作伙伴能够根据用户访问本网站或其他网站的信息，显示适当的广告。"),
+          ext("您可以随时通过", "Google 广告设置", URL_MY_AD_CENTER, "停用个性化广告。"),
+          ext("若要停用 Google 以外第三方广告业者的 Cookie，请使用", "aboutads.info 的退出页面", URL_ABOUT_ADS, "。"),
+          ext("关于 Google 如何在广告中处理数据，请参阅", "「Google 如何使用来自使用 Google 服务的网站或应用的信息」", URL_GOOGLE_ADS_POLICY, "。"),
         ],
       },
       {
-        heading: "7. 致欧洲经济区（EEA）、英国与瑞士的用户",
+        heading: "7. 访问分析（Google Analytics）",
         items: [
-          {
-            type: "p",
-            text: "若您从 EEA、英国或瑞士访问，本站会通过 Google 认证的同意管理平台（CMP）获取您对广告与访问分析 Cookie 使用的同意。",
-          },
-          {
-            type: "p",
-            text: "未获得您的同意时，将不会投放个性化广告（可能不显示广告，或显示非个性化广告）。您可随时通过同意消息更改您的选择。",
-          },
+          p("本网站为掌握使用情况并加以改进，使用 Google Analytics 4（GA4）。GA4 使用 Cookie 收集浏览页面、停留时间等流量数据。"),
+          p("收集的数据为统计性质，不包含姓名、电子邮件地址等可直接识别个人的信息。"),
+          ext("若要停止 Google Analytics 收集数据，请使用", "Google Analytics 停用浏览器插件", URL_GA_OPTOUT, "，或在浏览器中禁用 Cookie。"),
         ],
       },
       {
-        heading: "8. 本站使用的外部服务",
+        heading: "8. 致欧洲经济区（EEA）、英国及瑞士的用户",
         items: [
-          {
-            type: "p",
-            text: "本站运营使用下列外部服务。各服务的信息处理方式依其各自的隐私政策执行。",
-          },
-          {
-            type: "extLink",
-            before: "Vercel（托管，含访问日志）／",
-            linkText: "隐私政策",
-            href: URL_VERCEL_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Google AdSense、Google Analytics（广告投放与访问分析）／",
-            linkText: "隐私政策",
-            href: URL_GOOGLE_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Formspree（联系表单的发送）／",
-            linkText: "隐私政策",
-            href: URL_FORMSPREE_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "microCMS（恋爱博客文章的管理与分发，不处理浏览者信息）／",
-            linkText: "隐私政策",
-            href: URL_MICROCMS_PRIVACY,
-            after: "",
-          },
-          {
-            type: "extLink",
-            before: "Supabase（各篇文章浏览次数的保存，仅保存文章标识符与次数，不保存浏览者信息）／",
-            linkText: "隐私政策",
-            href: URL_SUPABASE_PRIVACY,
-            after: "",
-          },
+          p("从 EEA、英国或瑞士访问本网站时，将通过 Google 认证的同意管理平台（CMP），确认您是否同意为广告及访问分析使用 Cookie。"),
+          p("若您不同意，将不会投放个性化广告（不显示广告，或显示非个性化广告）。您可随时通过显示的同意消息变更选择。"),
         ],
       },
       {
-        heading: "9. 个人信息的第三方提供",
+        heading: "9. 用户信息的外部发送",
         items: [
-          {
-            type: "p",
-            text: "通过咨询获取的个人信息，除下列情形外不会提供给第三方。本政策第2条与第8条所述、为提供服务所必需的外部服务传输，不属于此处的“第三方提供”。",
-          },
-          {
-            type: "ul",
-            items: [
-              "获得本人同意时",
-              "依法律法规需要披露时",
-              "为保护人的生命、身体或财产所必需，且难以取得本人同意时",
-            ],
-          },
-          {
-            type: "p",
-            text: "本站绝不出售个人信息，也不会为广告目的提供给第三方。",
-          },
+          p("本网站在显示页面或提供功能时，会从您的设备向下列外部业者发送信息（此为依日本《电气通信事业法》第27条之12所公布的事项）。各业者对信息的处理，依其各自的隐私政策执行。"),
+          ext("Google（Google LLC／美国）：为投放广告（Google AdSense）及访问分析（Google Analytics），会发送 Cookie 与广告标识符、浏览页面网址、来源网址、IP 地址、浏览器与设备信息、浏览时间等。／", "隐私政策", URL_GOOGLE_PRIVACY),
+          ext("Vercel（Vercel Inc.／美国）：为本网站的托管与分发，IP 地址、访问时间、浏览网址、用户代理等会记录为访问日志。／", "隐私政策", URL_VERCEL_PRIVACY),
+          ext("Supabase（Supabase, Inc.／美国）：为统计文章浏览次数，打开恋爱博客文章时会发送该文章的标识符。通信过程中 IP 地址等会送达该公司，但本网站仅存储各文章的浏览次数。／", "隐私政策", URL_SUPABASE_PRIVACY),
+          ext("Formspree（Formspree, Inc.／美国）：仅在提交联系表单时，发送输入内容（第3条）及通信所伴随的 IP 地址等。／", "隐私政策", URL_FORMSPREE_PRIVACY),
+          ext("microCMS（株式会社 microCMS／日本）：用于管理恋爱博客文章。文章由本网站的服务器分发，因此不会从您的设备向该公司发送信息。／", "隐私政策", URL_MICROCMS_PRIVACY),
+          p("文章及诊断结果的分享按钮（X、LINE、Facebook）是在点击时打开各服务页面的链接。仅显示按钮并不会向各公司发送信息。"),
         ],
       },
       {
-        heading: "10. 查询、更正与删除的请求",
+        heading: "10. 使用位于外国的业者",
         items: [
-          {
-            type: "pLink",
-            before: "若您希望查询、更正、停止使用或删除本站保存的个人信息，请通过",
-            linkText: "联系表单",
-            after: "与我们联系。确认为本人请求后，我们将尽快处理。",
-          },
-          {
-            type: "p",
-            text: "若您在文章或测试内容中发现错误，也请通过同一窗口告知。我们会确认后进行修正或删除。",
-          },
+          p("如第9条所述，本网站使用的部分外部服务（Google、Vercel、Supabase、Formspree）为美国业者，包含咨询内容在内的信息可能会在美国等地的服务器上处理。这些业者均在各自的隐私政策中制定了保护个人信息的措施。"),
+          ext("关于美国的个人信息保护制度，请参阅日本个人信息保护委员会公布的", "「外国个人信息保护制度等调查」", URL_PPC_FOREIGN, "（日文）。"),
         ],
       },
       {
-        heading: "11. 免责声明",
+        heading: "11. 向第三方提供个人信息",
         items: [
-          {
-            type: "p",
-            text: "本站刊载的信息力求准确，但不保证其准确性、安全性或实用性。",
-          },
-          {
-            type: "p",
-            text: "本站的恋爱测试、心理测试、恋爱签与专栏是为娱乐及自我理解的契机而提供，并非医学、心理学或专业的诊断与建议。关于身心不适，或涉及您本人或周围人士安全的烦恼，请咨询医疗机构或公共咨询窗口。",
-          },
-          {
-            type: "p",
-            text: "因使用本站信息而产生的损害，运营者概不负责。对于链接网站的信息与服务等亦不负责。",
-          },
+          p("通过咨询获取的个人信息，除下列情形外，不会提供给第三方。第3条及第9条所记载、为提供服务所必需而发送至外部业者（业务委托）的情形，不属于此处所称的第三方提供。"),
+          ul(
+            "经本人同意时",
+            "依法令需要披露时",
+            "为保护人的生命、身体或财产所必需，且难以取得本人同意时",
+          ),
+          p("本网站绝不出售个人信息，也不会为广告目的将其提供给第三方。"),
         ],
       },
       {
-        heading: "12. 著作权",
+        heading: "12. 安全管理",
         items: [
-          {
-            type: "p",
-            text: "本站刊载的文章、图片、插画、标志、设计与测试内容等著作权，归属运营者或正当权利人所有。",
-          },
-          {
-            type: "p",
-            text: "除法律法规允许的情形外，禁止未经授权的转载、复制、再分发与商业利用。引用时请注明出处，并在著作权法范围内使用。",
-          },
+          p("为防止通过咨询获取的个人信息泄露、灭失或毁损，本网站采取必要且适当的安全管理措施，例如将处理信息的人员限定为经营者，并妥善管理所使用服务的账户。"),
         ],
       },
       {
-        heading: "13. 本政策的变更",
+        heading: "13. 致未成年人",
         items: [
-          {
-            type: "p",
-            text: "本政策可能因法律法规修订或本站所使用的外部服务与功能变更而修订。进行重要变更时，将更新本页的最后更新日期。",
-          },
+          p("浏览本网站没有年龄限制，但未成年人通过联系表单发送个人信息时，请先取得监护人的同意。"),
         ],
       },
       {
-        heading: "14. 联系方式与运营者",
+        heading: "14. 披露、更正、停止使用及删除的请求",
         items: [
-          {
-            type: "ul",
-            items: [
-              "网站名称：Koitype",
-              "网址：https://koitype.com",
-              "运营者：Koitype 运营事务局",
-              "内容策划与制作：Koitype 编辑部",
-            ],
-          },
-          {
-            type: "pLink",
-            before: "关于本政策及本站的咨询，请通过",
-            linkText: "联系表单",
-            after: "提交。回复可能需要一些时间，敬请谅解。",
-          },
+          contact("如欲请求披露、更正、停止使用或删除本网站所保存的个人信息，请通过", "联系表单", "与我们联系。确认为本人请求后，将迅速处理。为确认身份，可能会请您使用咨询时的相同电子邮件地址联系。"),
+          p("若发现文章或诊断内容有误，也请通过相同窗口告知，确认后将予以更正或删除。"),
+        ],
+      },
+      {
+        heading: "15. 免责事项与著作权",
+        items: [
+          p("本网站的恋爱诊断、心理测试、恋爱签及专栏，是作为娱乐及自我了解的契机而提供，并非医学、心理学或其他专业的诊断或建议。身心不适，或涉及您本人或身边的人安全的烦恼，请咨询医疗机构或公共咨询窗口。"),
+          terms("关于免责事项，以及内容的著作权、引用与链接，请参阅", "使用条款", "。"),
+        ],
+      },
+      {
+        heading: "16. 本政策的变更",
+        items: [
+          p("本政策可能因法令修订或所使用的外部服务、功能变更而修订。修订时将刊登于本页并更新最后更新日期；重要变更将在本网站上公告。"),
+        ],
+      },
+      {
+        heading: "17. 经营者与联系窗口",
+        items: [
+          ul(
+            "网站名称：Koitype",
+            "网址：https://koitype.com",
+            "经营者：Koitype 运营事务局",
+            "内容策划与制作：Koitype 编辑部",
+          ),
+          contact("有关本政策及本网站的咨询，请通过", "联系表单", "提交。回复可能需要一些时间，敬请谅解。"),
+          p("本政策以日文版为正本。译本与日文版内容不一致时，以日文版为准。"),
         ],
       },
     ],

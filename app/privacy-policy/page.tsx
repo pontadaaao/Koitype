@@ -6,7 +6,7 @@ import PrivacyPolicyContent from "./PrivacyPolicyContent";
 
 export const metadata: Metadata = {
   title: siteTitle("プライバシーポリシー"),
-  description: `${SITE_NAME}のプライバシーポリシーです。個人情報の取り扱い、Cookieの使用、Google AdSenseについて説明しています。`,
+  description: `${SITE_NAME}のプライバシーポリシーです。取得する情報と利用目的、Cookie・広告（Google AdSense）・アクセス解析、外部送信について説明しています。`,
   alternates: { canonical: `${SITE_DEFAULT_URL}/privacy-policy` },
   openGraph: {
     title: `プライバシーポリシー | ${SITE_NAME}`,

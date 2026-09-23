@@ -6,7 +6,7 @@ import TermsContent from "./TermsContent";
 
 export const metadata: Metadata = {
   title: siteTitle("利用規約"),
-  description: `${SITE_NAME}の利用規約です。サービスの利用条件について説明しています。`,
+  description: `${SITE_NAME}の利用規約です。サービスの利用条件、禁止事項、診断結果のシェア、免責事項などについて定めています。`,
   alternates: { canonical: `${SITE_DEFAULT_URL}/terms` },
   openGraph: {
     title: `利用規約 | ${SITE_NAME}`,
