@@ -127,4 +127,6 @@ export interface DogLoverResult {
   partner: string;
   advice: string;
   tags: string[];
+  /** ラブパラメーター（0〜100、レーダーチャート用） */
+  parameters: Array<{ label: string; value: number }>;
 }

@@ -16,6 +16,10 @@ export type CompatibilityResult = {
   passion: number;
   trust: number;
   future: number;
+  /** 星座（エレメント）の相性スコア */
+  elementMatch: number;
+  /** 運命数の相性スコア */
+  lifePathMatch: number;
   rank: Rank;
 };
 
@@ -110,7 +114,19 @@ export function calcCompatibility(a: Birthday, b: Birthday): CompatibilityResult
   );
   const future = clamp(Math.round((total + trust) / 2), 40, 99);
 
-  return { s1, s2, lp1, lp2, total, passion, trust, future, rank: getRank(total) };
+  return {
+    s1,
+    s2,
+    lp1,
+    lp2,
+    total,
+    passion,
+    trust,
+    future,
+    elementMatch: clamp(Math.round(elem), 0, 100),
+    lifePathMatch: clamp(Math.round(lpScore), 0, 100),
+    rank: getRank(total),
+  };
 }
 
 export function getAdvice(result: CompatibilityResult): string {

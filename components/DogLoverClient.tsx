@@ -34,6 +34,7 @@ function toResultCard(r: DogLoverResult): DiagnosisResult {
     aru: r.traits,
     compat: [{ name: "向いている相手", desc: r.partner, score: "♡" }],
     prescription: r.advice,
+    parameters: r.parameters,
   };
 }
 
@@ -96,6 +97,7 @@ export default function DogLoverClient() {
           summary: found.title,
           href: `/diagnosis/dog-lover?result=${found.id}`,
           thumbnail: "/dog-lover-hero.png",
+          parameters: found.parameters,
         });
         setScreen("result");
         router.replace(`/diagnosis/dog-lover?result=${found.id}`, { scroll: false });

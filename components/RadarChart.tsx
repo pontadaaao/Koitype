@@ -21,11 +21,41 @@ interface RadarChartProps {
 
 const LEVELS = 4;
 
-/** 長いラベルは2行に折り返す。 */
+/** 長いラベルは1行6文字程度で、行の長さが揃うように折り返す。 */
+const MAX_CHARS_PER_LINE = 6;
+const MAX_LATIN_CHARS_PER_LINE = 11;
 function splitLabel(label: string): string[] {
-  if (label.length <= 6) return [label];
-  const mid = Math.ceil(label.length / 2);
-  return [label.slice(0, mid), label.slice(mid)];
+  // 英語などスペース区切りの言語は単語単位で折り返す
+  if (/\s/.test(label.trim())) {
+    const lines: string[] = [];
+    for (const word of label.trim().split(/\s+/)) {
+      const last = lines[lines.length - 1];
+      if (last && last.length + 1 + word.length <= MAX_LATIN_CHARS_PER_LINE) {
+        lines[lines.length - 1] = `${last} ${word}`;
+      } else {
+        lines.push(word);
+      }
+    }
+    return lines;
+  }
+  const chars = Array.from(label);
+  if (chars.length <= MAX_CHARS_PER_LINE) return [label];
+  // 「情熱・ときめき」のような語は中黒の位置で区切る
+  const dot = label.indexOf("・");
+  if (dot > 0 && dot < label.length - 1) {
+    const head = label.slice(0, dot + 1);
+    const tail = label.slice(dot + 1);
+    if (head.length <= MAX_CHARS_PER_LINE && tail.length <= MAX_CHARS_PER_LINE) {
+      return [head, tail];
+    }
+  }
+  const lineCount = Math.ceil(chars.length / MAX_CHARS_PER_LINE);
+  const perLine = Math.ceil(chars.length / lineCount);
+  const lines: string[] = [];
+  for (let i = 0; i < chars.length; i += perLine) {
+    lines.push(chars.slice(i, i + perLine).join(""));
+  }
+  return lines;
 }
 
 export default function RadarChart({
@@ -40,7 +70,7 @@ export default function RadarChart({
 
   // 軸ラベル分の余白を確保する（横書きラベルが長いので左右を広めに）。
   const padX = 124;
-  const padY = 84;
+  const padY = 100;
   const viewW = size + padX * 2;
   const viewH = size + padY * 2;
   const cx = viewW / 2;

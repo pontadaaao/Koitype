@@ -5,6 +5,7 @@ import AppIcon from "@/components/AppIcon";
 import { useLanguage } from "@/components/LanguageProvider";
 import ElementBadge from "@/components/ElementBadge";
 import MetricBars from "@/components/MetricBars";
+import ResultRadar from "@/components/ResultRadar";
 import ScoreRing from "@/components/ScoreRing";
 import { getAdvice, type CompatibilityResult } from "@/lib/compatibility";
 import { LIFE_PATH_DESC } from "@/lib/numerology";
@@ -118,6 +119,18 @@ export default function ResultView({ result, shareUrl, onRetry }: ResultViewProp
         <p className="mt-2 text-sm leading-relaxed text-text-sub">
           {result.rank.catch}
         </p>
+
+        <ResultRadar
+          className="mt-6"
+          title={t.compat.balance}
+          points={[
+            { label: t.compat.passion, value: result.passion },
+            { label: t.compat.trust, value: result.trust },
+            { label: t.compat.future, value: result.future },
+            { label: t.compat.elementMatch, value: result.elementMatch },
+            { label: t.compat.lifePathMatch, value: result.lifePathMatch },
+          ]}
+        />
       </div>
 
       <div className="card p-5">

@@ -9,6 +9,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import ProgressBar from "@/components/ProgressBar";
 import AppIcon from "@/components/AppIcon";
+import ResultRadar from "@/components/ResultRadar";
 import {
   questions,
   calculateCatType,
@@ -256,6 +257,7 @@ export default function CatTypeClient() {
           summary: calcResult.catch,
           href: `/diagnosis/cat-type?result=${calcResult.id}`,
           thumbnail: "/cat-type-hero.png",
+          parameters: calcResult.parameters,
           distribution: answersToDistribution(
             newAnswers,
             Object.values(catTypeResults).map((r) => r.name)
@@ -427,6 +429,8 @@ export default function CatTypeClient() {
                     <p className="mt-4 text-base font-medium italic text-white/80">
                       「{result.catch}」
                     </p>
+
+                    <ResultRadar points={result.parameters} className="mt-8" />
                   </div>
                   <WaveDown fill="#00B7CE" />
                 </section>
