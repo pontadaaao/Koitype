@@ -17,23 +17,29 @@ const ICONS={
 // 運勢データ（ここを編集すれば文言・確率・ラッキー要素を変更できます）
 const FORTUNES=[
   {key:"超大吉",icon:"daikichi",accent:"#ff2e93",soft:"#ffd0e6",weight:8,catch:"今日、恋が動く日。",
+   no:"一",lines:["今日、","恋が動く日。"],
    body:"好きな人との距離が一気に縮まりそう。なにげない一言が、相手の心に残る予感。LINEは待つより送った方が吉。\"会いたい\"より、\"今日こんなの見つけた\"みたいな自然な会話が◎",
    stats:[["出会い運",5],["LINE運",5],["駆け引き運",4]],lucky:[["ラッキーアイテム","ピンク系リップ"],["ラッキーワード","「ねえ聞いて」"]]},
   {key:"中吉",icon:"chukichi",accent:"#ff7eb6",soft:"#ffdcec",weight:22,catch:"ゆっくり育つ恋の流れ。",
+   no:"七",lines:["ゆっくり育つ","恋の流れ。"],
    body:"今は\"追う\"より、\"安心感\"を作る時期。焦るほど空回りしやすいけど、自然体のあなたに惹かれる人がいる。今日は返信速度を気にしすぎないこと。",
    stats:[["出会い運",3],["LINE運",3],["恋の進展",4]],lucky:[["ラッキー行動","夜の散歩"],["ラッキーアイテム","イヤホン"]]},
   {key:"小吉",icon:"shokichi",accent:"#3fb6e6",soft:"#cdeefc",weight:24,catch:"実はモテ期の入口かも。",
+   no:"十二",lines:["実はモテ期の","入口かも。"],
    body:"今はまだ気づいてないだけで、あなたを気にしてる人が近くにいる可能性あり。SNSの投稿やストーリー更新が恋のきっかけになる予感。",
    stats:[["出会い運",4],["LINE運",2],["片思い運",4]],lucky:[["ラッキーアイテム","コンパクトミラー"],["ラッキータイム","22:00"]]},
   {key:"末吉",icon:"suekichi",accent:"#b97bf0",soft:"#e7d6fb",weight:23,catch:"考えすぎ注意報。",
+   no:"二十",lines:["考えすぎ","注意報。"],
    body:"相手の態度を深読みしすぎると苦しくなりそう。\"嫌われたかも\"と思った時ほど、実は何も起きてないことが多い。今日は恋より自分を甘やかす日に◎",
    stats:[["出会い運",2],["LINE運",2],["恋愛メンタル",1]],lucky:[["ラッキー行動","甘いものを食べる"],["ラッキーアイテム","もこもこ系"]]},
   {key:"凶",icon:"kyo",accent:"#7f95c4",soft:"#d6deef",weight:20,catch:"追いLINE、今日は我慢。",
+   no:"十五",lines:["追いLINE、","今日は我慢。"],
    body:"不安から動くと、あとで自分がしんどくなる日。今日は\"恋愛\"より\"自分の機嫌\"を優先すると運気回復。でも安心して。この恋が終わるサインじゃなく、心を休ませる日。",
    stats:[["出会い運",1],["LINE運",1],["空回り注意",5]],lucky:[["ラッキー行動","早寝"],["ラッキーアイテム","あったかい飲み物"]]}
 ];
 // 超激レア（低確率で出る特別枠）
 const RARE={key:"超激レア",icon:"rare",accent:"#ff2e93",soft:"#ffd0e6",rare:true,catch:"運命の恋、接近中。",
+   no:"八十八",lines:["運命の恋、","接近中。"],
    body:"3日以内に恋が動く可能性。偶然の再会・急なDM・思いがけない連絡に注目して。今までの流れがぜんぶ伏線だったみたいに、一気に物語が動き出すかも。",
    stats:[["出会い運",5],["LINE運",5],["運命力",5]],lucky:[["ラッキーアイテム","運命の赤い糸"],["ラッキーワード","「久しぶり」"]]};
 const RARE_RATE=0.03; // 超激レアが出る確率（0〜1）
@@ -103,6 +109,26 @@ function startSakura(){
   layer.classList.add("on");
 }
 
+// おみくじ札風のキャッチ（番号・改行位置は運勢データの no / lines）
+function renderCatch(d){
+  const src=[...FORTUNES,RARE].find(f=>f.key===d.key)||{};
+  const lines=src.lines||d.catch.split(/(?<=、)/);
+  const el=document.getElementById("catch");
+  el.setAttribute("aria-label",d.catch);
+  el.innerHTML=
+    '<div class="omikuji-slip" aria-hidden="true">'+
+      '<div class="omikuji-head">'+
+        '<span class="omikuji-brand">♡ 恋みくじ</span>'+
+        '<span class="omikuji-rank">'+d.key+'</span>'+
+        '<span class="omikuji-no">第'+(src.no||"一")+'番</span>'+
+      '</div>'+
+      '<div class="omikuji-body">'+
+        '<p class="omikuji-text">'+lines.map(l=>'<span>'+l+'</span>').join("")+'</p>'+
+        '<span class="omikuji-site">koitype.com</span>'+
+      '</div>'+
+    '</div>';
+}
+
 function render(d){
   const root=document.documentElement.style;
   root.setProperty("--accent",d.accent);root.setProperty("--accent-soft",d.soft);
@@ -110,8 +136,7 @@ function render(d){
   res.classList.toggle("rare",d.rare);
   document.getElementById("ribbon").innerHTML=d.rare?"✦ 超激レア出ちゃった ✦":"今日のあなたの恋愛運は…♡";
   document.getElementById("icon").innerHTML=ICONS[d.icon];
-  document.getElementById("rank").textContent=d.key;
-  document.getElementById("catch").textContent="「"+d.catch+"」";
+  renderCatch(d);
   document.getElementById("body").textContent=d.body;
   document.getElementById("stats").innerHTML=d.stats.map(s=>'<div class="stat"><span class="lab">'+s[0]+'</span><span class="stars">'+starHTML(s[1])+'</span></div>').join("");
   document.getElementById("chips").innerHTML=

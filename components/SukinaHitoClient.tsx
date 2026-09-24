@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAutoStart } from "@/lib/use-auto-start";
@@ -299,6 +300,16 @@ export default function SukinaHitoClient() {
         {screen === "intro" && (
           <div className="animate-fade-up">
             <section className="overflow-hidden rounded-2xl border border-pink-light">
+              <div className="relative aspect-video w-full bg-gradient-to-br from-pink-pale via-pink-light/80 to-accent/15">
+                <Image
+                  src="/sukina-hito-hero.png"
+                  alt="好きな人から見たあなた診断"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, 576px"
+                  priority
+                />
+              </div>
               <div
                 className="px-6 pb-14 pt-14 text-center"
                 style={{
