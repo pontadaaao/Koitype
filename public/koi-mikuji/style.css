@@ -101,9 +101,22 @@ body{font-family:var(--font);color:var(--plum);min-height:100vh;
 .ribbon{position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:var(--accent);
   color:#fff;font-weight:700;font-size:.72rem;letter-spacing:.14em;padding:7px 20px;border-radius:20px;white-space:nowrap;box-shadow:0 5px 12px rgba(255,46,147,.4);z-index:3}
 .icon{width:88px;height:88px;color:var(--accent);margin:14px auto 4px;display:block;filter:drop-shadow(0 4px 8px rgba(255,46,147,.3))}
-.rank{font-weight:700;font-size:clamp(2.6rem,15vw,3.6rem);line-height:1;text-align:center;
-  color:var(--accent);text-shadow:0 3px 0 rgba(255,255,255,.95),0 6px 12px rgba(0,0,0,.07);letter-spacing:.05em}
-.catch{font-weight:700;font-size:1.3rem;text-align:center;color:var(--plum);margin:36px 6px 4px;line-height:1.5}
+.catch{margin:18px 0 18px}
+/* おみくじ札 */
+.omikuji-slip{background:var(--accent);padding:0 8px 8px;border-radius:6px;
+  box-shadow:inset 0 0 0 2px var(--accent),inset 0 0 0 4px rgba(255,255,255,.85),0 10px 22px rgba(120,60,100,.18)}
+.omikuji-head{display:grid;grid-template-columns:1fr auto 1fr;align-items:start;padding:10px 6px 0;color:#fff}
+.omikuji-brand,.omikuji-no{font-weight:700;font-size:.82rem;letter-spacing:.14em;padding-top:4px;white-space:nowrap;opacity:.95}
+.omikuji-no{text-align:right}
+.omikuji-rank{position:relative;z-index:1;background:var(--accent);font-weight:900;font-size:clamp(1.5rem,7vw,1.9rem);
+  line-height:1;padding:4px 22px 12px;margin:0 6px -16px;border-radius:0 0 50% 50%/0 0 45% 45%;white-space:nowrap}
+.omikuji-body{position:relative;background:#fff;border-radius:3px;margin-top:6px;padding:34px 12px 26px;text-align:center}
+.omikuji-text{font-weight:900;font-size:clamp(1.55rem,7.4vw,2.2rem);line-height:1.32;letter-spacing:.02em;
+  color:color-mix(in srgb,var(--accent) 88%,#000)}
+.omikuji-text span{display:block}
+.omikuji-site{position:absolute;right:10px;bottom:6px;font-size:.62rem;letter-spacing:.08em;color:#c9b9c3}
+.result.rare .omikuji-slip{background:linear-gradient(120deg,#ff5e8a,#ffb340,#5ec5e8,#b97bf0)}
+.result.rare .omikuji-rank{background:#ff2e93;font-size:clamp(1.1rem,5vw,1.4rem);padding-top:8px}
 .body-txt{font-size:.98rem;line-height:1.95;text-align:center;color:#8a6078;margin:8px 6px 4px}
 
 .sep{display:flex;align-items:center;gap:8px;margin:18px 4px;color:var(--accent-soft)}
