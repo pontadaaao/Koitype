@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import type { DiagnosisResult } from "@/lib/types";
 import { useLanguage } from "@/components/LanguageProvider";
 import RelatedBlogArticles from "@/components/RelatedBlogArticles";
+import ResultRadar from "@/components/ResultRadar";
 
 interface ResultCardProps {
   result: DiagnosisResult;
@@ -240,6 +241,10 @@ export default function ResultCard({ result }: ResultCardProps) {
             <p className="mx-auto mt-3 max-w-md text-sm font-medium italic leading-relaxed text-white/90 sm:text-base">
               {result.catchCopy}
             </p>
+          )}
+
+          {hasParameters && result.parameters && (
+            <ResultRadar points={result.parameters} className="mt-8" />
           )}
 
         </div>

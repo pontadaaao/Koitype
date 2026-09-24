@@ -13,10 +13,12 @@ import {
   questions,
   calculateCatType,
   getCatResultById,
+  results as catTypeResults,
   type CatTypeId,
   type CatTypeResult,
 } from "@/lib/cat-type-diagnosis";
 import { SITE_TAG, siteUrl } from "@/lib/site";
+import { answersToDistribution, saveDiagnosisResult } from "@/lib/diagnosis-history";
 
 type Screen = "intro" | "quiz" | "result";
 
@@ -246,6 +248,19 @@ export default function CatTypeClient() {
       if (newAnswers.length >= questions.length) {
         const calcResult = calculateCatType(newAnswers);
         setResult(calcResult);
+        saveDiagnosisResult({
+          diagnosisId: "cat-type",
+          diagnosisTitle: "恋愛猫タイプ診断",
+          resultId: calcResult.id,
+          resultName: calcResult.name,
+          summary: calcResult.catch,
+          href: `/diagnosis/cat-type?result=${calcResult.id}`,
+          thumbnail: "/cat-type-hero.png",
+          distribution: answersToDistribution(
+            newAnswers,
+            Object.values(catTypeResults).map((r) => r.name)
+          ),
+        });
         setScreen("result");
         setResultVisible(false);
         router.replace(`/diagnosis/cat-type?result=${calcResult.id}`, {

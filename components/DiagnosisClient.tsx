@@ -14,6 +14,7 @@ import { calculateResult, diagnoses, getResultById } from "@/lib/diagnoses";
 import type { Diagnosis, DiagnosisResult } from "@/lib/types";
 import { useLanguage } from "@/components/LanguageProvider";
 import { formatN } from "@/lib/i18n";
+import { answersToDistribution, saveDiagnosisResult } from "@/lib/diagnosis-history";
 
 interface DiagnosisClientProps {
   diagnosis: Diagnosis;
@@ -74,6 +75,20 @@ export default function DiagnosisClient({ diagnosis }: DiagnosisClientProps) {
       if (newAnswers.length >= diagnosis.questions.length) {
         const calculated = calculateResult(diagnosis, newAnswers);
         setResult(calculated);
+        saveDiagnosisResult({
+          diagnosisId: diagnosis.id,
+          diagnosisTitle: diagnosis.title,
+          resultId: calculated.id,
+          resultName: calculated.name,
+          summary: calculated.catchCopy ?? calculated.desc,
+          href: `/diagnosis/${diagnosis.id}?result=${calculated.id}`,
+          thumbnail: diagnosis.thumbnail,
+          parameters: calculated.parameters,
+          distribution: answersToDistribution(
+            newAnswers,
+            diagnosis.results.map((r) => r.name)
+          ),
+        });
         router.replace(
           `/diagnosis/${diagnosis.id}?result=${calculated.id}`,
           { scroll: false }

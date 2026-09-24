@@ -14,8 +14,10 @@ import {
   defaultDogPctForResult,
   getResultById,
   questions,
+  toRadarPoints,
 } from "@/lib/dog-cat-diagnosis";
 import type { DogCatResult } from "@/lib/types";
+import { saveDiagnosisResult } from "@/lib/diagnosis-history";
 
 type Screen = "intro" | "quiz" | "result";
 
@@ -91,6 +93,16 @@ export default function DogCatClient() {
         const score = calculateDogCatScore(newAnswers);
         setResult(score.result);
         setDogPct(score.dogPct);
+        saveDiagnosisResult({
+          diagnosisId: "dog-cat",
+          diagnosisTitle: "犬系？猫系？恋愛スタイル診断",
+          resultId: score.result.id,
+          resultName: score.result.name,
+          summary: score.result.subtitle,
+          href: `/diagnosis/dog-cat?result=${score.result.id}&dogPct=${score.dogPct}`,
+          thumbnail: "/dog-cat-hero.png",
+          parameters: toRadarPoints(score.result),
+        });
         setCatPct(score.catPct);
         setScreen("result");
         router.replace(
