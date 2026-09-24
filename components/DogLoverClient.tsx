@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAutoStart } from "@/lib/use-auto-start";
@@ -128,6 +129,16 @@ export default function DogLoverClient() {
         {screen === "intro" && (
           <div className="text-center">
             <div className="overflow-hidden rounded-2xl border border-pink-light bg-base shadow-sm">
+              <div className="relative aspect-video w-full bg-gradient-to-br from-pink-pale via-pink-light/80 to-accent/15">
+                <Image
+                  src="/dog-lover-hero.png"
+                  alt="恋愛犬タイプ診断"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, 576px"
+                  priority
+                />
+              </div>
               <div
                 className="px-6 pb-10 pt-12"
                 style={{ background: "linear-gradient(160deg, #fff4f9 0%, #fdf0ff 100%)" }}

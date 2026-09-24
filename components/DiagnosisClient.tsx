@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAutoStart } from "@/lib/use-auto-start";
@@ -120,7 +121,20 @@ export default function DiagnosisClient({ diagnosis }: DiagnosisClientProps) {
       <main className={`mx-auto overflow-x-hidden px-4 py-6 sm:py-8 ${result ? "max-w-3xl" : "max-w-xl"}`}>
         {!started && !result ? (
           <div className="text-center">
-            <div className="overflow-hidden rounded-2xl border border-pink-light bg-base p-8 shadow-sm">
+            <div className="overflow-hidden rounded-2xl border border-pink-light bg-base shadow-sm">
+              {diagnosis.thumbnail && (
+                <div className="relative aspect-video w-full bg-gradient-to-br from-pink-pale via-pink-light/80 to-accent/15">
+                  <Image
+                    src={diagnosis.thumbnail}
+                    alt={diagnosis.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, 576px"
+                    priority
+                  />
+                </div>
+              )}
+              <div className="p-8">
               <h1 className="font-heading text-xl font-bold text-text-main sm:text-2xl">
                 {diagnosis.title}
               </h1>
@@ -134,6 +148,7 @@ export default function DiagnosisClient({ diagnosis }: DiagnosisClientProps) {
                 <span className="rounded-full border border-pink-light bg-base px-3 py-1">
                   {formatN(t.diagnosis.durationLabel, diagnosis.durationMinutes)}
                 </span>
+              </div>
               </div>
             </div>
             <button type="button" onClick={handleStart} className="btn-primary mt-6">
