@@ -92,6 +92,13 @@ export const results: DogLoverResult[] = [
     partner: "猫系・ツンデレタイプ",
     advice: "相手にも一人の時間を作ってあげると、さらに長続きします。",
     tags: ["一途", "積極的", "愛情深い"],
+    parameters: [
+      { label: "一途さ", value: 98 },
+      { label: "愛情表現", value: 95 },
+      { label: "甘え度", value: 70 },
+      { label: "自立心", value: 30 },
+      { label: "寂しがり度", value: 85 },
+    ],
   },
   {
     id: "sweet-dog",
@@ -107,6 +114,13 @@ export const results: DogLoverResult[] = [
     partner: "包容力のあるタイプ",
     advice: "相手に依存しすぎない距離感も大切です。",
     tags: ["甘えん坊", "癒し系", "スキンシップ重視"],
+    parameters: [
+      { label: "一途さ", value: 80 },
+      { label: "愛情表現", value: 90 },
+      { label: "甘え度", value: 98 },
+      { label: "自立心", value: 25 },
+      { label: "寂しがり度", value: 90 },
+    ],
   },
   {
     id: "balance-dog",
@@ -122,6 +136,13 @@ export const results: DogLoverResult[] = [
     partner: "どのタイプとも相性◎",
     advice: "時には自分から甘えてみると、さらに距離が縮まります。",
     tags: ["バランス型", "安定", "自然体"],
+    parameters: [
+      { label: "一途さ", value: 80 },
+      { label: "愛情表現", value: 70 },
+      { label: "甘え度", value: 55 },
+      { label: "自立心", value: 75 },
+      { label: "寂しがり度", value: 50 },
+    ],
   },
   {
     id: "wolf-dog",
@@ -137,6 +158,13 @@ export const results: DogLoverResult[] = [
     partner: "自立しているタイプ",
     advice: "たまには素直な愛情表現をすると、相手はもっと安心できます。",
     tags: ["自立系", "クール", "自由奔放"],
+    parameters: [
+      { label: "一途さ", value: 70 },
+      { label: "愛情表現", value: 40 },
+      { label: "甘え度", value: 25 },
+      { label: "自立心", value: 98 },
+      { label: "寂しがり度", value: 20 },
+    ],
   },
 ];
 

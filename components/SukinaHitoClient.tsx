@@ -9,6 +9,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import ProgressBar from "@/components/ProgressBar";
 import AppIcon from "@/components/AppIcon";
+import ResultRadar from "@/components/ResultRadar";
 import {
   questions,
   calculateSukinaHitoType,
@@ -239,6 +240,7 @@ export default function SukinaHitoClient() {
           summary: calcResult.features[0],
           href: `/diagnosis/sukina-hito?result=${calcResult.id}`,
           thumbnail: "/sukina-hito-hero.png",
+          parameters: calcResult.parameters,
           distribution: answersToDistribution(
             newAnswers,
             Object.values(sukinaHitoResults).map((r) => r.name)
@@ -447,6 +449,8 @@ export default function SukinaHitoClient() {
                   >
                     {result.name}
                   </h2>
+
+                  <ResultRadar points={result.parameters} className="mt-8" />
                 </div>
                 <WaveDown fill={colors.colorB} />
               </section>

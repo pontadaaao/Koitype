@@ -12,6 +12,8 @@ export interface CatTypeResult {
   traits: string[];
   compat: string;
   compatId: CatTypeId;
+  /** ラブパラメーター（0〜100、レーダーチャート用） */
+  parameters: Array<{ label: string; value: number }>;
 }
 
 export const questions: CatTypeQuestion[] = [
@@ -102,6 +104,13 @@ export const results: Record<CatTypeId, CatTypeResult> = {
     ],
     compat: "甘え上手にゃんこ",
     compatId: "sweet",
+    parameters: [
+      { label: "ツンデレ度", value: 95 },
+      { label: "甘え度", value: 60 },
+      { label: "一途さ", value: 92 },
+      { label: "自由度", value: 55 },
+      { label: "沼らせ力", value: 80 },
+    ],
   },
   moody: {
     id: "moody",
@@ -115,6 +124,13 @@ export const results: Record<CatTypeId, CatTypeResult> = {
     ],
     compat: "あざと猫",
     compatId: "azato",
+    parameters: [
+      { label: "ツンデレ度", value: 55 },
+      { label: "甘え度", value: 65 },
+      { label: "一途さ", value: 50 },
+      { label: "自由度", value: 98 },
+      { label: "沼らせ力", value: 75 },
+    ],
   },
   sweet: {
     id: "sweet",
@@ -128,6 +144,13 @@ export const results: Record<CatTypeId, CatTypeResult> = {
     ],
     compat: "デレ隠し黒猫",
     compatId: "black",
+    parameters: [
+      { label: "ツンデレ度", value: 15 },
+      { label: "甘え度", value: 98 },
+      { label: "一途さ", value: 90 },
+      { label: "自由度", value: 30 },
+      { label: "沼らせ力", value: 70 },
+    ],
   },
   azato: {
     id: "azato",
@@ -141,6 +164,13 @@ export const results: Record<CatTypeId, CatTypeResult> = {
     ],
     compat: "気分屋にゃんこ",
     compatId: "moody",
+    parameters: [
+      { label: "ツンデレ度", value: 45 },
+      { label: "甘え度", value: 90 },
+      { label: "一途さ", value: 60 },
+      { label: "自由度", value: 70 },
+      { label: "沼らせ力", value: 98 },
+    ],
   },
 };
 

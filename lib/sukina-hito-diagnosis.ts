@@ -12,6 +12,8 @@ export interface SukinaHitoResult {
   honesty: string[];
   compat: string;
   compatId: SukinaHitoTypeId;
+  /** ラブパラメーター（0〜100、レーダーチャート用） */
+  parameters: Array<{ label: string; value: number }>;
 }
 
 export const questions: SukinaHitoQuestion[] = [
@@ -62,6 +64,13 @@ export const results: Record<SukinaHitoTypeId, SukinaHitoResult> = {
     honesty: ["もっと一緒にいたい。", "素の自分でいられる。"],
     compat: "守ってあげたくなる人",
     compatId: "protect",
+    parameters: [
+      { label: "癒やし度", value: 98 },
+      { label: "守りたくなる度", value: 55 },
+      { label: "ミステリアス", value: 25 },
+      { label: "追いかけたくなる度", value: 40 },
+      { label: "安心感", value: 98 },
+    ],
   },
   protect: {
     id: "protect",
@@ -75,6 +84,13 @@ export const results: Record<SukinaHitoTypeId, SukinaHitoResult> = {
     honesty: ["もっと話したい。", "笑顔を見たい。"],
     compat: "一緒にいると癒される人",
     compatId: "healing",
+    parameters: [
+      { label: "癒やし度", value: 75 },
+      { label: "守りたくなる度", value: 98 },
+      { label: "ミステリアス", value: 30 },
+      { label: "追いかけたくなる度", value: 60 },
+      { label: "安心感", value: 70 },
+    ],
   },
   curious: {
     id: "curious",
@@ -88,6 +104,13 @@ export const results: Record<SukinaHitoTypeId, SukinaHitoResult> = {
     honesty: ["何を考えているんだろう？", "もっと仲良くなりたい。"],
     compat: "追いかけたくなる人",
     compatId: "chase",
+    parameters: [
+      { label: "癒やし度", value: 50 },
+      { label: "守りたくなる度", value: 35 },
+      { label: "ミステリアス", value: 98 },
+      { label: "追いかけたくなる度", value: 80 },
+      { label: "安心感", value: 60 },
+    ],
   },
   chase: {
     id: "chase",
@@ -101,6 +124,13 @@ export const results: Record<SukinaHitoTypeId, SukinaHitoResult> = {
     honesty: ["もっと振り向いてほしい。", "気づいたら目で追ってしまう。"],
     compat: "もっと知りたくなる人",
     compatId: "curious",
+    parameters: [
+      { label: "癒やし度", value: 35 },
+      { label: "守りたくなる度", value: 40 },
+      { label: "ミステリアス", value: 85 },
+      { label: "追いかけたくなる度", value: 98 },
+      { label: "安心感", value: 40 },
+    ],
   },
 };
 
