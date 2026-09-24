@@ -138,7 +138,7 @@ export default function RadarChart({
               </tspan>
             ))}
             {value !== undefined && (
-              <tspan x={p.x} dy={23} fontSize={18} fill="#F067A6" fontWeight={700}>
+              <tspan x={p.x} dy={23} fontSize={18} fill={series[0].color} fontWeight={700}>
                 {value}
               </tspan>
             )}

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { isNewLoveTest, type LoveTest, type LoveTestChoice } from "@/lib/love-tests";
 import LoveTestIcon from "@/components/LoveTestIcon";
 import RelatedBlogArticles from "@/components/RelatedBlogArticles";
+import ResultRadar from "@/components/ResultRadar";
+import { getLoveTestParameters } from "@/lib/love-test-parameters";
 
 interface Props {
   test: LoveTest;
@@ -182,6 +184,11 @@ export default function LoveTestClient({ test, otherTests }: Props) {
             <p className="mt-2.5 text-sm italic leading-relaxed text-white/90 sm:text-base">
               「{choice.catchCopy}」
             </p>
+            <ResultRadar
+              className="mt-6"
+              color={test.color}
+              points={getLoveTestParameters(test.id, choice.label)}
+            />
           </div>
 
           {/* Description */}
