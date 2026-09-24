@@ -156,9 +156,9 @@ body{font-family:var(--font);color:var(--plum);min-height:100vh;
 /* TOPにもどるリンク */
 .back-link{position:fixed;top:14px;left:14px;z-index:50;
   color:#fff;text-decoration:none;font-weight:700;font-size:.85rem;
-  background:rgba(255,46,147,.85);padding:7px 14px;border-radius:999px;
-  box-shadow:0 4px 10px rgba(214,30,120,.35);backdrop-filter:blur(2px)}
-.back-link:hover{background:#ff2e93}
+  background:#fe6c9e;padding:7px 14px;border-radius:999px;
+  box-shadow:0 4px 10px rgba(254,108,158,.35);transition:background .2s}
+.back-link:hover{background:#f5588f}
 
 /* フッター */
 .ft{width:100%;background:#fff;color:#2a1a22;padding:40px 24px;border-top:1px solid #ffd6e7;margin-top:56px}
