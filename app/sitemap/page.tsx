@@ -2,15 +2,32 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
-import { SITE_NAME, siteTitle } from "@/lib/site";
+import { SITE_DEFAULT_URL, SITE_NAME, siteTitle } from "@/lib/site";
 import { diagnoses } from "@/lib/diagnoses";
 import { loveTests } from "@/lib/love-tests";
 import { getBlogArticles } from "@/lib/blog-data";
 
+const DESCRIPTION = `${SITE_NAME}に掲載している恋愛診断・心理テスト・恋愛ブログ記事・サイト情報ページの全一覧です。`;
+
 export const metadata: Metadata = {
   title: siteTitle("サイトマップ"),
-  description: `${SITE_NAME}に掲載している恋愛診断・心理テスト・恋愛ブログ記事・サイト情報ページの全一覧です。`,
+  description: DESCRIPTION,
   alternates: { canonical: "/sitemap" },
+  openGraph: {
+    title: siteTitle("サイトマップ"),
+    description: DESCRIPTION,
+    url: `${SITE_DEFAULT_URL}/sitemap`,
+    siteName: SITE_NAME,
+    type: "website",
+    locale: "ja_JP",
+    images: [{ url: `${SITE_DEFAULT_URL}/og-default.png`, width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle("サイトマップ"),
+    description: DESCRIPTION,
+    images: [`${SITE_DEFAULT_URL}/og-default.png`],
+  },
 };
 
 const mainPages = [
