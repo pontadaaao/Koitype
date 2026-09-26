@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import AdSenseScript, { ADSENSE_CLIENT_ID } from "@/components/AdSenseScript";
+import AdSenseScript from "@/components/AdSenseScript";
+import { ADSENSE_CLIENT_ID } from "@/lib/adsense";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { SITE_DEFAULT_URL, SITE_DESCRIPTION, SITE_NAME, siteTitle } from "@/lib/site";
 import "./globals.css";

@@ -2,8 +2,7 @@
 
 import Script from "next/script";
 import { usePathname } from "next/navigation";
-
-export const ADSENSE_CLIENT_ID = "ca-pub-4709100652775310";
+import { ADSENSE_CLIENT_ID } from "@/lib/adsense";
 
 /**
  * AdSense の広告配信スクリプト。
