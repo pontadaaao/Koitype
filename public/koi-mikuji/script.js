@@ -4,16 +4,6 @@
 
 const STORAGE_KEY = "koimikuji:lastDraw";
 
-const HEART="M50 84 C24 63 12 46 12 31 C12 19 21 11 31 11 C40 11 47 17 50 25 C53 17 60 11 69 11 C79 11 88 19 88 31 C88 46 76 63 50 84 Z";
-const ICONS={
-  daikichi:`<svg viewBox="0 0 100 100"><g stroke="currentColor" stroke-width="4" stroke-linecap="round"><line x1="50" y1="1" x2="50" y2="11"/><line x1="93" y1="18" x2="85" y2="26"/><line x1="7" y1="18" x2="15" y2="26"/></g><path d="${HEART}" fill="currentColor"/><circle cx="38" cy="34" r="5" fill="#fff" opacity=".85"/></svg>`,
-  chukichi:`<svg viewBox="0 0 100 100"><g fill="currentColor"><g transform="rotate(0 50 50)"><path d="M50 50 C43 28 47 12 50 6 C53 12 57 28 50 50 Z"/></g><g transform="rotate(72 50 50)"><path d="M50 50 C43 28 47 12 50 6 C53 12 57 28 50 50 Z"/></g><g transform="rotate(144 50 50)"><path d="M50 50 C43 28 47 12 50 6 C53 12 57 28 50 50 Z"/></g><g transform="rotate(216 50 50)"><path d="M50 50 C43 28 47 12 50 6 C53 12 57 28 50 50 Z"/></g><g transform="rotate(288 50 50)"><path d="M50 50 C43 28 47 12 50 6 C53 12 57 28 50 50 Z"/></g></g><circle cx="50" cy="50" r="8" fill="#fff"/></svg>`,
-  shokichi:`<svg viewBox="0 0 100 100"><circle cx="50" cy="54" r="28" fill="currentColor" opacity=".3"/><circle cx="50" cy="54" r="28" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="40" cy="44" r="7" fill="#fff" opacity=".85"/><circle cx="80" cy="28" r="11" fill="currentColor" opacity=".25" stroke="currentColor" stroke-width="2.5"/><circle cx="20" cy="76" r="8" fill="currentColor" opacity=".25" stroke="currentColor" stroke-width="2.5"/></svg>`,
-  suekichi:`<svg viewBox="0 0 100 100"><path d="${HEART}" fill="currentColor" opacity=".6"/><circle cx="36" cy="38" r="4.5" fill="#fff" opacity=".85"/><path d="M64 64 C64 58 70 58 70 64 C70 70 67 76 67 76 C67 76 64 70 64 64 Z" fill="#7fa8d6"/></svg>`,
-  kyo:`<svg viewBox="0 0 100 100"><path d="${HEART}" fill="currentColor"/><path d="M50 22 L43 44 L56 51 L46 70 L50 84" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/></svg>`,
-  rare:`<svg viewBox="0 0 100 100"><g fill="none" stroke-width="6" stroke-linecap="round"><path d="M12 74 A38 38 0 0 1 88 74" stroke="#ff5e8a"/><path d="M22 74 A28 28 0 0 1 78 74" stroke="#ffb340"/><path d="M32 74 A18 18 0 0 1 68 74" stroke="#5ec5e8"/></g><path d="M50 92 C38 82 30 74 30 67 C30 61 35 57 41 57 C45 57 48 60 50 64 C52 60 55 57 59 57 C65 57 70 61 70 67 C70 74 62 82 50 92 Z" fill="#ff2e93"/><g stroke="#ffd84a" stroke-width="3" stroke-linecap="round"><line x1="16" y1="20" x2="16" y2="30"/><line x1="11" y1="25" x2="21" y2="25"/><line x1="86" y1="14" x2="86" y2="24"/><line x1="81" y1="19" x2="91" y2="19"/></g></svg>`
-};
-
 // 運勢データ（ここを編集すれば文言・確率・ラッキー要素を変更できます）
 const FORTUNES=[
   {key:"超大吉",icon:"daikichi",accent:"#ff2e93",soft:"#ffd0e6",weight:8,catch:"今日、恋が動く日。",
@@ -135,7 +125,6 @@ function render(d){
   const res=document.getElementById("result");
   res.classList.toggle("rare",d.rare);
   document.getElementById("ribbon").innerHTML=d.rare?"✦ 超激レア出ちゃった ✦":"今日のあなたの恋愛運は…♡";
-  document.getElementById("icon").innerHTML=ICONS[d.icon];
   renderCatch(d);
   document.getElementById("body").textContent=d.body;
   document.getElementById("stats").innerHTML=d.stats.map(s=>'<div class="stat"><span class="lab">'+s[0]+'</span><span class="stars">'+starHTML(s[1])+'</span></div>').join("");
@@ -149,6 +138,7 @@ function render(d){
   const nx=new Date();nx.setDate(nx.getDate()+1);
   document.getElementById("nextDate").textContent="つぎは "+(nx.getMonth()+1)+"月"+nx.getDate()+"日 から";
   res.classList.add("show");
+  prepareShareImage(d);
   startSakura();
 }
 
@@ -162,7 +152,7 @@ function makeFuda(){
   for(let i=0;i<10;i++){
     const b=document.createElement("button");
     b.className="fuda";b.setAttribute("aria-label","恋みくじを引く");
-    b.innerHTML='<span class="txt">恋みくじ</span>';
+    b.innerHTML='<svg class="bow" viewBox="0 0 32 20" aria-hidden="true"><path d="M16 8C12 3 5 1 3.5 4.5S7 12 16 8Z"/><path d="M16 8C20 3 27 1 28.5 4.5S25 12 16 8Z"/><path d="M15 9 10 18M17 9l5 9"/><circle cx="16" cy="8" r="1.6"/></svg><span class="txt">恋みくじ</span>';
     b.addEventListener("click",onPick);
     fudaFan.appendChild(b);
   }
@@ -207,3 +197,70 @@ document.getElementById("shuffleBtn")?.addEventListener("click",function(){
     btn.disabled=false;
   },600);
 });
+
+// シェア（X・LINE・Instagram・リンクコピー）
+// X/LINE は結果ごとのシェアページ /koi-mikuji/r/<icon> を渡し、リンクカードに結果の札（OG画像）を出す。
+// Instagram はリンクカードが出ないため、札の画像そのものを共有シートで渡す。
+// render() はこの節より先に実行されるので、ここの状態は var（巻き上げ）で持ち、URL は関数で作る。
+var shareImage=null,toastTimer;
+function topUrl(){return location.origin+"/koi-mikuji";}
+function savedDraw(){
+  try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null;}
+}
+function resultUrl(d){
+  return d&&d.icon?topUrl()+"/r/"+d.icon:topUrl();
+}
+// 共有シートはクリック直後に同期的に呼ばないと弾かれる端末があるため、画像は結果表示時に先読みする
+function prepareShareImage(d){
+  shareImage=null;
+  if(!d||!d.icon||!navigator.canShare)return;
+  fetch(topUrl()+"/r/"+d.icon+"/opengraph-image")
+    .then(r=>r.ok?r.blob():Promise.reject())
+    .then(b=>{
+      const f=new File([b],"koimikuji-"+d.icon+".png",{type:"image/png"});
+      if(navigator.canShare({files:[f]}))shareImage=f;
+    })
+    .catch(()=>{});
+}
+function showToast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;t.classList.remove("hidden");
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.add("hidden"),3000);
+}
+async function copyText(text){
+  try{await navigator.clipboard.writeText(text);return true;}catch(e){}
+  // Clipboard API が使えない・拒否された環境向けのフォールバック
+  const el=document.createElement("textarea");
+  el.value=text;el.setAttribute("readonly","");el.style.cssText="position:fixed;top:0;left:0;opacity:0;pointer-events:none";
+  document.body.appendChild(el);el.select();el.setSelectionRange(0,text.length);
+  let ok=false;try{ok=document.execCommand("copy");}catch(e){}
+  el.remove();return ok;
+}
+function shareText(d){
+  const head=d?"今日の恋愛運は「"+d.key+"」でした♡\n"+d.catch+"\n":"今日の恋愛運を占ってみた♡\n";
+  return head+"#恋みくじ #恋愛占い #Koitype";
+}
+function shareInstagram(d,text,url){
+  const caption=text+"\n"+url;
+  if(shareImage){
+    copyText(caption);
+    navigator.share({files:[shareImage],text:caption})
+      .then(()=>{},e=>{if(e&&e.name!=="AbortError")showToast("共有できませんでした");});
+    return;
+  }
+  // PCなど画像の共有に対応していない環境：文章とURLをコピー
+  copyText(caption).then(ok=>showToast(ok?"コピーしました！ストーリーに貼り付けてね":"コピーに失敗しました"));
+}
+document.querySelectorAll("[data-share]").forEach(b=>b.addEventListener("click",()=>{
+  const d=savedDraw(),text=shareText(d),url=resultUrl(d);
+  switch(b.dataset.share){
+    case "x":
+      window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent(text)+"&url="+encodeURIComponent(url));break;
+    case "line":
+      window.open("https://social-plugins.line.me/lineit/share?url="+encodeURIComponent(url));break;
+    case "instagram":
+      shareInstagram(d,text,url);break;
+    case "copy":
+      copyText(topUrl()).then(ok=>showToast(ok?"リンクをコピーしました":"コピーに失敗しました"));break;
+  }
+}));

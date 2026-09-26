@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/koi-mikuji/style.css">
+<link rel="stylesheet" href="/koi-mikuji/style.css?v=20260927d">
 </head>
 <body>
   <a href="/" class="back-link">← TOPにもどる</a>
@@ -59,7 +59,6 @@
 
     <section id="result" class="result" aria-live="polite">
       <div id="ribbon" class="ribbon">今日のあなたの恋愛運は…♡</div>
-      <div id="icon" class="icon"></div>
       <div id="catch" class="catch"></div>
       <p id="body" class="body-txt"></p>
       <div class="sep"><span>♡ 運勢ステータス ♡</span></div>
@@ -72,7 +71,25 @@
       <div class="again">今日のぶんはおしまい！またね<span class="mk">♡</span>
         <span id="nextDate" class="date"></span>
       </div>
+      <div class="share">
+        <p class="share-lead">結果をシェアする</p>
+        <div class="share-grid">
+          <button type="button" class="share-btn share-x" data-share="x">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>X
+          </button>
+          <button type="button" class="share-btn share-line" data-share="line">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1"/></svg>LINE
+          </button>
+          <button type="button" class="share-btn share-ig" data-share="instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3"/><path d="M16.5 7.5v.01"/></svg>Instagram
+          </button>
+          <button type="button" class="share-btn share-copy" data-share="copy">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 15l6 -6"/><path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464"/><path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463"/></svg>リンクをコピー
+          </button>
+        </div>
+      </div>
     </section>
+    <div id="toast" class="toast hidden" role="status"></div>
     <section class="mikuji-about" style="max-width:640px;margin:8px auto 0;padding:28px 20px 4px;color:#6b4a5c;line-height:1.9;font-size:14px;">
       <h2 style="font-size:17px;color:#fe6c9e;margin:0 0 10px;">恋みくじとは？</h2>
       <p>恋みくじは、Koitypeが提供する無料の恋愛おみくじです。1日1回、みくじ札を選ぶと、今日のあなたの恋愛運を占えます。結果は「超大吉」「中吉」「小吉」「末吉」「凶」、そしてまれに出る「レア」まで。恋愛運・LINE運・出会い運などのステータスや、今日のラッキーアイテム・ラッキーワードもわかります。片思い中の方も、パートナーがいる方も、毎日の恋のちょっとした後押しにご活用ください。</p>
@@ -88,7 +105,7 @@
     </section>
   </main>
 
-  <script src="/koi-mikuji/script.js" defer></script>
+  <script src="/koi-mikuji/script.js?v=20260927d" defer></script>
 
   <footer class="ft">
     <div class="ft__inner">
