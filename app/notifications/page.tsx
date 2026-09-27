@@ -19,6 +19,8 @@ export const metadata: Metadata = {
     title: `お知らせ | ${SITE_NAME}`,
     description: `${SITE_NAME}からのお知らせ・更新情報をご確認いただけます。`,
   },
+  // 更新履歴の一覧だけで独自の本文が無いため、検索結果には出さない（リンクはたどらせる）
+  robots: { index: false, follow: true },
 };
 
 export default function NotificationsPage() {
