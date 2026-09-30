@@ -133,7 +133,8 @@ body{font-family:var(--font);color:var(--plum);min-height:100vh;
 
 .lucky{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:16px 4px 0}
 .lucky .item{background:#fff;border:2.5px solid var(--accent-soft);border-radius:16px;padding:12px 8px;text-align:center}
-.lucky .item .k{font-size:.72rem;color:var(--accent);margin-bottom:5px}
+.lucky .item .k{display:flex;align-items:center;justify-content:center;gap:4px;font-size:.72rem;color:var(--accent);margin-bottom:5px}
+.lucky-icon{width:15px;height:15px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .lucky .item .v{font-weight:700;font-size:.98rem;color:var(--plum)}
 .lucky-color{display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .lucky-color__swatch{width:18px;height:18px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--accent-soft)}

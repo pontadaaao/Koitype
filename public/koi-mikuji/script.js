@@ -146,6 +146,19 @@ function heartHTML(n){
 function luckyColorHTML(name,hex){
   return '<span class="lucky-color"><span class="lucky-color__swatch" style="background:'+hex+'"></span>'+name+'</span>';
 }
+// ラッキー項目の見出しアイコン（線画SVG。項目名に対応がなければ ♡）
+const LUCKY_ICONS={
+  "ラッキーアイテム":'<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/>',
+  "ラッキーワード":'<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.8-.8L3 21l1.9-4.6A8 8 0 0 1 3 11.5 8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/>',
+  "ラッキー行動":'<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/>',
+  "ラッキータイム":'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  "ラッキーナンバー":'<path d="M5 9h14M5 15h14M10 3 8 21M16 3l-2 18"/>',
+  "ラッキーカラー":'<path d="M12 3a9 9 0 0 0 0 18c1.1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1.2"/><circle cx="10.5" cy="7" r="1.2"/><circle cx="15.5" cy="7.5" r="1.2"/>'
+};
+const LUCKY_ICON_DEFAULT='<path d="M12 20s-7-4.4-9-8.7C1.6 8 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.8 1.4-1.7 3-2.8 5-2.8 3.4 0 5.4 3.5 4 6.8-2 4.3-9 8.7-9 8.7z"/>';
+function luckyIcon(label){
+  return '<svg class="lucky-icon" viewBox="0 0 24 24" aria-hidden="true">'+(LUCKY_ICONS[label]||LUCKY_ICON_DEFAULT)+'</svg>';
+}
 function buildLuckyItems(d){
   const color={name:d.luckyColor||"ピンク",hex:d.luckyColorHex||"#ff6eb4"};
   const number=d.luckyNumber??rnd(LUCKY_NUMBERS);
@@ -213,7 +226,7 @@ function render(d){
   const chips=d.chips||[["今日の恋愛タイプ",d.loveType],["今日のLINE運",d.lineLuck],["相性がいいタイプ",d.aisho]];
   document.getElementById("chips").innerHTML=chips.map(c=>'<div class="chip"><span class="tag">'+c[0]+'</span><span class="val">'+c[1]+'</span></div>').join("");
   document.getElementById("honne").innerHTML='<span class="tag">♡ '+esc(d.honneLabel||"相手の本音")+' ♡</span><span class="val">「'+d.honne+'」</span>';
-  document.getElementById("lucky").innerHTML=buildLuckyItems(d).map(l=>'<div class="item"><div class="k">'+l[0]+'</div><div class="v">'+l[1]+'</div></div>').join("");
+  document.getElementById("lucky").innerHTML=buildLuckyItems(d).map(l=>'<div class="item"><div class="k">'+luckyIcon(l[0])+l[0]+'</div><div class="v">'+l[1]+'</div></div>').join("");
   document.getElementById("hitokoto").innerHTML='<span class="mk">✧</span> '+(d.name?esc(d.name)+"さん、":"")+d.hitokoto+' <span class="mk">✧</span>';
   const nx=new Date();nx.setDate(nx.getDate()+1);
   document.getElementById("nextDate").textContent="つぎは "+(nx.getMonth()+1)+"月"+nx.getDate()+"日 から";
