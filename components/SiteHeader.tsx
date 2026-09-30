@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { IconChevronDown, IconMail, IconMenu2, IconUserHeart, IconX } from "@tabler/icons-react";
+import { IconChevronDown, IconMenu2, IconUserHeart, IconX } from "@tabler/icons-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import SiteLogo from "@/components/SiteLogo";
 import HeaderNavTabs from "@/components/HeaderNavTabs";
@@ -320,13 +320,6 @@ export default function SiteHeader({
               <div className="hidden sm:block">
                 <LanguageSwitcher variant="compact" />
               </div>
-              <Link
-                href="/contact"
-                className="hidden items-center gap-1.5 rounded-full border border-pink-light px-3 py-1.5 text-sm text-text-sub transition-colors hover:border-accent/40 hover:text-accent sm:inline-flex"
-              >
-                <IconMail size={16} stroke={1.75} />
-                お問い合わせ
-              </Link>
               <button
                 type="button"
                 onClick={() => setMenuOpen((open) => !open)}
