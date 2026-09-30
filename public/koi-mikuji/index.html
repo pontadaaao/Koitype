@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/koi-mikuji/style.css?v=20260927d">
+<link rel="stylesheet" href="/koi-mikuji/style.css?v=20260930a">
 <!-- AdSense（Next.js 側は components/AdSenseScript.tsx / lib/adsense.ts。IDを変える時はそろえる） -->
 <meta name="google-adsense-account" content="ca-pub-4709100652775310">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4709100652775310" crossorigin="anonymous"></script>
@@ -58,6 +58,29 @@
         </svg>
         恋みくじを入替える
       </button>
+
+      <!-- 札を選ぶと表示される設定フォーム（内容に合わせておみくじの文言が変わる） -->
+      <form id="profileForm" class="profile hidden" novalidate>
+        <p class="profile-lead">あなたのことを教えてね<span class="mk">♡</span></p>
+        <label class="field">
+          <span class="field-lab">ニックネーム</span>
+          <input id="nickname" name="nickname" class="field-input" type="text" maxlength="10" autocomplete="nickname" placeholder="10文字まで" required>
+        </label>
+        <fieldset class="field">
+          <legend class="field-lab">自分の性別</legend>
+          <div id="selfOpts" class="opts"></div>
+        </fieldset>
+        <fieldset class="field">
+          <legend class="field-lab">相手の性別</legend>
+          <div id="partnerOpts" class="opts"></div>
+        </fieldset>
+        <fieldset class="field">
+          <legend class="field-lab">相手との関係性</legend>
+          <div id="relOpts" class="opts opts--rel"></div>
+        </fieldset>
+        <button id="drawBtn" class="draw-btn" type="submit" disabled>この札で恋みくじを引く</button>
+        <p class="profile-note">※入力内容はこの端末にだけ保存されます</p>
+      </form>
     </div>
 
     <section id="result" class="result" aria-live="polite">
@@ -95,7 +118,7 @@
     <div id="toast" class="toast hidden" role="status"></div>
     <section class="mikuji-about" style="max-width:640px;margin:8px auto 0;padding:28px 20px 4px;color:#6b4a5c;line-height:1.9;font-size:14px;">
       <h2 style="font-size:17px;color:#fe6c9e;margin:0 0 10px;">恋みくじとは？</h2>
-      <p>恋みくじは、Koitypeが提供する無料の恋愛おみくじです。1日1回、みくじ札を選ぶと、今日のあなたの恋愛運を占えます。結果は「超大吉」「中吉」「小吉」「末吉」「凶」、そしてまれに出る「レア」まで。恋愛運・LINE運・出会い運などのステータスや、今日のラッキーアイテム・ラッキーワードもわかります。片思い中の方も、パートナーがいる方も、毎日の恋のちょっとした後押しにご活用ください。</p>
+      <p>恋みくじは、Koitypeが提供する無料の恋愛おみくじです。1日1回、みくじ札を選んでニックネーム・性別・相手との関係性（恋人あり・片思い・夫婦・元恋人・気になる人）を入力すると、あなたの状況に合わせた今日の恋愛運を占えます。結果は「超大吉」「中吉」「小吉」「末吉」「凶」、そしてまれに出る「レア」まで。恋愛運・LINE運・出会い運などのステータスや、今日のラッキーアイテム・ラッキーワードもわかります。片思い中の方も、パートナーがいる方も、毎日の恋のちょっとした後押しにご活用ください。</p>
       <h2 style="font-size:17px;color:#fe6c9e;margin:18px 0 10px;">運勢の種類</h2>
       <ul style="padding-left:1.2em;margin:0;">
         <li>超大吉 … 恋が大きく動く、最高の一日</li>
@@ -108,7 +131,7 @@
     </section>
   </main>
 
-  <script src="/koi-mikuji/script.js?v=20260927d" defer></script>
+  <script src="/koi-mikuji/script.js?v=20260930a" defer></script>
 
   <footer class="ft">
     <div class="ft__inner">
