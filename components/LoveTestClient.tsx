@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
+import { IconBrandInstagram, IconBrandTiktok, IconBrandX, IconLink } from "@tabler/icons-react";
 import { isNewLoveTest, type LoveTest, type LoveTestChoice } from "@/lib/love-tests";
 import LoveTestIcon from "@/components/LoveTestIcon";
 import RelatedBlogArticles from "@/components/RelatedBlogArticles";
 import ResultRadar from "@/components/ResultRadar";
 import { getLoveTestParameters } from "@/lib/love-test-parameters";
+import { siteUrl } from "@/lib/site";
 
 interface Props {
   test: LoveTest;
@@ -93,22 +95,74 @@ function getRecommendedTests(
 
 export default function LoveTestClient({ test, otherTests }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+  const toastTimer = useRef<ReturnType<typeof setTimeout>>();
 
   const choice = selected !== null ? test.choices[selected] : null;
 
-  const handleShare = async () => {
-    if (!choice) return;
-    const text = `${choice.shareText}\n\n#Koitype #恋愛診断`;
+  const showToast = (msg: string) => {
+    setToast(msg);
+    clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(null), 3000);
+  };
+
+  // Clipboard API が使えない・拒否された環境向けに textarea でのコピーにフォールバック
+  const copyText = async (text: string) => {
     try {
-      if (typeof navigator !== "undefined" && navigator.share) {
-        await navigator.share({ text });
-      } else {
-        await navigator.clipboard.writeText(text);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      }
+      await navigator.clipboard.writeText(text);
+      return true;
     } catch {}
+    const el = document.createElement("textarea");
+    el.value = text;
+    el.setAttribute("readonly", "");
+    el.style.cssText = "position:fixed;top:0;left:0;opacity:0;pointer-events:none";
+    document.body.appendChild(el);
+    el.select();
+    let ok = false;
+    try {
+      ok = document.execCommand("copy");
+    } catch {}
+    el.remove();
+    return ok;
+  };
+
+  const retry = () => {
+    setSelected(null);
+    setShareOpen(false);
+  };
+
+  // シェア先。Instagram・TikTok は Web からの投稿用URLがないため、文章とURLをコピーしてからアプリ（サイト）を開く。
+  // window.open はポップアップブロックを避けるため、コピーの完了を待たずクリック直後に呼ぶ。
+  const handleShareTo = (target: "copy" | "x" | "instagram" | "tiktok") => {
+    if (!choice) return;
+    const url = siteUrl(`/tests/${test.slug}`);
+    const text = `${choice.shareText}\n\n#Koitype #恋愛診断`;
+    switch (target) {
+      case "copy":
+        copyText(url).then((ok) => showToast(ok ? "リンクをコピーしました" : "コピーに失敗しました"));
+        break;
+      case "x":
+        window.open(
+          `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+          "_blank",
+          "noopener"
+        );
+        break;
+      case "instagram":
+      case "tiktok": {
+        const name = target === "instagram" ? "Instagram" : "TikTok";
+        copyText(`${text}\n${url}`).then((ok) =>
+          showToast(ok ? `文章をコピーしました！${name}で貼り付けてね` : "コピーに失敗しました")
+        );
+        window.open(
+          target === "instagram" ? "https://www.instagram.com/" : "https://www.tiktok.com/",
+          "_blank",
+          "noopener"
+        );
+        break;
+      }
+    }
   };
 
   return (
@@ -231,7 +285,9 @@ export default function LoveTestClient({ test, otherTests }: Props) {
           <div className="flex flex-col gap-3 bg-white px-6 pb-6 pt-2 sm:px-8">
             <button
               type="button"
-              onClick={handleShare}
+              onClick={() => setShareOpen((v) => !v)}
+              aria-expanded={shareOpen}
+              aria-controls="love-test-share"
               className="flex w-full items-center justify-center gap-2 rounded-2xl py-4 text-sm font-bold text-white transition-opacity hover:opacity-90 active:scale-[0.98]"
               style={{ background: `linear-gradient(135deg, ${test.color}, ${test.color}cc)` }}
             >
@@ -239,13 +295,55 @@ export default function LoveTestClient({ test, otherTests }: Props) {
                 <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
                 <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
               </svg>
-              {copied ? "コピーしました！" : "シェアする"}
+              シェアする
             </button>
+
+            {shareOpen && (
+              <div
+                id="love-test-share"
+                className="grid grid-cols-2 gap-2.5"
+                style={{ animation: "fadeUp 0.25s ease-out" }}
+              >
+                <button
+                  type="button"
+                  onClick={() => handleShareTo("copy")}
+                  className="flex items-center justify-center gap-2 rounded-xl border-2 bg-white px-3 py-3 text-sm font-bold transition-colors hover:bg-pink-50 active:scale-[0.98]"
+                  style={{ borderColor: `${test.color}55`, color: test.color }}
+                >
+                  <IconLink size={18} stroke={2} aria-hidden />
+                  リンクをコピー
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleShareTo("x")}
+                  className="flex items-center justify-center gap-2 rounded-xl bg-black px-3 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 active:scale-[0.98]"
+                >
+                  <IconBrandX size={18} stroke={2} aria-hidden />
+                  X
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleShareTo("instagram")}
+                  className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#f09433] via-[#dc2743] to-[#bc1888] px-3 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 active:scale-[0.98]"
+                >
+                  <IconBrandInstagram size={18} stroke={2} aria-hidden />
+                  Instagram
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleShareTo("tiktok")}
+                  className="flex items-center justify-center gap-2 rounded-xl bg-[#111] px-3 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90 active:scale-[0.98]"
+                >
+                  <IconBrandTiktok size={18} stroke={2} aria-hidden />
+                  TikTok
+                </button>
+              </div>
+            )}
 
             <div className="flex flex-col gap-3 sm:flex-row">
               <button
                 type="button"
-                onClick={() => setSelected(null)}
+                onClick={retry}
                 className="flex flex-1 items-center justify-center gap-1.5 rounded-2xl border-2 py-3.5 text-sm font-bold transition-colors hover:bg-pink-50 active:scale-[0.98]"
                 style={{ borderColor: test.color, color: test.color }}
               >
@@ -318,6 +416,15 @@ export default function LoveTestClient({ test, otherTests }: Props) {
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {toast && (
+        <div
+          role="status"
+          className="fixed bottom-6 left-1/2 z-50 w-max max-w-[90vw] -translate-x-1/2 rounded-full bg-text-main px-5 py-3 text-center text-sm text-white shadow-lg"
+        >
+          {toast}
         </div>
       )}
     </div>
