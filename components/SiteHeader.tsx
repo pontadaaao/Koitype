@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Fragment, useEffect, useRef, useState } from "react";
-import { IconChevronDown, IconMenu2, IconUserHeart, IconX } from "@tabler/icons-react";
+import { Fragment, useEffect, useState } from "react";
+import { IconMenu2, IconUserHeart, IconX } from "@tabler/icons-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import SiteLogo from "@/components/SiteLogo";
 import HeaderNavTabs from "@/components/HeaderNavTabs";
 import SiteSearch from "@/components/SiteSearch";
 import AppIcon from "@/components/AppIcon";
-import { localeFlags, localeLabels, locales, navItems, type Locale } from "@/lib/i18n";
+import { navItems } from "@/lib/i18n";
 import { SITE_NAME } from "@/lib/site";
 import {
   aggregate,
@@ -29,147 +29,6 @@ interface SiteHeaderProps {
   showNavTabs?: boolean;
   showSearch?: boolean;
   solidBg?: boolean;
-}
-
-function LanguageSwitcher({
-  variant = "compact",
-}: {
-  variant?: "compact" | "inline" | "menu";
-}) {
-  const { locale, setLocale, t } = useLanguage();
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [open]);
-
-  // メニュー用プルダウン（メニュー下端にあるため上方向に開く）
-  if (variant === "menu") {
-    return (
-      <div className="relative" ref={ref} role="group" aria-label={t.header.language}>
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          className="flex w-full items-center justify-between rounded-xl border border-pink-light bg-base px-3 py-2.5 text-sm text-text-main transition-colors hover:border-accent/40"
-          aria-expanded={open}
-          aria-label={t.header.language}
-        >
-          <span className="flex items-center gap-2">
-            <span className="text-base leading-none">{localeFlags[locale]}</span>
-            <span className="font-medium">{localeLabels[locale]}</span>
-          </span>
-          <IconChevronDown
-            size={16}
-            stroke={2}
-            className={`text-text-sub transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-          />
-        </button>
-
-        {open && (
-          <div className="absolute inset-x-0 bottom-full mb-1.5 overflow-hidden rounded-2xl border border-pink-light bg-base shadow-lg">
-            {locales.map((code) => (
-              <button
-                key={code}
-                type="button"
-                onClick={() => {
-                  setLocale(code as Locale);
-                  setOpen(false);
-                }}
-                className={`flex w-full items-center gap-2.5 px-4 py-2.5 text-sm transition-colors ${
-                  locale === code
-                    ? "bg-pink-pale font-medium text-accent"
-                    : "text-text-main hover:bg-pink-pale/60"
-                }`}
-                aria-pressed={locale === code}
-              >
-                <span className="text-base leading-none">{localeFlags[code as Locale]}</span>
-                <span>{localeLabels[code as Locale]}</span>
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  if (variant === "inline") {
-    return (
-      <div className="space-y-1" role="group" aria-label={t.header.language}>
-        <p className="text-xs font-medium uppercase tracking-wide text-text-sub">
-          {t.header.language}
-        </p>
-        <div className="flex flex-col gap-0.5">
-          {locales.map((code) => (
-            <button
-              key={code}
-              type="button"
-              onClick={() => setLocale(code as Locale)}
-              className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
-                locale === code
-                  ? "bg-pink-pale font-medium text-accent"
-                  : "text-text-main hover:bg-pink-pale/60 hover:text-accent"
-              }`}
-              aria-pressed={locale === code}
-            >
-              <span className="text-base leading-none">{localeFlags[code as Locale]}</span>
-              <span>{localeLabels[code as Locale]}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative" ref={ref}>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="flex h-9 w-9 items-center justify-center rounded-full bg-result-pink text-white transition-colors hover:opacity-90 sm:h-auto sm:w-auto sm:gap-1.5 sm:px-3 sm:py-1.5"
-        aria-expanded={open}
-        aria-label={t.header.language}
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="2" y1="12" x2="22" y2="12"/>
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-        </svg>
-        <span className="hidden sm:inline">{localeLabels[locale]}</span>
-        <IconChevronDown
-          size={13}
-          stroke={2}
-          className={`hidden transition-transform duration-200 sm:block ${open ? "rotate-180" : ""}`}
-        />
-      </button>
-
-      {open && (
-        <div className="absolute right-0 top-full z-50 mt-1.5 min-w-[140px] overflow-hidden rounded-2xl border border-pink-light bg-base shadow-lg">
-          {locales.map((code) => (
-            <button
-              key={code}
-              type="button"
-              onClick={() => { setLocale(code as Locale); setOpen(false); }}
-              className={`flex w-full items-center gap-2.5 px-4 py-2.5 text-sm transition-colors ${
-                locale === code
-                  ? "bg-pink-pale font-medium text-accent"
-                  : "text-text-main hover:bg-pink-pale/60"
-              }`}
-              aria-pressed={locale === code}
-            >
-              <span className="text-base leading-none">{localeFlags[code as Locale]}</span>
-              <span>{localeLabels[code as Locale]}</span>
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
 }
 
 export default function SiteHeader({
@@ -317,9 +176,6 @@ export default function SiteHeader({
               >
                 <IconUserHeart size={23} stroke={1.8} color="#5C4033" aria-hidden="true" />
               </Link>
-              <div className="hidden sm:block">
-                <LanguageSwitcher variant="compact" />
-              </div>
               <button
                 type="button"
                 onClick={() => setMenuOpen((open) => !open)}
@@ -429,9 +285,6 @@ export default function SiteHeader({
               </ul>
             </nav>
 
-            <div className="mt-auto border-t border-pink-light px-4 py-4">
-              <LanguageSwitcher variant="menu" />
-            </div>
           </aside>
         </>
       )}
