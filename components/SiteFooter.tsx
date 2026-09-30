@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SITE_NAME } from "@/lib/site";
 import { useLanguage } from "@/components/LanguageProvider";
 import SiteLogo from "@/components/SiteLogo";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function SiteFooter() {
   const { t } = useLanguage();
@@ -28,6 +29,7 @@ export default function SiteFooter() {
             </li>
           </ul>
         </nav>
+        <LanguageSwitcher />
         <div className="ft__copyright">
           © {year} {SITE_NAME}. All rights reserved.
         </div>
