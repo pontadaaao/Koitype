@@ -7,7 +7,7 @@ const PROFILE_KEY = "koimikuji:profile";
 
 // 運勢データ（ここを編集すれば文言・確率・ラッキー要素を変更できます）
 // body は関係性ごと（REL_KEYS）。{p} は相手の呼び方（partnerWord）に置き換わります。
-// stats は運勢ステータスの★の数（ラベルは関係性ごとの REL.stats）。
+// stats は運勢ステータスのハートの数（ラベルは関係性ごとの REL.stats）。
 // lucky の "ラッキーアイテム" は {f:女性,m:男性,o:その他} で自分の性別ごとに出し分けできます。
 const FORTUNES=[
   {key:"超大吉",icon:"daikichi",accent:"#ff2e93",soft:"#ffd0e6",weight:8,catch:"今日、恋が動く日。",
@@ -137,7 +137,12 @@ function buildDraw(profile){
     honneLabel:p+"の本音",honne:rnd(rel.honne),
     hitokoto:rnd(HITOKOTO[self]),name:profile.name,date:todayKey()};
 }
-function starHTML(n){return '<span class="f">'+"★".repeat(n)+'</span><span class="e">'+"☆".repeat(5-n)+'</span>';}
+// 運勢ステータスのハート（5段階）。絵文字化を避けるため文字ではなくSVGで描く
+const HEART_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.8 4.5c2.2 0 3.8 1.2 5.2 3 1.4-1.8 3-3 5.2-3 3.8 0 5.9 3.9 4.4 7.3C19.5 16.4 12 21 12 21z"/></svg>';
+function heartHTML(n){
+  let h="";for(let i=0;i<5;i++)h+='<span class="'+(i<n?"f":"e")+'">'+HEART_SVG+'</span>';
+  return h;
+}
 function luckyColorHTML(name,hex){
   return '<span class="lucky-color"><span class="lucky-color__swatch" style="background:'+hex+'"></span>'+name+'</span>';
 }
@@ -203,7 +208,7 @@ function render(d){
   document.getElementById("ribbon").innerHTML=d.rare?"✦ 超激レア出ちゃった ✦":who+(d.name?"今日の":"")+"恋愛運は…♡";
   renderCatch(d);
   document.getElementById("body").textContent=d.body;
-  document.getElementById("stats").innerHTML=d.stats.map(s=>'<div class="stat"><span class="lab">'+s[0]+'</span><span class="stars">'+starHTML(s[1])+'</span></div>').join("");
+  document.getElementById("stats").innerHTML=d.stats.map(s=>'<div class="stat"><span class="lab">'+s[0]+'</span><span class="hearts" role="img" aria-label="5段階中'+s[1]+'">'+heartHTML(s[1])+'</span></div>').join("");
   // 旧形式（設定画面の追加前）の保存データにも対応
   const chips=d.chips||[["今日の恋愛タイプ",d.loveType],["今日のLINE運",d.lineLuck],["相性がいいタイプ",d.aisho]];
   document.getElementById("chips").innerHTML=chips.map(c=>'<div class="chip"><span class="tag">'+c[0]+'</span><span class="val">'+c[1]+'</span></div>').join("");
