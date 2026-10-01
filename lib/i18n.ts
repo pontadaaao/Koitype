@@ -48,6 +48,9 @@ const translations = {
       searchPlaceholder: "診断・ページを検索",
       searchEmpty: "見つかりませんでした",
       searchClear: "検索をクリア",
+      aboutTitle: "Koitype（コイタイプ）について",
+      aboutText:
+        "恋愛診断や心理テストで、自分の恋愛タイプや相性を気軽に確かめられる無料のWebメディアです。会員登録は不要で、回答はサーバーに保存されません。結果は娯楽と自己理解のきっかけとしてお楽しみください。",
     },
     home: {
       heroTitle: "あなたの恋を、もっと知る。",
@@ -181,6 +184,9 @@ const translations = {
       searchPlaceholder: "Search quizzes and pages",
       searchEmpty: "No results found",
       searchClear: "Clear search",
+      aboutTitle: "About Koitype",
+      aboutText:
+        "Koitype is a free web media where you can casually explore your love type and compatibility through love quizzes and personality tests. No sign-up is required, and your answers are never saved on our servers. Enjoy the results for fun and self-discovery.",
     },
     home: {
       heroTitle: "Discover your love style.",
@@ -314,6 +320,9 @@ const translations = {
       searchPlaceholder: "진단 · 페이지 검색",
       searchEmpty: "결과를 찾을 수 없습니다",
       searchClear: "검색 초기화",
+      aboutTitle: "Koitype(코이타입) 소개",
+      aboutText:
+        "연애 진단과 심리 테스트로 나의 연애 타입과 궁합을 가볍게 알아볼 수 있는 무료 웹 미디어입니다. 회원가입이 필요 없으며, 답변은 서버에 저장되지 않습니다. 결과는 재미와 자기 이해의 계기로 즐겨 주세요.",
     },
     home: {
       heroTitle: "당신의 사랑을 더 깊이 알아보세요.",
@@ -447,6 +456,9 @@ const translations = {
       searchPlaceholder: "搜尋診斷 · 頁面",
       searchEmpty: "找不到結果",
       searchClear: "清除搜尋",
+      aboutTitle: "關於 Koitype",
+      aboutText:
+        "透過戀愛診斷與心理測驗，輕鬆了解自己的戀愛類型與契合度的免費網路媒體。無需註冊會員，回答也不會儲存在伺服器上。結果僅供娛樂與自我了解參考。",
     },
     home: {
       heroTitle: "更深入了解你的愛情。",
@@ -580,6 +592,9 @@ const translations = {
       searchPlaceholder: "搜索诊断 · 页面",
       searchEmpty: "未找到结果",
       searchClear: "清除搜索",
+      aboutTitle: "关于 Koitype",
+      aboutText:
+        "通过恋爱诊断和心理测试，轻松了解自己的恋爱类型与契合度的免费网络媒体。无需注册会员，回答也不会保存在服务器上。结果仅供娱乐与自我了解参考。",
     },
     home: {
       heroTitle: "更深入了解你的爱情。",

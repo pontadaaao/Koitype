@@ -283,8 +283,13 @@ export default function SiteHeader({
                   </li>
                 )}
               </ul>
-            </nav>
 
+              {/* サイト紹介（TOPページではスマホ表示時にここへ集約） */}
+              <section className="mt-4 border-t border-pink-light px-3 pt-4">
+                <h2 className="text-xs font-bold text-text-main">{t.header.aboutTitle}</h2>
+                <p className="mt-1.5 text-[11px] leading-relaxed text-text-sub">{t.header.aboutText}</p>
+              </section>
+            </nav>
           </aside>
         </>
       )}

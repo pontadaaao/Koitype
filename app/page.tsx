@@ -1,19 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import HomePageClient from "@/components/HomePageClient";
 import SiteFooter from "@/components/SiteFooter";
 import { getBlogArticles } from "@/lib/blog-data";
 import { SITE_DEFAULT_URL, SITE_DESCRIPTION, SITE_NAME, siteTitle } from "@/lib/site";
-
-const HOME_NAV_LINKS = [
-  { href: "/love-diagnosis", label: "恋愛診断（全36種）" },
-  { href: "/tests", label: "恋愛心理テスト（全77種）" },
-  { href: "/compatibility", label: "誕生日の相性診断" },
-  { href: "/koi-mikuji", label: "恋みくじ" },
-  { href: "/blog", label: "恋愛ブログ" },
-  { href: "/sitemap", label: "サイトマップ（全ページ一覧）" },
-  { href: "/about", label: "運営者情報" },
-];
 
 export const metadata: Metadata = {
   title: siteTitle(),
@@ -54,10 +43,11 @@ export default async function HomePage() {
         検索エンジンのスパムポリシー上のリスクがあるうえ、
         d.href を無視していたため /diagnosis/compatibility（実体は
         /compatibility）への404リンクを毎ページ出していた。
-        全ページのフッターから辿れる /sitemap が同じ役割を果たすので、
-        ここでは見える形の導線だけを置く。
+        全ページのフッターから辿れる /sitemap が同じ役割を果たす。
+        サイト紹介はPCのみここに表示し、スマホではハンバーガーメニューの
+        最下部に要約版を出す（components/SiteHeader.tsx）。
       */}
-      <section className="mx-auto max-w-2xl px-4 pb-8">
+      <section className="mx-auto hidden max-w-2xl px-4 pb-8 sm:block">
         <h2 className="font-heading text-lg font-bold text-text-main sm:text-xl">
           Koitype（コイタイプ）について
         </h2>
@@ -76,25 +66,6 @@ export default async function HomePage() {
           心理学的な検査を再現したものではなく、結果は自分の傾向を言葉にするきっかけとしてお使いください。
         </p>
       </section>
-
-      <nav
-        aria-label="サイト内の主なコンテンツ"
-        className="mx-auto max-w-5xl px-4 pb-10"
-      >
-        <div className="flex flex-wrap justify-center gap-2.5">
-          {HOME_NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              // /koi-mikuji は静的HTMLへの rewrite なので RSC プリフェッチが 404 になる
-              prefetch={link.href === "/koi-mikuji" ? false : undefined}
-              className="rounded-full border border-pink-light bg-pink-pale px-4 py-2 text-sm font-medium text-accent transition-colors hover:bg-pink-light"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      </nav>
 
       <SiteFooter />
     </>
